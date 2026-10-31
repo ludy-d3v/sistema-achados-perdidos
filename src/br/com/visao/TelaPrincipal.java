@@ -17,6 +17,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
+        
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -28,82 +30,209 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel3 = new br.com.controller.PainelFundoAzul();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jBcadastrarOB = new javax.swing.JButton();
-        jBconsultarOB = new javax.swing.JButton();
         jBreivindicacoes = new javax.swing.JButton();
-        jBdevolucoes = new javax.swing.JButton();
         jBsairTelaPrin = new javax.swing.JButton();
+        jBconsultarOB = new javax.swing.JButton();
+        jBdevolucoes = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel2 = new br.com.controller.PainelFundoAzulado();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTabrecentes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAutoRequestFocus(false);
+        setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setText("ACHADOS E PERDIDOS");
+        jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel2.setText("Sistema de gerenciamento de objetos encontrados");
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel3.setToolTipText("");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Achados e Perdidos - Portal do Estudante");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Nome Usuário");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 840, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(26, 26, 26))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel3);
+        jPanel3.setBounds(-10, 0, 1560, 90);
+
+        jPanel1.setBackground(new java.awt.Color(16, 66, 165));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jBcadastrarOB.setBackground(new java.awt.Color(10, 61, 163));
+        jBcadastrarOB.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBcadastrarOB.setForeground(new java.awt.Color(255, 255, 255));
         jBcadastrarOB.setText("Cadastrar objeto");
+        jBcadastrarOB.setBorder(null);
+        jBcadastrarOB.setBorderPainted(false);
+        jBcadastrarOB.setContentAreaFilled(false);
+        jBcadastrarOB.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jBcadastrarOB.addActionListener(this::jBcadastrarOBActionPerformed);
 
-        jBconsultarOB.setText("Consultar objetos");
-
+        jBreivindicacoes.setBackground(new java.awt.Color(10, 61, 163));
+        jBreivindicacoes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBreivindicacoes.setForeground(new java.awt.Color(255, 255, 255));
         jBreivindicacoes.setText("Reivindicações");
+        jBreivindicacoes.setBorder(null);
+        jBreivindicacoes.setBorderPainted(false);
+        jBreivindicacoes.setContentAreaFilled(false);
+        jBreivindicacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBreivindicacoes.addActionListener(this::jBreivindicacoesActionPerformed);
 
-        jBdevolucoes.setText("Devoluções");
-        jBdevolucoes.addActionListener(this::jBdevolucoesActionPerformed);
-
+        jBsairTelaPrin.setBackground(new java.awt.Color(10, 61, 163));
+        jBsairTelaPrin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBsairTelaPrin.setForeground(new java.awt.Color(255, 255, 255));
         jBsairTelaPrin.setText("SAIR");
+        jBsairTelaPrin.setContentAreaFilled(false);
+        jBsairTelaPrin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jBsairTelaPrin.addActionListener(this::jBsairTelaPrinActionPerformed);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(22, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jBreivindicacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBcadastrarOB))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBdevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBconsultarOB))
-                        .addGap(29, 29, 29))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(jBsairTelaPrin))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        jBconsultarOB.setBackground(new java.awt.Color(10, 61, 163));
+        jBconsultarOB.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBconsultarOB.setForeground(new java.awt.Color(255, 255, 255));
+        jBconsultarOB.setText("Consultar objetos");
+        jBconsultarOB.setContentAreaFilled(false);
+        jBconsultarOB.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBconsultarOB.addActionListener(this::jBconsultarOBActionPerformed);
+
+        jBdevolucoes.setBackground(new java.awt.Color(10, 61, 163));
+        jBdevolucoes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBdevolucoes.setForeground(new java.awt.Color(255, 255, 255));
+        jBdevolucoes.setText("Devoluções");
+        jBdevolucoes.setContentAreaFilled(false);
+        jBdevolucoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBdevolucoes.addActionListener(this::jBdevolucoesActionPerformed);
+
+        jLabel11.setBackground(new java.awt.Color(0, 51, 204));
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Início");
+        jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 204), 5));
+        jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel11.setOpaque(true);
+        jLabel11.setPreferredSize(new java.awt.Dimension(113, 18));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jBcadastrarOB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jBreivindicacoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jBconsultarOB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+            .addComponent(jBdevolucoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jLabel1)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(214, 214, 214)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(jBcadastrarOB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBcadastrarOB)
-                    .addComponent(jBconsultarOB))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBdevolucoes)
-                    .addComponent(jBreivindicacoes))
-                .addGap(34, 34, 34)
-                .addComponent(jBsairTelaPrin)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addComponent(jBreivindicacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jBconsultarOB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jBdevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(499, Short.MAX_VALUE))
         );
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 180, 1060);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(null);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(10, 61, 163));
+        jLabel1.setText("Bem-Vindo(a)!");
+        jPanel2.add(jLabel1);
+        jLabel1.setBounds(400, 180, 170, 50);
+
+        jLabel5.setBackground(new java.awt.Color(153, 204, 255));
+        jLabel5.setOpaque(true);
+        jPanel2.add(jLabel5);
+        jLabel5.setBounds(350, 190, 3, 80);
+
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(10, 61, 163));
+        jLabel7.setText("Aqui você pode cadastrar, consultar e acompanhar todos os objetos do achados e perdidos!");
+        jPanel2.add(jLabel7);
+        jLabel7.setBounds(400, 220, 520, 40);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel2.setToolTipText("");
+        jPanel2.add(jLabel2);
+        jLabel2.setBounds(240, 130, 1220, 200);
+
+        jTabrecentes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTabrecentes);
+
+        jPanel2.add(jScrollPane1);
+        jScrollPane1.setBounds(260, 340, 1190, 410);
+
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(0, 0, 1770, 1030);
 
         pack();
         setLocationRelativeTo(null);
@@ -113,6 +242,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     CadastroObjetoView tela = new CadastroObjetoView();
     tela.setLocationRelativeTo(this);
     tela.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jBcadastrarOBActionPerformed
 
     private void jBsairTelaPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsairTelaPrinActionPerformed
@@ -130,7 +260,27 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBdevolucoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdevolucoesActionPerformed
         // TODO add your handling code here:
+        TelaDevolucoes tela = new TelaDevolucoes();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBdevolucoesActionPerformed
+
+    private void jBreivindicacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBreivindicacoesActionPerformed
+        // TODO add your handling code here:
+        TelaReivindicacoes tela = new TelaReivindicacoes();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jBreivindicacoesActionPerformed
+
+    private void jBconsultarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBconsultarOBActionPerformed
+        // TODO add your handling code here:
+    ConsultarObjeto tela = new ConsultarObjeto();
+    tela.setLocationRelativeTo(this);
+    tela.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_jBconsultarOBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,6 +314,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jBreivindicacoes;
     private javax.swing.JButton jBsairTelaPrin;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTabrecentes;
     // End of variables declaration//GEN-END:variables
 }
