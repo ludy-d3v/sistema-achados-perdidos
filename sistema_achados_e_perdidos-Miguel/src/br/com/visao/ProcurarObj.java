@@ -4,21 +4,184 @@
  */
 package br.com.visao;
 
+import br.com.controller.ObjetoController;
+import br.com.controller.ObjetoResumo;
+import java.awt.Color;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author migue
  */
-public class ConsultarObjeto extends javax.swing.JFrame {
+public class ProcurarObj extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ConsultarObjeto.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ProcurarObj.class.getName());
 
     /**
      * Creates new form ConsultarObjeto
      */
-    public ConsultarObjeto() {
+    public ProcurarObj() {
         initComponents();
-        
+
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+
+        jTabresult.setSelectionBackground(new Color(197, 216, 248));
+        jTabresult.setSelectionForeground(Color.BLACK);
+
+        carregarCategorias();
+        buscar();
+
+        jTnome_obj.addActionListener(evt -> buscar());
+    }
+
+    // dê um duplo clique na célula pra editar Descrição, Categoria ou Campus
+    // direto na tabela, depois chame este método pra salvar
+    private void salvarEdicao() {
+        int linhaView = jTabresult.getSelectedRow();
+        if (linhaView == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione uma linha da tabela.");
+            return;
+        }
+        int linha = jTabresult.convertRowIndexToModel(linhaView);
+
+        int id = (Integer) jTabresult.getModel().getValueAt(linha, 0);
+        String descricao = String.valueOf(jTabresult.getModel().getValueAt(linha, 1));
+        String categoria = String.valueOf(jTabresult.getModel().getValueAt(linha, 2));
+        String campus = String.valueOf(jTabresult.getModel().getValueAt(linha, 3));
+
+        try {
+            ObjetoController controller = new ObjetoController();
+            if (controller.atualizarObjeto(id, descricao, categoria, campus)) {
+                JOptionPane.showMessageDialog(this, "Objeto atualizado com sucesso!");
+                buscar();
+            } else {
+                JOptionPane.showMessageDialog(this, "Não foi possível atualizar o objeto.");
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar objeto: " + e.getMessage());
+        }
+    }
+
+    private void excluirSelecionado() {
+        int linhaView = jTabresult.getSelectedRow();
+        if (linhaView == -1) {
+            return;
+        }
+        int linha = jTabresult.convertRowIndexToModel(linhaView);
+
+        int id = (Integer) jTabresult.getModel().getValueAt(linha, 0);
+
+        int resposta = JOptionPane.showConfirmDialog(
+                this,
+                "Deseja realmente excluir o objeto #" + id + "?",
+                "Confirmar exclusão",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (resposta != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try {
+            ObjetoController controller = new ObjetoController();
+            boolean excluiu = controller.excluirObjeto(id);
+
+            if (excluiu) {
+                JOptionPane.showMessageDialog(this, "Objeto excluído com sucesso!");
+                buscar();
+            } else {
+                JOptionPane.showMessageDialog(this, "Não foi possível excluir o objeto.");
+            }
+        } catch (java.sql.SQLIntegrityConstraintViolationException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Não é possível excluir este objeto: ele já tem devolução, foto, "
+                    + "pergunta de segurança ou reivindicação registrada no sistema.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao excluir objeto: " + e.getMessage());
+        }
+    }
+
+    private void carregarCategorias() {
+        try {
+            ObjetoController controller = new ObjetoController();
+            DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
+            modelo.addElement("Selecionar categoria");
+
+            for (String categoria : controller.listarCategorias()) {
+                modelo.addElement(categoria);
+            }
+
+            jCcategoria.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao carregar categorias: " + e.getMessage());
+        }
+    }
+
+    private void buscar() {
+        try {
+            ObjetoController controller = new ObjetoController();
+
+            controller.setNomeFiltro(jTnome_obj.getText().trim());
+
+            String categoria = (String) jCcategoria.getSelectedItem();
+            if (categoria != null && !categoria.equals("Selecionar categoria")) {
+                controller.setCategoriaFiltro(categoria);
+            }
+
+            controller.setDepoisDeFiltro(lerData(jFdepois_de));
+            controller.setAntesDeFiltro(lerData(jFantes_de));
+
+            List<ObjetoResumo> objetos = controller.listarObjetos();
+
+            DefaultTableModel modelo = new DefaultTableModel(
+                    new String[]{"ID", "Descrição", "Categoria", "Campus", "Status", "Data do achado"}, 0
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    // só Descrição, Categoria e Campus podem ser editados na tabela
+                    return column == 1 || column == 2 || column == 3;
+                }
+            };
+
+            for (ObjetoResumo objeto : objetos) {
+                modelo.addRow(new Object[]{
+                    objeto.getId(),
+                    objeto.getDescricao(),
+                    objeto.getCategoria(),
+                    objeto.getCampus(),
+                    objeto.getStatus(),
+                    objeto.getDataAchado()
+                });
+            }
+
+            jTabresult.setModel(modelo);
+
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao buscar objetos: " + e.getMessage());
+        }
+    }
+
+    private LocalDate lerData(JFormattedTextField campo) {
+        Object valor = campo.getValue();
+        if (valor == null) {
+            return null;
+        }
+        Date data = (Date) valor;
+        return data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     /**
@@ -49,17 +212,17 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTabresult = new javax.swing.JTable();
+        jBexcluirobj = new javax.swing.JButton();
+        jBsalvaredicaoobj1 = new javax.swing.JButton();
         javax.swing.JPanel jPanel3 = new br.com.controller.PainelFundoAzul();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jBcadastrarOB = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jBinicio = new javax.swing.JButton();
         jBsairTelaPrin = new javax.swing.JButton();
         jBreivindicacoes = new javax.swing.JButton();
-        jBdevolucoes = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        jBinicio = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -79,7 +242,7 @@ public class ConsultarObjeto extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(10, 61, 163));
-        jLabel15.setText("Consultar objetos");
+        jLabel15.setText("Procurar objetos");
         jPanel2.add(jLabel15);
         jLabel15.setBounds(160, 10, 390, 30);
 
@@ -214,12 +377,28 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTabresult);
 
         jPtotal.add(jScrollPane3);
-        jScrollPane3.setBounds(72, 400, 1190, 470);
+        jScrollPane3.setBounds(70, 380, 1190, 470);
+
+        jBexcluirobj.setBackground(new java.awt.Color(4, 120, 203));
+        jBexcluirobj.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBexcluirobj.setForeground(new java.awt.Color(255, 255, 255));
+        jBexcluirobj.setText("Excluir objeto");
+        jBexcluirobj.addActionListener(this::jBexcluirobjActionPerformed);
+        jPtotal.add(jBexcluirobj);
+        jBexcluirobj.setBounds(220, 870, 120, 40);
+
+        jBsalvaredicaoobj1.setBackground(new java.awt.Color(4, 120, 203));
+        jBsalvaredicaoobj1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBsalvaredicaoobj1.setForeground(new java.awt.Color(255, 255, 255));
+        jBsalvaredicaoobj1.setText("Salvar edição");
+        jBsalvaredicaoobj1.addActionListener(this::jBsalvaredicaoobj1ActionPerformed);
+        jPtotal.add(jBsalvaredicaoobj1);
+        jBsalvaredicaoobj1.setBounds(80, 870, 120, 40);
 
         jScrollPane1.setViewportView(jPtotal);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(180, 90, 1360, 710);
+        jScrollPane1.setBounds(180, 90, 1360, 970);
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
@@ -263,18 +442,18 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         getContentPane().add(jPanel3);
         jPanel3.setBounds(0, 0, 1780, 90);
 
-        jPanel4.setBackground(new java.awt.Color(16, 66, 165));
-        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel6.setBackground(new java.awt.Color(16, 66, 165));
+        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jBcadastrarOB.setBackground(new java.awt.Color(10, 61, 163));
-        jBcadastrarOB.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jBcadastrarOB.setForeground(new java.awt.Color(255, 255, 255));
-        jBcadastrarOB.setText("Cadastrar objeto");
-        jBcadastrarOB.setBorder(null);
-        jBcadastrarOB.setBorderPainted(false);
-        jBcadastrarOB.setContentAreaFilled(false);
-        jBcadastrarOB.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jBcadastrarOB.addActionListener(this::jBcadastrarOBActionPerformed);
+        jBinicio.setBackground(new java.awt.Color(10, 61, 163));
+        jBinicio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBinicio.setForeground(new java.awt.Color(255, 255, 255));
+        jBinicio.setText("Início");
+        jBinicio.setBorder(null);
+        jBinicio.setBorderPainted(false);
+        jBinicio.setContentAreaFilled(false);
+        jBinicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBinicio.addActionListener(this::jBinicioActionPerformed);
 
         jBsairTelaPrin.setBackground(new java.awt.Color(10, 61, 163));
         jBsairTelaPrin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -292,77 +471,76 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         jBreivindicacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jBreivindicacoes.addActionListener(this::jBreivindicacoesActionPerformed);
 
-        jBdevolucoes.setBackground(new java.awt.Color(10, 61, 163));
-        jBdevolucoes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jBdevolucoes.setForeground(new java.awt.Color(255, 255, 255));
-        jBdevolucoes.setText("Devoluções");
-        jBdevolucoes.setContentAreaFilled(false);
-        jBdevolucoes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jBdevolucoes.addActionListener(this::jBdevolucoesActionPerformed);
-
         jLabel11.setBackground(new java.awt.Color(0, 51, 204));
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Consultar objetos");
+        jLabel11.setText("Procurar Objeto");
+        jLabel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 204), 5));
         jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel11.setOpaque(true);
+        jLabel11.setPreferredSize(new java.awt.Dimension(113, 18));
 
-        jBinicio.setBackground(new java.awt.Color(10, 61, 163));
-        jBinicio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jBinicio.setForeground(new java.awt.Color(255, 255, 255));
-        jBinicio.setText("Início");
-        jBinicio.setBorder(null);
-        jBinicio.setBorderPainted(false);
-        jBinicio.setContentAreaFilled(false);
-        jBinicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jBinicio.addActionListener(this::jBinicioActionPerformed);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jBcadastrarOB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jBdevolucoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jBinicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBreivindicacoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBinicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBreivindicacoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(227, 227, 227)
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(248, 248, 248)
                 .addComponent(jBinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jBcadastrarOB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jBreivindicacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jBdevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jBreivindicacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(113, 113, 113)
                 .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(499, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel4);
-        jPanel4.setBounds(0, 0, 180, 1060);
+        getContentPane().add(jPanel6);
+        jPanel6.setBounds(0, 0, 180, 1060);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBcadastrarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBcadastrarOBActionPerformed
+    private void jCcategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCcategoriaActionPerformed
+        buscar();
+    }//GEN-LAST:event_jCcategoriaActionPerformed
+
+    private void jFdepois_deActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFdepois_deActionPerformed
+        buscar();
+    }//GEN-LAST:event_jFdepois_deActionPerformed
+
+    private void jFantes_deActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFantes_deActionPerformed
+        buscar();
+    }//GEN-LAST:event_jFantes_deActionPerformed
+
+    private void jBsalvaredicaoobj1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsalvaredicaoobj1ActionPerformed
+        salvarEdicao();
+    }//GEN-LAST:event_jBsalvaredicaoobj1ActionPerformed
+
+    private void jBexcluirobjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBexcluirobjActionPerformed
+        excluirSelecionado();
+    }//GEN-LAST:event_jBexcluirobjActionPerformed
+
+    private void jBinicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinicioActionPerformed
         // TODO add your handling code here:
-        CadastroObjetoView tela = new CadastroObjetoView();
+        TelaPrincipal_Alunos tela = new TelaPrincipal_Alunos();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
-    }//GEN-LAST:event_jBcadastrarOBActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jBsairTelaPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsairTelaPrinActionPerformed
         int resposta = javax.swing.JOptionPane.showConfirmDialog(
@@ -377,36 +555,12 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jBsairTelaPrinActionPerformed
 
-    private void jBdevolucoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdevolucoesActionPerformed
-        // TODO add your handling code here:
-        TelaDevolucoes tela = new TelaDevolucoes();
-        tela.setLocationRelativeTo(this);
-        tela.setVisible(true);
-    }//GEN-LAST:event_jBdevolucoesActionPerformed
-
-    private void jBinicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinicioActionPerformed
-        TelaPrincipal tela = new TelaPrincipal();
-        tela.setLocationRelativeTo(this);
-        tela.setVisible(true);
-    }//GEN-LAST:event_jBinicioActionPerformed
-
-    private void jCcategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCcategoriaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCcategoriaActionPerformed
-
-    private void jFdepois_deActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFdepois_deActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFdepois_deActionPerformed
-
-    private void jFantes_deActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFantes_deActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFantes_deActionPerformed
-
     private void jBreivindicacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBreivindicacoesActionPerformed
         // TODO add your handling code here:
-        TelaReivindicacoes tela = new TelaReivindicacoes();
+        TelaReivindicacoes_Alunos tela = new TelaReivindicacoes_Alunos();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBreivindicacoesActionPerformed
 
     /**
@@ -431,15 +585,15 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new ConsultarObjeto().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new ProcurarObj().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBcadastrarOB;
-    private javax.swing.JButton jBdevolucoes;
+    private javax.swing.JButton jBexcluirobj;
     private javax.swing.JButton jBinicio;
     private javax.swing.JButton jBreivindicacoes;
     private javax.swing.JButton jBsairTelaPrin;
+    private javax.swing.JButton jBsalvaredicaoobj1;
     private javax.swing.JComboBox<String> jCcategoria;
     private javax.swing.JFormattedTextField jFantes_de;
     private javax.swing.JFormattedTextField jFdepois_de;
@@ -457,8 +611,8 @@ public class ConsultarObjeto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPtotal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;

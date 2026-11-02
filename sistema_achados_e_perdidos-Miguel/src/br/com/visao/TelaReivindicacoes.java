@@ -4,6 +4,8 @@
  */
 package br.com.visao;
 
+import java.awt.Color;
+
 /**
  *
  * @author migue
@@ -17,7 +19,16 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
      */
     public TelaReivindicacoes() {
         initComponents();
-        
+        // o botão "Consultar objetos" não tinha evento no designer
+        jBconsultarOB.addActionListener(evt -> {
+            ConsultarObjeto tela = new ConsultarObjeto();
+            tela.setVisible(true);
+            this.dispose();
+        });
+
+        jTabresult.setSelectionBackground(new Color(197, 216, 248));
+        jTabresult.setSelectionForeground(Color.BLACK);
+
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
@@ -285,12 +296,14 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
         TelaDevolucoes tela = new TelaDevolucoes();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBdevolucoesActionPerformed
 
     private void jBinicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinicioActionPerformed
         TelaPrincipal tela = new TelaPrincipal();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jBpesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBpesqActionPerformed
@@ -306,6 +319,7 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
     CadastroObjetoView tela = new CadastroObjetoView();
     tela.setLocationRelativeTo(this);
     tela.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jBcadastrarOBActionPerformed
 
     /**

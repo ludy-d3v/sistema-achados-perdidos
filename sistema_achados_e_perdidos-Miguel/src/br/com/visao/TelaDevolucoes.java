@@ -304,7 +304,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jBpesq.setText("Procurar");
         jBpesq.addActionListener(this::jBpesqActionPerformed);
         jPanel2.add(jBpesq);
-        jBpesq.setBounds(610, 130, 100, 27);
+        jBpesq.setBounds(610, 130, 100, 31);
 
         jPanel1.setBackground(new java.awt.Color(242, 247, 251));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(185, 218, 252), 3));
@@ -427,7 +427,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel22.setText("1. Digite a matricula do aluno*");
+        jLabel22.setText("1. Digite o CPF do aluno*");
         jPanel2.add(jLabel22);
         jLabel22.setBounds(20, 730, 250, 20);
 
@@ -449,7 +449,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel24.setText("2. Digite o nome do aluno*");
+        jLabel24.setText("2. Digite o nome completo do aluno*");
         jPanel2.add(jLabel24);
         jLabel24.setBounds(450, 730, 580, 20);
 
@@ -488,7 +488,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jCopcao_pesq.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pesquisar reivindicação", "Pesquisar ID" }));
         jCopcao_pesq.addActionListener(this::jCopcao_pesqActionPerformed);
         jPanel2.add(jCopcao_pesq);
-        jCopcao_pesq.setBounds(730, 140, 160, 22);
+        jCopcao_pesq.setBounds(730, 140, 160, 26);
 
         jPtotal.add(jPanel2);
         jPanel2.setBounds(90, 210, 1190, 990);
@@ -506,6 +506,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         CadastroObjetoView tela = new CadastroObjetoView();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBcadastrarOBActionPerformed
 
     private void jBsairTelaPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsairTelaPrinActionPerformed
@@ -526,12 +527,14 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         TelaReivindicacoes tela = new TelaReivindicacoes();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBreivindicacaoActionPerformed
 
     private void jBinicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinicioActionPerformed
         TelaPrincipal tela = new TelaPrincipal();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jBLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLimparActionPerformed
@@ -558,18 +561,30 @@ public class TelaDevolucoes extends javax.swing.JFrame {
     ConsultarObjeto tela = new ConsultarObjeto();
     tela.setLocationRelativeTo(this);
     tela.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jBconsultarOBActionPerformed
 
     private void jBreg_devolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBreg_devolucaoActionPerformed
-        // TODO add your handling code here:
-        
-          boolean cadastrou = false;
+        boolean cadastrou = false;
+
+    if (r.getIdreivindicacao() == 0) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Busque uma reivindicação antes de registrar a devolução."
+        );
+        return;
+    }
 
     try {
         DateTimeFormatter formato =  DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         LocalDate dataDevolucao = LocalDate.parse(jFdata_dev.getText(), formato );
-        cadastrou = ca.cadastrarDevolucao( d.getIdbj(),r.getId_retirante(), jTid_funcionario,dataDevolucao, jTassinatura.getText());
+        int idFuncionario = Integer.parseInt(jTid_funcionario.getText().trim());
+
+        cadastrou = ca.cadastrarDevolucao(
+                d.getIdbj(), r.getId_retirante(), idFuncionario,
+                r.getIdreivindicacao(), dataDevolucao, jTassinatura.getText()
+        );
 
         if (cadastrou) {
             JOptionPane.showMessageDialog(
@@ -586,6 +601,16 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(
                 this,
                 "Informe uma data válida no formato dd/MM/yyyy."
+        );
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe um ID de funcionário válido."
+        );
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao registrar devolução: " + ex.getMessage()
         );
     }
     }//GEN-LAST:event_jBreg_devolucaoActionPerformed

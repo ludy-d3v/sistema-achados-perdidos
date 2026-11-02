@@ -5,6 +5,7 @@ import br.com.entidade.ObjetoEntity;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class ObjetoController {
 
@@ -19,6 +20,11 @@ public class ObjetoController {
     private LocalDate dataLimiteGuarda;
     private int idUsuario;
     private String emailUsuario;
+
+    private String nomeFiltro;
+    private String categoriaFiltro;
+    private LocalDate depoisDeFiltro;
+    private LocalDate antesDeFiltro;
 
 public boolean cadastrarObjeto() throws SQLException {
     if (descricao == null || descricao.trim().isEmpty()
@@ -103,6 +109,62 @@ public boolean cadastrarObjeto() throws SQLException {
 
     public void setEmailUsuario(String emailUsuario) {
        this.emailUsuario = emailUsuario;
+    }
+
+    public void setNomeFiltro(String nomeFiltro) {
+        this.nomeFiltro = nomeFiltro;
+    }
+
+    public void setCategoriaFiltro(String categoriaFiltro) {
+        this.categoriaFiltro = categoriaFiltro;
+    }
+
+    public void setDepoisDeFiltro(LocalDate depoisDeFiltro) {
+        this.depoisDeFiltro = depoisDeFiltro;
+    }
+
+    public void setAntesDeFiltro(LocalDate antesDeFiltro) {
+        this.antesDeFiltro = antesDeFiltro;
+    }
+
+    public List<ObjetoResumo> listarObjetos() throws SQLException {
+        if (depoisDeFiltro != null && antesDeFiltro != null
+                && depoisDeFiltro.isAfter(antesDeFiltro)) {
+            throw new IllegalArgumentException(
+                    "A data 'depois de' não pode ser maior que a data 'antes de'."
+            );
+        }
+
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.buscarObjetos(nomeFiltro, categoriaFiltro, depoisDeFiltro, antesDeFiltro);
+    }
+
+    public List<String> listarCategorias() throws SQLException {
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.listarCategorias();
+    }
+
+    public List<ObjetoResumo> listarRecentes(int limite) throws SQLException {
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.listarRecentes(limite);
+    }
+
+    public boolean atualizarObjeto(int id, String descricao, String categoria, String campus) throws SQLException {
+        if (descricao == null || descricao.trim().isEmpty()
+                || categoria == null || categoria.trim().isEmpty()
+                || campus == null || campus.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Preencha todos os campos obrigatórios."
+            );
+        }
+
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.atualizarObjeto(id, descricao.trim(), categoria.trim(), campus.trim());
+    }
+
+    public boolean excluirObjeto(int id) throws SQLException {
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.excluirObjeto(id);
     }
 
 }

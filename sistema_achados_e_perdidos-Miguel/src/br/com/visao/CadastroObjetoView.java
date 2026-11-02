@@ -353,7 +353,7 @@ public class CadastroObjetoView extends javax.swing.JFrame {
         jScrollPane5.setBounds(710, 60, 440, 20);
 
         jPtotal.add(jPanel2);
-        jPanel2.setBounds(90, 180, 1190, 520);
+        jPanel2.setBounds(90, 230, 1190, 520);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(153, 153, 153));
@@ -434,7 +434,11 @@ try {
     controller.setHoraAchado(
             java.time.LocalTime.parse(jTHoraAchado.getText().trim())
     );
-    controller.setCampus(jCcampus.getText().trim());
+    if (jCcampus.getSelectedIndex() <= 0) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Selecione um campus.");
+        return;
+    }
+    controller.setCampus(jCcampus.getSelectedItem().toString().trim());
     controller.setBloco(jTBloco.getText().trim());
     controller.setAmbiente(jTambiente.getText().trim());
     controller.setDetalhesSensiveis(
@@ -473,7 +477,17 @@ try {
     }//GEN-LAST:event_jTHoraAchadoActionPerformed
 
     private void jBLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLimparActionPerformed
-        // TODO add your handling code here:
+        jTnomeobj.setText("");
+        jTDescricao.setText("");
+        jTCategoria.setText("");
+        jTDataAchado.setText("");
+        jTHoraAchado.setText("");
+        jCcampus.setSelectedIndex(0);
+        jTBloco.setText("");
+        jTambiente.setText("");
+        jTDetalhesSensiveis.setText("");
+        jTEmailUsuario.setText("");
+        jTDescricao.requestFocus();
     }//GEN-LAST:event_jBLimparActionPerformed
 
     private void jTDataAchadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTDataAchadoActionPerformed
@@ -506,18 +520,22 @@ try {
         TelaDevolucoes tela = new TelaDevolucoes();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBdevolucoesActionPerformed
 
     private void jBinicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinicioActionPerformed
         TelaPrincipal tela = new TelaPrincipal();
         tela.setLocationRelativeTo(this);
-        tela.setVisible(true);    }//GEN-LAST:event_jBinicioActionPerformed
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jBreivindicacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBreivindicacoesActionPerformed
         // TODO add your handling code here:
         TelaReivindicacoes tela = new TelaReivindicacoes();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBreivindicacoesActionPerformed
 
     private void jBconsultarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBconsultarOBActionPerformed
@@ -525,6 +543,7 @@ try {
     ConsultarObjeto tela = new ConsultarObjeto();
     tela.setLocationRelativeTo(this);
     tela.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jBconsultarOBActionPerformed
 
     /**

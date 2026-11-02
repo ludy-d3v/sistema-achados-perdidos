@@ -2,64 +2,58 @@ package br.com.entidade;
 
 import br.com.controller.Devolucao;
 import br.com.controller.Reivindicacao;
-import java.awt.HeadlessException;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 public class DAODevolucoes extends DAO{
-    
-    
+
+
     public int buscarIdUsuario(Devolucao d) throws SQLException {
     DAO dao = new DAO();
 
     try {
         dao.abrirBanco();
 
-        String sql = "SELECT * FROM objeto "
-                   + "WHERE ID_Objeto = ?";
+        String sql = "SELECT * FROM Objeto WHERE ID_Objeto = ?";
 
-        dao.pst= (PreparedStatement) dao.con.prepareStatement(sql);
+        dao.pst = dao.con.prepareStatement(sql);
         dao.pst.setInt(1, d.getIdbj());
-        ResultSet tr = dao.pst.executeQuery();
-          
-            
-            if(tr.next()){
-                d.setIdUsuario(tr.getInt("id_usuario"));
-                d.setIdobj(tr.getInt("ID_Objeto"));
-                d.setAmbiente(tr.getString("ambiente"));
-                d.setBloco(tr.getString("bloco"));
-                d.setCampus(tr.getString("campus"));
-                d.setCategoria(tr.getString("categoria"));
-                d.setDataAchado(tr.getDate("data_achado").toLocalDate());
-                d.setDataLimiteGuarda(tr.getDate("data_limite").toLocalDate());
-                d.setDescricao(tr.getString("descricao"));
-                d.setDetalhesSensiveis(tr.getString("detalhes"));
-                //d.setEmailUsuario(tr.getString("email_usuario"));
-                d.setHoraAchado(tr.getTime("hora_achado").toLocalTime());
-                d.setNome_obj(tr.getString("nome_obj"));
-                
-                
-            }else{
-            JOptionPane.showMessageDialog(null,"Nenhum resultado encontrado!");
-            }
-        
-        } catch (HeadlessException | SQLException e) {
-            System.out.println("Erro!!" + e.getMessage());
-                  
+        dao.rs = dao.pst.executeQuery();
+
+        if (dao.rs.next()) {
+            d.setIdUsuario(dao.rs.getInt("ID_Usuario"));
+            d.setIdobj(dao.rs.getInt("ID_Objeto"));
+            d.setAmbiente(dao.rs.getString("Ambiente"));
+            d.setBloco(dao.rs.getString("Bloco"));
+            d.setCampus(dao.rs.getString("Campus"));
+            d.setCategoria(dao.rs.getString("Categoria"));
+            d.setDataAchado(dao.rs.getDate("Data_Achado").toLocalDate());
+            d.setDataLimiteGuarda(dao.rs.getDate("Data_Limite_Guarda").toLocalDate());
+            d.setDescricao(dao.rs.getString("Descricao_Generica"));
+            d.setDetalhesSensiveis(dao.rs.getString("Detalhes_Sensiveis"));
+            d.setHoraAchado(dao.rs.getTime("Hora_Achado").toLocalTime());
+            // Objeto não tem coluna de nome própria, reaproveita a descrição genérica
+            d.setNome_obj(dao.rs.getString("Descricao_Generica"));
+
+            return 1;
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum resultado encontrado!");
+            return 0;
         }
-        return 0;
-       
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
     }
     
     
-   public int buscarIdReivindicacao(Reivindicacao r, Devolucao d) throws SQLException, Exception {
+   public int buscarIdReivindicacao(Reivindicacao r, Devolucao d) throws SQLException {
 
     DAO dao = new DAO();
 
@@ -67,40 +61,29 @@ public class DAODevolucoes extends DAO{
         dao.abrirBanco();
 
         String sql = "SELECT r.*, "
-                   + "rt.ID_Usuario, "
-                   + "u.Nome_Completo, "
-                   + "u.Matricula "
-                   + "FROM reivindicacao r "// inner join para achar o ID do usuario na tabela retirante
-                   + "INNER JOIN retirante rt "
+                   + "rt.Nome_Completo, "
+                   + "rt.Documento_Identificacao "
+                   + "FROM Reivindicacao r "
+                   + "INNER JOIN Retirante rt "
                    + "ON r.ID_Retirante = rt.ID_Retirante "
-                   + "INNER JOIN usuario u " // inner join para buscar o nome e a matricula na tabela usuario
-                   + "ON rt.ID_Usuario = u.ID_Usuario "
                    + "WHERE r.ID_Reivindicacao = ?";
 
-        
         dao.pst = dao.con.prepareStatement(sql);
         dao.pst.setInt(1, r.getIdreivindicacao());
-        ResultSet tr = dao.pst.executeQuery();
+        dao.rs = dao.pst.executeQuery();
 
-        
-        if (tr.next()) {
+        if (dao.rs.next()) {
 
-           
-            // Dados da tabela reivindicação
-            r.setId_objeto(tr.getInt("ID_Objeto"));
-            r.setId_retirante(tr.getInt("ID_Retirante"));
-            r.setIdreivindicacao(tr.getInt("ID_Reivindicacao"));
-            r.setObservacao(tr.getString("observacao"));
-            r.setStatus_reivindicacao(tr.getString("status"));
+            // Dados da tabela Reivindicacao
+            r.setId_objeto(dao.rs.getInt("ID_Objeto"));
+            r.setId_retirante(dao.rs.getInt("ID_Retirante"));
+            r.setIdreivindicacao(dao.rs.getInt("ID_Reivindicacao"));
+            r.setObservacao(dao.rs.getString("Observacao"));
+            r.setStatus_reivindicacao(dao.rs.getString("Status_Reivindicacao"));
 
-            
-            //inner join para buscar na tabela usuario
-            d.setIdUsuario(tr.getInt("ID_Usuario"));
-
-            //dados da tabela usuario
-            r.setNome_aluno(sql);
-            tr.getString("Nome_Completo");
-            r.setMatricula(tr.getString("Matricula"));
+            // Dados do Retirante, vindos do JOIN
+            r.setNome_aluno(dao.rs.getString("Nome_Completo"));
+            r.setMatricula(dao.rs.getString("Documento_Identificacao"));
 
             // Busca os dados do objeto
             d.setIdobj(r.getId_objeto());
@@ -118,19 +101,16 @@ public class DAODevolucoes extends DAO{
             return 0;
         }
 
-    } catch (HeadlessException | SQLException e) {
-
-        System.out.println("Erro!! " + e.getMessage());
-
-        return 0;
-
     } finally {
-
-        dao.fecharBanco();
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
     }
 }
    
-     public boolean cadastrarDevolucao(int idObjeto,int idRetirante,int idUsuario,LocalDate dataDevolucao,String assinaturaDigital) throws SQLException {
+     public boolean cadastrarDevolucao(int idObjeto, int idRetirante, int idUsuario, int idReivindicacao, LocalDate dataDevolucao, String assinaturaDigital) throws SQLException {
 
     DAO dao = new DAO();
 
@@ -138,17 +118,18 @@ public class DAODevolucoes extends DAO{
         dao.abrirBanco();
 
         String sql = "INSERT INTO Devolucao "
-                + "(ID_Objeto, ID_Retirante, ID_Usuario, "
+                + "(ID_Objeto, ID_Retirante, ID_Usuario, ID_Reivindicacao, "
                 + "Data_Devolucao, Assinatura_Digital) "
-                + "VALUES (?, ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, ?, ?)";
 
         dao.pst = dao.con.prepareStatement(sql);
 
         dao.pst.setInt(1, idObjeto);
         dao.pst.setInt(2, idRetirante);
         dao.pst.setInt(3, idUsuario);
-        dao.pst.setDate(4, Date.valueOf(dataDevolucao));
-        dao.pst.setString(5, assinaturaDigital);
+        dao.pst.setInt(4, idReivindicacao);
+        dao.pst.setDate(5, Date.valueOf(dataDevolucao));
+        dao.pst.setString(6, assinaturaDigital);
 
         return dao.pst.executeUpdate() > 0;
 
@@ -162,9 +143,5 @@ public class DAODevolucoes extends DAO{
         }
     }
 }
-
-    public boolean cadastrarDevolucao(int idbj, int id_retirante, JTextField jTid_funcionario, LocalDate dataDevolucao, String text) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
 }

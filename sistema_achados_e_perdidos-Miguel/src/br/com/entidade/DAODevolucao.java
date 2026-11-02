@@ -14,7 +14,7 @@ public class ObjetoEntity {
 
   
     
-public int buscarIdobjeto(String email) throws SQLException {
+public int buscarIdobjeto(String email) throws java.sql.SQLException {
     DAO dao = new DAO();
 
     try {
