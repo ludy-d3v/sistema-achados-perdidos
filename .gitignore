@@ -1,2 +1,10 @@
+
 /sistema_achados_e_perdidos-Miguel/build/
 /sistema_achados_e_perdidos-Miguel/nbproject/private/
+
+build/
+nbproject/private/
+banco.txt
+inserts.sql
+src/br/com/entidade/DAO.java
+
