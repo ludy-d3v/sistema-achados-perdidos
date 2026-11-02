@@ -4,11 +4,24 @@
  */
 package br.com.visao;
 
+import br.com.controller.Devolucao;
+import br.com.controller.Reivindicacao;
+import br.com.entidade.DAODevolucoes;
+import java.awt.HeadlessException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author migue
  */
 public class TelaDevolucoes extends javax.swing.JFrame {
+    
+        Reivindicacao r = new Reivindicacao();
+        Devolucao d = new Devolucao();
+        DAODevolucoes ca = new DAODevolucoes();
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaDevolucoes.class.getName());
 
@@ -50,43 +63,41 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jPanel2 = new br.com.controller.PainelFundoBranco();
         jBreg_devolucao = new javax.swing.JButton();
         jBLimpar = new javax.swing.JButton();
-        jTEmailUsuario = new javax.swing.JTextField();
-        jLabel20 = new javax.swing.JLabel();
+        jTpesquisa = new javax.swing.JTextField();
+        jLident_pesq = new javax.swing.JLabel();
         jBpesq = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jTDescricao = new javax.swing.JTextField();
         jLDescricao = new javax.swing.JLabel();
-        jTDataAchado = new javax.swing.JTextField();
         jLDataAchado = new javax.swing.JLabel();
-        jCcampus = new javax.swing.JComboBox<>();
         jLCampus = new javax.swing.JLabel();
         jLDetalhesSensiveis = new javax.swing.JLabel();
         jLAmbiente = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTambiente = new javax.swing.JTextPane();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTDetalhesSensiveis = new javax.swing.JTextPane();
         jLCategoria = new javax.swing.JLabel();
         jLHoraAchado = new javax.swing.JLabel();
-        jTHoraAchado = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLBloco = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTCategoria = new javax.swing.JTextPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTBloco = new javax.swing.JTextPane();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTnome_obj = new javax.swing.JTextPane();
+        jLnome_obj = new javax.swing.JLabel();
+        jLcampus = new javax.swing.JLabel();
+        jLdata_achado = new javax.swing.JLabel();
+        jLdetalhes_sensiveis = new javax.swing.JLabel();
+        jLcategoria = new javax.swing.JLabel();
+        jLambiente = new javax.swing.JLabel();
+        jLbloco = new javax.swing.JLabel();
+        jLhora_achado = new javax.swing.JLabel();
+        jLdesc_generica = new javax.swing.JLabel();
         jTmatricula = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jTnome_aluno = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
-        jThora_dev = new javax.swing.JTextField();
+        jTassinatura = new javax.swing.JTextField();
         jLabel25 = new javax.swing.JLabel();
-        jTdata_dev = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
+        jFdata_dev = new javax.swing.JFormattedTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jTid_funcionario = new javax.swing.JTextField();
+        jCopcao_pesq = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -264,6 +275,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jBreg_devolucao.setForeground(new java.awt.Color(255, 255, 255));
         jBreg_devolucao.setText("Registrar devolução");
         jBreg_devolucao.setActionCommand("+  Cadastrar objeto");
+        jBreg_devolucao.addActionListener(this::jBreg_devolucaoActionPerformed);
         jPanel2.add(jBreg_devolucao);
         jBreg_devolucao.setBounds(970, 930, 200, 40);
 
@@ -276,31 +288,27 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jPanel2.add(jBLimpar);
         jBLimpar.setBounds(840, 930, 83, 32);
 
-        jTEmailUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel2.add(jTEmailUsuario);
-        jTEmailUsuario.setBounds(30, 140, 560, 20);
+        jTpesquisa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.add(jTpesquisa);
+        jTpesquisa.setBounds(30, 140, 560, 20);
 
-        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel20.setText("1. Digite o ID do objeto *");
-        jPanel2.add(jLabel20);
-        jLabel20.setBounds(30, 110, 250, 20);
+        jLident_pesq.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLident_pesq.setForeground(new java.awt.Color(4, 120, 203));
+        jLident_pesq.setText("1. Digite a reivindicação do objeto *");
+        jPanel2.add(jLident_pesq);
+        jLident_pesq.setBounds(30, 110, 250, 20);
 
         jBpesq.setBackground(new java.awt.Color(4, 120, 203));
         jBpesq.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jBpesq.setForeground(new java.awt.Color(255, 255, 255));
         jBpesq.setText("Procurar");
+        jBpesq.addActionListener(this::jBpesqActionPerformed);
         jPanel2.add(jBpesq);
-        jBpesq.setBounds(610, 130, 100, 27);
+        jBpesq.setBounds(610, 130, 100, 31);
 
         jPanel1.setBackground(new java.awt.Color(242, 247, 251));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(185, 218, 252), 3));
         jPanel1.setLayout(null);
-
-        jTDescricao.setBackground(new java.awt.Color(229, 238, 246));
-        jTDescricao.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239)));
-        jPanel1.add(jTDescricao);
-        jTDescricao.setBounds(40, 100, 440, 20);
 
         jLDescricao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLDescricao.setForeground(new java.awt.Color(4, 120, 203));
@@ -308,21 +316,11 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jPanel1.add(jLDescricao);
         jLDescricao.setBounds(40, 80, 250, 20);
 
-        jTDataAchado.setBackground(new java.awt.Color(229, 238, 246));
-        jTDataAchado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239)));
-        jPanel1.add(jTDataAchado);
-        jTDataAchado.setBounds(40, 210, 440, 20);
-
         jLDataAchado.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLDataAchado.setForeground(new java.awt.Color(4, 120, 203));
         jLDataAchado.setText("Data do achado");
         jPanel1.add(jLDataAchado);
         jLDataAchado.setBounds(40, 190, 230, 20);
-
-        jCcampus.setBackground(new java.awt.Color(229, 238, 246));
-        jCcampus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um campus", "Taguatinga-DF", "Asa sul-DF", " " }));
-        jPanel1.add(jCcampus);
-        jCcampus.setBounds(40, 150, 160, 20);
 
         jLCampus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLCampus.setForeground(new java.awt.Color(4, 120, 203));
@@ -340,21 +338,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jLAmbiente.setForeground(new java.awt.Color(4, 120, 203));
         jLAmbiente.setText("Ambiente");
         jPanel1.add(jLAmbiente);
-        jLAmbiente.setBounds(540, 80, 70, 20);
-
-        jTambiente.setBackground(new java.awt.Color(229, 238, 246));
-        jTambiente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239)));
-        jScrollPane2.setViewportView(jTambiente);
-
-        jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(540, 100, 250, 20);
-
-        jTDetalhesSensiveis.setBackground(new java.awt.Color(229, 238, 246));
-        jTDetalhesSensiveis.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239)));
-        jScrollPane4.setViewportView(jTDetalhesSensiveis);
-
-        jPanel1.add(jScrollPane4);
-        jScrollPane4.setBounds(40, 280, 450, 100);
+        jLAmbiente.setBounds(530, 80, 70, 20);
 
         jLCategoria.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLCategoria.setForeground(new java.awt.Color(4, 120, 203));
@@ -368,11 +352,6 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jPanel1.add(jLHoraAchado);
         jLHoraAchado.setBounds(530, 190, 170, 20);
 
-        jTHoraAchado.setBackground(new java.awt.Color(229, 238, 246));
-        jTHoraAchado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239)));
-        jPanel1.add(jTHoraAchado);
-        jTHoraAchado.setBounds(530, 210, 440, 20);
-
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(4, 120, 203));
         jLabel12.setText("Nome do objeto *");
@@ -385,28 +364,62 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jPanel1.add(jLBloco);
         jLBloco.setBounds(530, 130, 110, 20);
 
-        jTCategoria.setBackground(new java.awt.Color(229, 238, 246));
-        jTCategoria.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239)));
-        jScrollPane1.setViewportView(jTCategoria);
+        jLnome_obj.setBackground(new java.awt.Color(229, 238, 246));
+        jLnome_obj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239), 2));
+        jLnome_obj.setOpaque(true);
+        jPanel1.add(jLnome_obj);
+        jLnome_obj.setBounds(40, 50, 440, 20);
 
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(530, 50, 440, 20);
+        jLcampus.setBackground(new java.awt.Color(229, 238, 246));
+        jLcampus.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239), 2));
+        jLcampus.setOpaque(true);
+        jPanel1.add(jLcampus);
+        jLcampus.setBounds(40, 150, 200, 20);
 
-        jTBloco.setBackground(new java.awt.Color(229, 238, 246));
-        jScrollPane3.setViewportView(jTBloco);
+        jLdata_achado.setBackground(new java.awt.Color(229, 238, 246));
+        jLdata_achado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239), 2));
+        jLdata_achado.setOpaque(true);
+        jPanel1.add(jLdata_achado);
+        jLdata_achado.setBounds(40, 210, 200, 20);
 
-        jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(530, 150, 440, 20);
+        jLdetalhes_sensiveis.setBackground(new java.awt.Color(229, 238, 246));
+        jLdetalhes_sensiveis.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239), 2));
+        jLdetalhes_sensiveis.setOpaque(true);
+        jPanel1.add(jLdetalhes_sensiveis);
+        jLdetalhes_sensiveis.setBounds(40, 280, 440, 130);
 
-        jTnome_obj.setBackground(new java.awt.Color(229, 238, 246));
-        jTnome_obj.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239)));
-        jScrollPane5.setViewportView(jTnome_obj);
+        jLcategoria.setBackground(new java.awt.Color(229, 238, 246));
+        jLcategoria.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239), 2));
+        jLcategoria.setOpaque(true);
+        jPanel1.add(jLcategoria);
+        jLcategoria.setBounds(530, 50, 440, 20);
 
-        jPanel1.add(jScrollPane5);
-        jScrollPane5.setBounds(40, 50, 440, 20);
+        jLambiente.setBackground(new java.awt.Color(229, 238, 246));
+        jLambiente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239), 2));
+        jLambiente.setOpaque(true);
+        jPanel1.add(jLambiente);
+        jLambiente.setBounds(530, 100, 440, 20);
+
+        jLbloco.setBackground(new java.awt.Color(229, 238, 246));
+        jLbloco.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239), 2));
+        jLbloco.setOpaque(true);
+        jPanel1.add(jLbloco);
+        jLbloco.setBounds(530, 150, 440, 20);
+
+        jLhora_achado.setBackground(new java.awt.Color(229, 238, 246));
+        jLhora_achado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239), 2));
+        jLhora_achado.setOpaque(true);
+        jPanel1.add(jLhora_achado);
+        jLhora_achado.setBounds(530, 210, 440, 20);
+
+        jLdesc_generica.setBackground(new java.awt.Color(229, 238, 246));
+        jLdesc_generica.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 217, 239), 2));
+        jLdesc_generica.setOpaque(true);
+        jPanel1.add(jLdesc_generica);
+        jLdesc_generica.setBounds(40, 100, 440, 20);
 
         jPanel2.add(jPanel1);
-        jPanel1.setBounds(10, 200, 1160, 460);
+        jPanel1.setBounds(10, 210, 1160, 460);
 
         jTmatricula.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel2.add(jTmatricula);
@@ -414,7 +427,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel22.setText("1. Digite a matricula do aluno*");
+        jLabel22.setText("1. Digite o CPF do aluno*");
         jPanel2.add(jLabel22);
         jLabel22.setBounds(20, 730, 250, 20);
 
@@ -436,30 +449,46 @@ public class TelaDevolucoes extends javax.swing.JFrame {
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel24.setText("2. Digite o nome do aluno*");
+        jLabel24.setText("2. Digite o nome completo do aluno*");
         jPanel2.add(jLabel24);
         jLabel24.setBounds(450, 730, 580, 20);
 
-        jThora_dev.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jThora_dev.addActionListener(this::jThora_devActionPerformed);
-        jPanel2.add(jThora_dev);
-        jThora_dev.setBounds(20, 840, 340, 20);
+        jTassinatura.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.add(jTassinatura);
+        jTassinatura.setBounds(20, 900, 670, 20);
 
         jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel25.setText("3. Digite o horário da devolução *");
+        jLabel25.setText("5. Assinatura do aluno *");
         jPanel2.add(jLabel25);
-        jLabel25.setBounds(20, 810, 250, 20);
-
-        jTdata_dev.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel2.add(jTdata_dev);
-        jTdata_dev.setBounds(450, 840, 330, 20);
+        jLabel25.setBounds(20, 880, 250, 20);
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel26.setText("4. Digite a data da devolução *");
+        jLabel26.setText("3. Digite a data da devolução *");
         jPanel2.add(jLabel26);
-        jLabel26.setBounds(450, 810, 580, 20);
+        jLabel26.setBounds(20, 800, 220, 20);
+
+        jFdata_dev.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jFdata_dev.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        jPanel2.add(jFdata_dev);
+        jFdata_dev.setBounds(20, 820, 220, 18);
+
+        jLabel27.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel27.setForeground(new java.awt.Color(4, 120, 203));
+        jLabel27.setText("4. Digite o ID do funcionario *");
+        jPanel2.add(jLabel27);
+        jLabel27.setBounds(450, 800, 250, 20);
+
+        jTid_funcionario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTid_funcionario.addActionListener(this::jTid_funcionarioActionPerformed);
+        jPanel2.add(jTid_funcionario);
+        jTid_funcionario.setBounds(450, 820, 330, 20);
+
+        jCopcao_pesq.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pesquisar reivindicação", "Pesquisar ID" }));
+        jCopcao_pesq.addActionListener(this::jCopcao_pesqActionPerformed);
+        jPanel2.add(jCopcao_pesq);
+        jCopcao_pesq.setBounds(730, 140, 160, 26);
 
         jPtotal.add(jPanel2);
         jPanel2.setBounds(90, 210, 1190, 990);
@@ -509,20 +538,22 @@ public class TelaDevolucoes extends javax.swing.JFrame {
     }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jBLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLimparActionPerformed
-        jTnome_obj.setText("");
-        jTDescricao.setText("");
-        jTCategoria.setText("");
-        jTDataAchado.setText("");
-        jTHoraAchado.setText("");
-        jCcampus.setSelectedIndex(0);
-        jTBloco.setText("");
-        jTambiente.setText("");
-        jTDetalhesSensiveis.setText("");
-        jTEmailUsuario.setText("");
-        jTmatricula.setText("");
+        // TODO add your handling code here:
+        
         jTnome_aluno.setText("");
-        jThora_dev.setText("");
-        jTdata_dev.setText("");
+        jLnome_obj.setText("");
+        jLdesc_generica.setText("");
+        jLCampus.setText("");
+        jLdata_achado.setText("");
+        jLhora_achado.setText("");
+        jLCategoria.setText("");
+        jLbloco.setText("");
+        jLambiente.setText("");
+        jLdetalhes_sensiveis.setText("");
+        jTpesquisa.setText("");
+        jTmatricula.setText("");
+        jTassinatura.setText("");
+        jFdata_dev.setText("");
     }//GEN-LAST:event_jBLimparActionPerformed
 
     private void jBconsultarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBconsultarOBActionPerformed
@@ -533,9 +564,132 @@ public class TelaDevolucoes extends javax.swing.JFrame {
     this.dispose();
     }//GEN-LAST:event_jBconsultarOBActionPerformed
 
-    private void jThora_devActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jThora_devActionPerformed
+    private void jBreg_devolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBreg_devolucaoActionPerformed
+        boolean cadastrou = false;
+
+    if (r.getIdreivindicacao() == 0) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Busque uma reivindicação antes de registrar a devolução."
+        );
+        return;
+    }
+
+    try {
+        DateTimeFormatter formato =  DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate dataDevolucao = LocalDate.parse(jFdata_dev.getText(), formato );
+        int idFuncionario = Integer.parseInt(jTid_funcionario.getText().trim());
+
+        cadastrou = ca.cadastrarDevolucao(
+                d.getIdbj(), r.getId_retirante(), idFuncionario,
+                r.getIdreivindicacao(), dataDevolucao, jTassinatura.getText()
+        );
+
+        if (cadastrou) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Devolução cadastrada com sucesso!"
+            );
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não foi possível cadastrar a devolução."
+            );
+        }
+    } catch (java.time.format.DateTimeParseException ex) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe uma data válida no formato dd/MM/yyyy."
+        );
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe um ID de funcionário válido."
+        );
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao registrar devolução: " + ex.getMessage()
+        );
+    }
+    }//GEN-LAST:event_jBreg_devolucaoActionPerformed
+
+    private void jBpesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBpesqActionPerformed
+              // TODO add your handling code here:
+         try {
+      
+       
+        if (jTpesquisa.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(null, "Digite o ID do objeto!");
+        
+        
+        }else if(jLident_pesq.getText().equalsIgnoreCase("1. Digite o ID do objeto *")){
+          d.setIdobj(Integer.parseInt(jTpesquisa.getText())); 
+          ca.buscarIdUsuario(d);
+          
+          jLnome_obj.setText(d.getNome_obj());
+          jLcategoria.setText(d.getCategoria());
+          jLdesc_generica.setText(d.getDescricao());
+          jLambiente.setText(d.getAmbiente());
+          jLcampus.setText(d.getCampus());
+          jLbloco.setText(d.getBloco());
+          jLdata_achado.setText(d.getDataAchado().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+          jLhora_achado.setText(String.valueOf(d.getHoraAchado()));
+          jLdetalhes_sensiveis.setText(d.getDetalhesSensiveis());
+          
+          jTmatricula.requestFocus();
+          
+          jTpesquisa.setText(null);
+          
+        }else if(!jLident_pesq.getText().equalsIgnoreCase("1. Digite a reivindicação do objeto *")){
+        d.setIdobj(Integer.parseInt(jTpesquisa.getText())); 
+        ca.buscarIdReivindicacao(r, d);
+            
+
+         jTmatricula.setText(r.getMatricula());
+         jTassinatura.setText(r.getNome_aluno());
+          
+          
+          jLnome_obj.setText(d.getNome_obj());
+          jLcategoria.setText(d.getCategoria());
+          jLdesc_generica.setText(d.getDescricao());
+          jLambiente.setText(d.getAmbiente());
+          jLcampus.setText(d.getCampus());
+          jLbloco.setText(d.getBloco());
+          jLdata_achado.setText(d.getDataAchado().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+          jLhora_achado.setText(String.valueOf(d.getHoraAchado()));
+          jLdetalhes_sensiveis.setText(d.getDetalhesSensiveis());
+            
+        } else {
+        }
+        
+       }
+       catch (HeadlessException | NumberFormatException | SQLException e){
+            System.out.println("Erro " + e.getMessage());
+       } catch (Exception ex) {
+            System.getLogger(TelaDevolucoes.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+    }//GEN-LAST:event_jBpesqActionPerformed
+
+    private void jTid_funcionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTid_funcionarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jThora_devActionPerformed
+    }//GEN-LAST:event_jTid_funcionarioActionPerformed
+
+    private void jCopcao_pesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCopcao_pesqActionPerformed
+        // TODO add your handling code here:
+        String opcao = jCopcao_pesq.getSelectedItem().toString();
+
+        if(opcao.equals("Pesquisar reivindicação")){
+
+            jLident_pesq.setText("1. Digite a reivindicação do objeto *");
+
+        }else if(opcao.equals("Pesquisar ID")){
+            jLident_pesq.setText("1. Digite o ID do objeto *");
+        }
+
+    }//GEN-LAST:event_jCopcao_pesqActionPerformed
 
     /**
      * @param args the command line arguments
@@ -571,7 +725,8 @@ public class TelaDevolucoes extends javax.swing.JFrame {
     private javax.swing.JButton jBreg_devolucao;
     private javax.swing.JButton jBreivindicacao;
     private javax.swing.JButton jBsairTelaPrin;
-    private javax.swing.JComboBox<String> jCcampus;
+    private javax.swing.JComboBox<String> jCopcao_pesq;
+    private javax.swing.JFormattedTextField jFdata_dev;
     private javax.swing.JLabel jLAmbiente;
     private javax.swing.JLabel jLBloco;
     private javax.swing.JLabel jLCampus;
@@ -585,39 +740,36 @@ public class TelaDevolucoes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLambiente;
+    private javax.swing.JLabel jLbloco;
+    private javax.swing.JLabel jLcampus;
+    private javax.swing.JLabel jLcategoria;
+    private javax.swing.JLabel jLdata_achado;
+    private javax.swing.JLabel jLdesc_generica;
+    private javax.swing.JLabel jLdetalhes_sensiveis;
+    private javax.swing.JLabel jLhora_achado;
+    private javax.swing.JLabel jLident_pesq;
+    private javax.swing.JLabel jLnome_obj;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPtotal;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTextPane jTBloco;
-    private javax.swing.JTextPane jTCategoria;
-    private javax.swing.JTextField jTDataAchado;
-    private javax.swing.JTextField jTDescricao;
-    private javax.swing.JTextPane jTDetalhesSensiveis;
-    private javax.swing.JTextField jTEmailUsuario;
-    private javax.swing.JTextField jTHoraAchado;
-    private javax.swing.JTextPane jTambiente;
-    private javax.swing.JTextField jTdata_dev;
-    private javax.swing.JTextField jThora_dev;
+    private javax.swing.JTextField jTassinatura;
+    private javax.swing.JTextField jTid_funcionario;
     private javax.swing.JTextField jTmatricula;
     private javax.swing.JTextField jTnome_aluno;
-    private javax.swing.JTextPane jTnome_obj;
+    private javax.swing.JTextField jTpesquisa;
     // End of variables declaration//GEN-END:variables
 }

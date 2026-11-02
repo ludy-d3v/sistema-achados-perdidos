@@ -4,6 +4,18 @@
  */
 package br.com.visao;
 
+import br.com.controller.ObjetoController;
+import br.com.controller.ObjetoResumo;
+import java.awt.Color;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author migue
@@ -17,8 +29,159 @@ public class ConsultarObjeto extends javax.swing.JFrame {
      */
     public ConsultarObjeto() {
         initComponents();
-        
+
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+
+        jTabresult.setSelectionBackground(new Color(197, 216, 248));
+        jTabresult.setSelectionForeground(Color.BLACK);
+
+        carregarCategorias();
+        buscar();
+
+        jTnome_obj.addActionListener(evt -> buscar());
+    }
+
+    // dê um duplo clique na célula pra editar Descrição, Categoria ou Campus
+    // direto na tabela, depois chame este método pra salvar
+    private void salvarEdicao() {
+        int linhaView = jTabresult.getSelectedRow();
+        if (linhaView == -1) {
+            JOptionPane.showMessageDialog(this, "Selecione uma linha da tabela.");
+            return;
+        }
+        int linha = jTabresult.convertRowIndexToModel(linhaView);
+
+        int id = (Integer) jTabresult.getModel().getValueAt(linha, 0);
+        String descricao = String.valueOf(jTabresult.getModel().getValueAt(linha, 1));
+        String categoria = String.valueOf(jTabresult.getModel().getValueAt(linha, 2));
+        String campus = String.valueOf(jTabresult.getModel().getValueAt(linha, 3));
+
+        try {
+            ObjetoController controller = new ObjetoController();
+            if (controller.atualizarObjeto(id, descricao, categoria, campus)) {
+                JOptionPane.showMessageDialog(this, "Objeto atualizado com sucesso!");
+                buscar();
+            } else {
+                JOptionPane.showMessageDialog(this, "Não foi possível atualizar o objeto.");
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar objeto: " + e.getMessage());
+        }
+    }
+
+    private void excluirSelecionado() {
+        int linhaView = jTabresult.getSelectedRow();
+        if (linhaView == -1) {
+            return;
+        }
+        int linha = jTabresult.convertRowIndexToModel(linhaView);
+
+        int id = (Integer) jTabresult.getModel().getValueAt(linha, 0);
+
+        int resposta = JOptionPane.showConfirmDialog(
+                this,
+                "Deseja realmente excluir o objeto #" + id + "?",
+                "Confirmar exclusão",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (resposta != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        try {
+            ObjetoController controller = new ObjetoController();
+            boolean excluiu = controller.excluirObjeto(id);
+
+            if (excluiu) {
+                JOptionPane.showMessageDialog(this, "Objeto excluído com sucesso!");
+                buscar();
+            } else {
+                JOptionPane.showMessageDialog(this, "Não foi possível excluir o objeto.");
+            }
+        } catch (java.sql.SQLIntegrityConstraintViolationException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Não é possível excluir este objeto: ele já tem devolução, foto, "
+                    + "pergunta de segurança ou reivindicação registrada no sistema.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao excluir objeto: " + e.getMessage());
+        }
+    }
+
+    private void carregarCategorias() {
+        try {
+            ObjetoController controller = new ObjetoController();
+            DefaultComboBoxModel<String> modelo = new DefaultComboBoxModel<>();
+            modelo.addElement("Selecionar categoria");
+
+            for (String categoria : controller.listarCategorias()) {
+                modelo.addElement(categoria);
+            }
+
+            jCcategoria.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao carregar categorias: " + e.getMessage());
+        }
+    }
+
+    private void buscar() {
+        try {
+            ObjetoController controller = new ObjetoController();
+
+            controller.setNomeFiltro(jTnome_obj.getText().trim());
+
+            String categoria = (String) jCcategoria.getSelectedItem();
+            if (categoria != null && !categoria.equals("Selecionar categoria")) {
+                controller.setCategoriaFiltro(categoria);
+            }
+
+            controller.setDepoisDeFiltro(lerData(jFdepois_de));
+            controller.setAntesDeFiltro(lerData(jFantes_de));
+
+            List<ObjetoResumo> objetos = controller.listarObjetos();
+
+            DefaultTableModel modelo = new DefaultTableModel(
+                    new String[]{"ID", "Descrição", "Categoria", "Campus", "Status", "Data do achado"}, 0
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    // só Descrição, Categoria e Campus podem ser editados na tabela
+                    return column == 1 || column == 2 || column == 3;
+                }
+            };
+
+            for (ObjetoResumo objeto : objetos) {
+                modelo.addRow(new Object[]{
+                    objeto.getId(),
+                    objeto.getDescricao(),
+                    objeto.getCategoria(),
+                    objeto.getCampus(),
+                    objeto.getStatus(),
+                    objeto.getDataAchado()
+                });
+            }
+
+            jTabresult.setModel(modelo);
+
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao buscar objetos: " + e.getMessage());
+        }
+    }
+
+    private LocalDate lerData(JFormattedTextField campo) {
+        Object valor = campo.getValue();
+        if (valor == null) {
+            return null;
+        }
+        Date data = (Date) valor;
+        return data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     /**
@@ -49,6 +212,8 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTabresult = new javax.swing.JTable();
+        jBexcluirobj = new javax.swing.JButton();
+        jBsalvaredicaoobj1 = new javax.swing.JButton();
         javax.swing.JPanel jPanel3 = new br.com.controller.PainelFundoAzul();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -214,12 +379,28 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTabresult);
 
         jPtotal.add(jScrollPane3);
-        jScrollPane3.setBounds(72, 400, 1190, 470);
+        jScrollPane3.setBounds(70, 380, 1190, 470);
+
+        jBexcluirobj.setBackground(new java.awt.Color(4, 120, 203));
+        jBexcluirobj.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBexcluirobj.setForeground(new java.awt.Color(255, 255, 255));
+        jBexcluirobj.setText("Excluir objeto");
+        jBexcluirobj.addActionListener(this::jBexcluirobjActionPerformed);
+        jPtotal.add(jBexcluirobj);
+        jBexcluirobj.setBounds(220, 870, 120, 40);
+
+        jBsalvaredicaoobj1.setBackground(new java.awt.Color(4, 120, 203));
+        jBsalvaredicaoobj1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBsalvaredicaoobj1.setForeground(new java.awt.Color(255, 255, 255));
+        jBsalvaredicaoobj1.setText("Salvar edição");
+        jBsalvaredicaoobj1.addActionListener(this::jBsalvaredicaoobj1ActionPerformed);
+        jPtotal.add(jBsalvaredicaoobj1);
+        jBsalvaredicaoobj1.setBounds(80, 870, 120, 40);
 
         jScrollPane1.setViewportView(jPtotal);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(180, 90, 1360, 710);
+        jScrollPane1.setBounds(180, 90, 1360, 970);
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
@@ -394,15 +575,15 @@ public class ConsultarObjeto extends javax.swing.JFrame {
     }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jCcategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCcategoriaActionPerformed
-        // TODO add your handling code here:
+        buscar();
     }//GEN-LAST:event_jCcategoriaActionPerformed
 
     private void jFdepois_deActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFdepois_deActionPerformed
-        // TODO add your handling code here:
+        buscar();
     }//GEN-LAST:event_jFdepois_deActionPerformed
 
     private void jFantes_deActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFantes_deActionPerformed
-        // TODO add your handling code here:
+        buscar();
     }//GEN-LAST:event_jFantes_deActionPerformed
 
     private void jBreivindicacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBreivindicacoesActionPerformed
@@ -412,6 +593,14 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         tela.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jBreivindicacoesActionPerformed
+
+    private void jBsalvaredicaoobj1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsalvaredicaoobj1ActionPerformed
+        salvarEdicao();
+    }//GEN-LAST:event_jBsalvaredicaoobj1ActionPerformed
+
+    private void jBexcluirobjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBexcluirobjActionPerformed
+        excluirSelecionado();
+    }//GEN-LAST:event_jBexcluirobjActionPerformed
 
     /**
      * @param args the command line arguments
@@ -441,9 +630,11 @@ public class ConsultarObjeto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBcadastrarOB;
     private javax.swing.JButton jBdevolucoes;
+    private javax.swing.JButton jBexcluirobj;
     private javax.swing.JButton jBinicio;
     private javax.swing.JButton jBreivindicacoes;
     private javax.swing.JButton jBsairTelaPrin;
+    private javax.swing.JButton jBsalvaredicaoobj1;
     private javax.swing.JComboBox<String> jCcategoria;
     private javax.swing.JFormattedTextField jFantes_de;
     private javax.swing.JFormattedTextField jFdepois_de;

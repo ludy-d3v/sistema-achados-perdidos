@@ -353,7 +353,7 @@ public class CadastroObjetoView extends javax.swing.JFrame {
         jScrollPane5.setBounds(710, 60, 440, 20);
 
         jPtotal.add(jPanel2);
-        jPanel2.setBounds(90, 180, 1190, 520);
+        jPanel2.setBounds(90, 230, 1190, 520);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(153, 153, 153));

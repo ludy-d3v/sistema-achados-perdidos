@@ -4,12 +4,19 @@
  */
 package br.com.visao;
 
+import br.com.controller.ObjetoController;
+import br.com.controller.ObjetoResumo;
+import java.awt.Color;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author lucas
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaPrincipal.class.getName());
 
     /**
@@ -17,8 +24,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
-        
+
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+
+        jTabrecentes.setSelectionBackground(new Color(197, 216, 248));
+        jTabrecentes.setSelectionForeground(Color.BLACK);
+
+        carregarRecentes();
+    }
+
+    private void carregarRecentes() {
+        try {
+            ObjetoController controller = new ObjetoController();
+            List<ObjetoResumo> objetos = controller.listarRecentes(5);
+
+            DefaultTableModel modelo = new DefaultTableModel(
+                    new String[]{"ID", "Descrição", "Categoria", "Campus", "Status", "Data do achado"}, 0
+            );
+
+            for (ObjetoResumo objeto : objetos) {
+                modelo.addRow(new Object[]{
+                    objeto.getId(),
+                    objeto.getDescricao(),
+                    objeto.getCategoria(),
+                    objeto.getCampus(),
+                    objeto.getStatus(),
+                    objeto.getDataAchado()
+                });
+            }
+
+            jTabrecentes.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao carregar objetos recentes: " + e.getMessage());
+        }
     }
 
     /**
@@ -48,6 +87,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabrecentes = new javax.swing.JTable();
+        jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -229,7 +269,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTabrecentes);
 
         jPanel2.add(jScrollPane1);
-        jScrollPane1.setBounds(260, 340, 1190, 410);
+        jScrollPane1.setBounds(260, 370, 1190, 410);
+
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(4, 120, 203));
+        jLabel21.setText("Objetos recentemente cadastrados:");
+        jPanel2.add(jLabel21);
+        jLabel21.setBounds(260, 340, 380, 30);
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(0, 0, 1770, 1030);
@@ -316,6 +362,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

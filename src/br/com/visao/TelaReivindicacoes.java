@@ -4,6 +4,8 @@
  */
 package br.com.visao;
 
+import java.awt.Color;
+
 /**
  *
  * @author migue
@@ -23,7 +25,10 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
             tela.setVisible(true);
             this.dispose();
         });
-        
+
+        jTabresult.setSelectionBackground(new Color(197, 216, 248));
+        jTabresult.setSelectionForeground(Color.BLACK);
+
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
