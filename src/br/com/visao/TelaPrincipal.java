@@ -36,7 +36,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void carregarRecentes() {
         try {
             ObjetoController controller = new ObjetoController();
-            List<ObjetoResumo> objetos = controller.listarRecentes(5);
+            List<ObjetoResumo> objetos = controller.listarRecentes(20);
 
             DefaultTableModel modelo = new DefaultTableModel(
                     new String[]{"ID", "Descrição", "Categoria", "Campus", "Status", "Data do achado"}, 0

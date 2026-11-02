@@ -1,6 +1,7 @@
 
 package br.com.entidade;
 
+import br.com.controller.SessaoUsuario;
 import java.sql.SQLException;
 
 public class LoginEntity {
@@ -13,7 +14,7 @@ public class LoginEntity {
         try {
             dao.abrirBanco();
 
-            String sql = "SELECT ID_Usuario FROM Usuario "
+            String sql = "SELECT ID_Usuario, Nome, CPF FROM Usuario "
            + "WHERE Email_Institucional = ? AND Senha = ?";
 
             dao.pst = dao.con.prepareStatement(sql);
@@ -22,7 +23,22 @@ public class LoginEntity {
 
             dao.rs = dao.pst.executeQuery();
 
-            return dao.rs.next();
+            if (dao.rs.next()) {
+                int idUsuario = dao.rs.getInt("ID_Usuario");
+                SessaoUsuario.setIdUsuario(idUsuario);
+                SessaoUsuario.setNome(dao.rs.getString("Nome"));
+                SessaoUsuario.setCpf(dao.rs.getString("CPF"));
+
+                String sqlFuncionario = "SELECT ID_Funcionario FROM Funcionario WHERE ID_Usuario = ?";
+                dao.pst = dao.con.prepareStatement(sqlFuncionario);
+                dao.pst.setInt(1, idUsuario);
+                dao.rs = dao.pst.executeQuery();
+                SessaoUsuario.setFuncionario(dao.rs.next());
+
+                return true;
+            }
+
+            return false;
 
         } finally {
             try {

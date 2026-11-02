@@ -4,6 +4,7 @@
  */
 package br.com.visao;
 import br.com.controller.LoginController;
+import br.com.controller.SessaoUsuario;
 import java.awt.Color;
 
 import java.awt.Image;
@@ -185,9 +186,14 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
             );
             
             
-            TelaPrincipal tela = new TelaPrincipal();
-            tela.setVisible(true);
-            this.dispose();    
+            if (SessaoUsuario.isFuncionario()) {
+                TelaPrincipal tela = new TelaPrincipal();
+                tela.setVisible(true);
+            } else {
+                TelaPrincipal_Alunos tela = new TelaPrincipal_Alunos();
+                tela.setVisible(true);
+            }
+            this.dispose();
             
         } else {
             javax.swing.JOptionPane.showMessageDialog(
@@ -197,6 +203,13 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
                 javax.swing.JOptionPane.ERROR_MESSAGE
             );
         }
+    } catch (IllegalArgumentException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            e.getMessage(),
+            "Erro",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+        );
     } catch (java.sql.SQLException e) {
         javax.swing.JOptionPane.showMessageDialog(
             this,

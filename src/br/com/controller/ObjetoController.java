@@ -167,4 +167,14 @@ public boolean cadastrarObjeto() throws SQLException {
         return entity.excluirObjeto(id);
     }
 
+    public int contarObjetosTotal() throws SQLException {
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.contarTotal();
+    }
+
+    public int contarObjetosPorStatus(String status) throws SQLException {
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.contarPorStatus(status);
+    }
+
 }

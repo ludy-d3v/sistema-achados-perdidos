@@ -144,4 +144,31 @@ public class DAODevolucoes extends DAO{
     }
 }
 
+public int contarDevolucoesPorRetirante(int idRetirante) throws SQLException {
+    DAO dao = new DAO();
+
+    try {
+        dao.abrirBanco();
+
+        String sql = "SELECT COUNT(*) AS total FROM Devolucao WHERE ID_Retirante = ?";
+
+        dao.pst = dao.con.prepareStatement(sql);
+        dao.pst.setInt(1, idRetirante);
+        dao.rs = dao.pst.executeQuery();
+
+        if (dao.rs.next()) {
+            return dao.rs.getInt("total");
+        }
+
+        return 0;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
+}
+
 }

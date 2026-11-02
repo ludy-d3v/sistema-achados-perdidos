@@ -35,6 +35,21 @@ public class LoginController {
     }
 
     public boolean validarLogin() throws SQLException {
+        if (usuario == null || senha == null
+                || usuario.trim().isEmpty() || senha.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Preencha o e-mail institucional e a senha."
+            );
+        }
+
+        String emailNormalizado = usuario.trim().toLowerCase();
+
+        if (!emailNormalizado.endsWith("@a.ucb.br") && !emailNormalizado.endsWith("@p.ucb.br")) {
+            throw new IllegalArgumentException(
+                    "Use seu e-mail institucional da Católica."
+            );
+        }
+
         LoginEntity login = new LoginEntity();
 
         return login.consultarLogin(usuario, senha);
