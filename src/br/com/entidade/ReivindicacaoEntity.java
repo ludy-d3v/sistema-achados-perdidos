@@ -5,6 +5,9 @@ import br.com.controller.ReivindicacaoResumo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import br.com.controller.Reivindicacao;
+import br.com.controller.PeriodoRelatorio;
+import java.sql.Timestamp;
 
 public class ReivindicacaoEntity {
 
@@ -168,4 +171,168 @@ public class ReivindicacaoEntity {
             }
         }
     }
+    public List<Reivindicacao> consultarReivindicacoes() throws SQLException {
+
+    DAO dao = new DAO();
+    List<Reivindicacao> lista = new ArrayList<>();
+
+    try {
+        dao.abrirBanco();
+
+        String sql = "SELECT "
+                + "r.ID_Reivindicacao, "
+                + "r.Data_Reivindicacao, "
+                + "r.Status_Reivindicacao, "
+                + "r.Observacao, "
+                + "r.ID_Objeto, "
+                + "r.ID_Retirante, "
+                + "ret.Nome_Completo, "
+                + "ret.Documento_Identificacao, "
+                + "o.Descricao_Generica, "
+                + "o.Categoria, "
+                + "o.Campus, "
+                + "o.Bloco, "
+                + "o.Ambiente "
+                + "FROM Reivindicacao r "
+                + "INNER JOIN Retirante ret "
+                + "ON r.ID_Retirante = ret.ID_Retirante "
+                + "INNER JOIN Objeto o "
+                + "ON r.ID_Objeto = o.ID_Objeto "
+                + "ORDER BY r.Data_Reivindicacao DESC";
+
+        dao.pst = dao.con.prepareStatement(sql);
+        dao.rs = dao.pst.executeQuery();
+
+        while (dao.rs.next()) {
+
+            Reivindicacao reivindicacao = new Reivindicacao();
+
+            reivindicacao.setIdreivindicacao(
+                    dao.rs.getInt("ID_Reivindicacao"));
+
+            reivindicacao.setData_reivindicacao(
+                    dao.rs.getTimestamp("Data_Reivindicacao").toLocalDateTime());
+
+            reivindicacao.setStatus_reivindicacao(
+                    dao.rs.getString("Status_Reivindicacao"));
+
+            reivindicacao.setObservacao(
+                    dao.rs.getString("Observacao"));
+
+            reivindicacao.setId_objeto(
+                    dao.rs.getInt("ID_Objeto"));
+
+            reivindicacao.setId_retirante(
+                    dao.rs.getInt("ID_Retirante"));
+
+            reivindicacao.setNome_aluno(
+                    dao.rs.getString("Nome_Completo"));
+
+            reivindicacao.setDocumento_identificacao(
+                    dao.rs.getString("Documento_Identificacao"));
+
+            lista.add(reivindicacao);
+        }
+
+        return lista;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
+}
+   
+    public boolean atualizarStatus(int idReivindicacao, String status) throws SQLException {
+    if (!status.equals("Aprovada") && !status.equals("Recusada")) {
+        throw new IllegalArgumentException("Status inválido.");
+    }
+
+    DAO dao = new DAO();
+
+    try {
+        dao.abrirBanco();
+
+        String sql = "UPDATE Reivindicacao "
+                   + "SET Status_Reivindicacao = ? "
+                   + "WHERE ID_Reivindicacao = ? "
+                   + "AND Status_Reivindicacao = 'Pendente'";
+
+        dao.pst = dao.con.prepareStatement(sql);
+        dao.pst.setString(1, status);
+        dao.pst.setInt(2, idReivindicacao);
+
+        return dao.pst.executeUpdate() > 0;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
+}
+public int contarRelatorio(PeriodoRelatorio periodo, String status) throws SQLException {
+
+    DAO dao = new DAO();
+
+    try {
+        dao.abrirBanco();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT COUNT(*) AS total FROM Reivindicacao WHERE 1=1"
+        );
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+            sql.append(" AND Data_Reivindicacao >= ?");
+            sql.append(" AND Data_Reivindicacao < ?");
+        }
+
+        if (status != null) {
+            sql.append(" AND Status_Reivindicacao = ?");
+        }
+
+        dao.pst = dao.con.prepareStatement(sql.toString());
+
+        int parametro = 1;
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+
+            if (periodo.getDataInicial() == null || periodo.getDataFinal() == null) {
+                throw new IllegalArgumentException("Período personalizado incompleto.");
+            }
+
+            dao.pst.setTimestamp(
+                    parametro++,
+                    Timestamp.valueOf(periodo.getDataInicial().atStartOfDay())
+            );
+
+            dao.pst.setTimestamp(
+                    parametro++,
+                    Timestamp.valueOf(periodo.getDataFinal().plusDays(1).atStartOfDay())
+            );
+        }
+
+        if (status != null) {
+            dao.pst.setString(parametro, status);
+        }
+
+        dao.rs = dao.pst.executeQuery();
+
+        if (dao.rs.next()) {
+            return dao.rs.getInt("total");
+        }
+
+        return 0;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
+}
 }

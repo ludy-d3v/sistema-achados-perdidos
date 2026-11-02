@@ -89,4 +89,14 @@ public class ReivindicacaoController {
         ReivindicacaoEntity entity = new ReivindicacaoEntity();
         return entity.listarPorRetirante(idRetirante, nomeObjeto);
     }
+    
+    public boolean atualizarStatus(int idReivindicacao, String status) throws SQLException {
+        ReivindicacaoEntity entity = new ReivindicacaoEntity();
+        return entity.atualizarStatus(idReivindicacao, status);
+    } 
+    
+    public int contarReivindicacoesRelatorio(PeriodoRelatorio periodo, String status) throws SQLException {
+        ReivindicacaoEntity entity = new ReivindicacaoEntity();
+        return entity.contarRelatorio(periodo, status);
+    }
 }
