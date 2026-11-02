@@ -2,3 +2,4 @@ build/
 nbproject/private/
 banco.txt
 inserts.sql
+src/br/com/entidade/DAO.java
