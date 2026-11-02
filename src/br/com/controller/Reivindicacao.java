@@ -20,6 +20,7 @@ public class Reivindicacao {
    private int id_retirante;
    
    
+   
     public int getIdreivindicacao() {
         return idreivindicacao;
     }
