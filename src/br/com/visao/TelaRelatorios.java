@@ -20,9 +20,97 @@ public class TelaRelatorios extends javax.swing.JFrame {
     /**
      * Creates new form TelaRelatorios
      */
-    public TelaRelatorios() {
-        initComponents();
+public TelaRelatorios() {
+    initComponents();
+    jLabelDataInicial.setVisible(false);
+    jLabelDataFinal.setVisible(false);
+    jFTDataInicial.setVisible(false);
+    jFTDataFinal.setVisible(false);
+
+    getContentPane().setComponentZOrder(
+            jPanel1, getContentPane().getComponentCount() - 1
+    );
+
+    try {
+        javax.swing.text.MaskFormatter mascaraInicial =
+                new javax.swing.text.MaskFormatter("##/##/####");
+
+        javax.swing.text.MaskFormatter mascaraFinal =
+                new javax.swing.text.MaskFormatter("##/##/####");
+
+        mascaraInicial.setPlaceholderCharacter(' ');
+        mascaraFinal.setPlaceholderCharacter(' ');
+
+        jFTDataInicial.setFormatterFactory(
+                new javax.swing.text.DefaultFormatterFactory(mascaraInicial)
+        );
+
+        jFTDataFinal.setFormatterFactory(
+                new javax.swing.text.DefaultFormatterFactory(mascaraFinal)
+        );
+
+    } catch (java.text.ParseException e) {
+        JOptionPane.showMessageDialog(this, "Erro ao configurar as datas.");
     }
+}
+
+private PeriodoRelatorio obterPeriodo() {
+
+    PeriodoRelatorio periodo = new PeriodoRelatorio();
+
+    String dataInicial = jFTDataInicial.getText().trim();
+    String dataFinal = jFTDataFinal.getText().trim();
+
+    boolean inicialVazia = dataInicial.replace("/", "").isBlank();
+    boolean finalVazia = dataFinal.replace("/", "").isBlank();
+
+    // As duas datas vazias: todo o período
+    if (inicialVazia && finalVazia) {
+        periodo.setTodoPeriodo(true);
+        return periodo;
+    }
+
+    // Apenas uma data preenchida
+    if (inicialVazia || finalVazia) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Preencha as duas datas ou deixe ambas vazias para todo o período."
+        );
+        return null;
+    }
+
+    try {
+        java.time.format.DateTimeFormatter formato =
+                java.time.format.DateTimeFormatter.ofPattern("dd/MM/uuuu")
+                        .withResolverStyle(java.time.format.ResolverStyle.STRICT);
+
+        periodo.setDataInicial(
+                java.time.LocalDate.parse(dataInicial, formato)
+        );
+
+        periodo.setDataFinal(
+                java.time.LocalDate.parse(dataFinal, formato)
+        );
+
+        if (periodo.getDataInicial().isAfter(periodo.getDataFinal())) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "A data inicial não pode ser posterior à data final."
+            );
+            return null;
+        }
+
+        periodo.setTodoPeriodo(false);
+        return periodo;
+
+    } catch (java.time.format.DateTimeParseException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe datas válidas no formato dd/MM/yyyy."
+        );
+        return null;
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,148 +125,227 @@ public class TelaRelatorios extends javax.swing.JFrame {
         jBrelatorioReivindicacoes = new javax.swing.JButton();
         jBrelatorioObjetos = new javax.swing.JButton();
         jBvoltar = new javax.swing.JButton();
+        javax.swing.JPanel jPanel3 = new br.com.controller.PainelFundoAzul();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jBsairdatela = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabelDataInicial = new javax.swing.JLabel();
+        jLabelDataFinal = new javax.swing.JLabel();
+        jFTDataInicial = new javax.swing.JFormattedTextField();
+        jFTDataFinal = new javax.swing.JFormattedTextField();
+        jBFiltrarData = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabelTitulo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelTitulo.setForeground(new java.awt.Color(10, 61, 163));
         jLabelTitulo.setText("GERAÇÃO DE RELATÓRIOS");
 
+        jBrelatorioReivindicacoes.setBackground(new java.awt.Color(10, 61, 163));
+        jBrelatorioReivindicacoes.setForeground(new java.awt.Color(255, 255, 255));
         jBrelatorioReivindicacoes.setText("Relatório de reivindicações");
         jBrelatorioReivindicacoes.addActionListener(this::jBrelatorioReivindicacoesActionPerformed);
 
+        jBrelatorioObjetos.setBackground(new java.awt.Color(10, 61, 163));
+        jBrelatorioObjetos.setForeground(new java.awt.Color(255, 255, 255));
         jBrelatorioObjetos.setText("Relatório de objetos cadastrados");
         jBrelatorioObjetos.addActionListener(this::jBrelatorioObjetosActionPerformed);
 
+        jBvoltar.setBackground(new java.awt.Color(10, 61, 163));
+        jBvoltar.setForeground(new java.awt.Color(255, 255, 255));
         jBvoltar.setText("Voltar");
         jBvoltar.addActionListener(this::jBvoltarActionPerformed);
+
+        jPanel3.setBackground(new java.awt.Color(10, 61, 163));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel1.setToolTipText("");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Achados e Perdidos - Portal do Estudante");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addContainerGap(1201, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+        );
+
+        jPanel1.setBackground(new java.awt.Color(10, 61, 163));
+
+        jLabel2.setBackground(new java.awt.Color(0, 51, 204));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("      Início");
+
+        jBsairdatela.setBackground(new java.awt.Color(0, 51, 204));
+        jBsairdatela.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBsairdatela.setForeground(new java.awt.Color(255, 255, 255));
+        jBsairdatela.setText("SAIR");
+        jBsairdatela.setBorder(null);
+        jBsairdatela.addActionListener(this::jBsairdatelaActionPerformed);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBsairdatela, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
+                .addComponent(jBsairdatela)
+                .addGap(20, 20, 20))
+        );
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(10, 61, 163));
+        jLabel3.setText("Bem-Vindo(a)!");
+
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(10, 61, 163));
+        jLabel7.setText("Aqui você pode gerar relatorio de objetos cadastrados e relatorio de reivindicações");
+
+        jLabelDataInicial.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelDataInicial.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabelDataInicial.setForeground(new java.awt.Color(10, 61, 163));
+        jLabelDataInicial.setText("Data inicial:");
+
+        jLabelDataFinal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabelDataFinal.setForeground(new java.awt.Color(10, 61, 163));
+        jLabelDataFinal.setText("Data final:");
+
+        jBFiltrarData.setBackground(new java.awt.Color(10, 61, 163));
+        jBFiltrarData.setForeground(new java.awt.Color(255, 255, 255));
+        jBFiltrarData.setText("Filtrar por data");
+        jBFiltrarData.addActionListener(this::jBFiltrarDataActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addComponent(jBvoltar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(jBrelatorioObjetos))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBrelatorioReivindicacoes)
-                            .addComponent(jLabelTitulo))))
-                .addContainerGap(141, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(77, 77, 77)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(158, 158, 158)
+                                        .addComponent(jLabelTitulo))
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(267, 267, 267)
+                                .addComponent(jBrelatorioReivindicacoes))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(320, 320, 320)
+                                .addComponent(jBvoltar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(252, 252, 252)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jBrelatorioObjetos)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelDataFinal)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jFTDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabelDataInicial)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jFTDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(296, 296, 296)
+                                .addComponent(jBFiltrarData))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelTitulo)
-                .addGap(62, 62, 62)
-                .addComponent(jBrelatorioReivindicacoes)
-                .addGap(33, 33, 33)
-                .addComponent(jBrelatorioObjetos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                .addComponent(jBvoltar)
-                .addGap(61, 61, 61))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBrelatorioObjetos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBrelatorioReivindicacoes)
+                        .addGap(10, 10, 10)
+                        .addComponent(jBFiltrarData)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelDataInicial)
+                            .addComponent(jFTDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelDataFinal)
+                            .addComponent(jFTDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBvoltar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 22, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBrelatorioReivindicacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBrelatorioReivindicacoesActionPerformed
-    String[] opcoes = {
-        "Todo o período",
-        "Personalizado"
-    };
+    PeriodoRelatorio periodo = obterPeriodo();
 
-    int escolha = JOptionPane.showOptionDialog(
-            this,
-            "Selecione o período do relatório:",
-            "Período das reivindicações",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            opcoes,
-            opcoes[0]
-    );
-
-    if (escolha == -1) {
+    if (periodo == null) {
         return;
     }
 
-    PeriodoRelatorio periodo = new PeriodoRelatorio();
-
-    if (escolha == 0) {
-
-        periodo.setTodoPeriodo(true);
-
-    } else {
-
-        String dataInicial = JOptionPane.showInputDialog(
-                this, "Informe a data inicial (dd/MM/yyyy):"
-        );
-
-        if (dataInicial == null || dataInicial.trim().isEmpty()) {
-            return;
-        }
-
-        String dataFinal = JOptionPane.showInputDialog(
-                this, "Informe a data final (dd/MM/yyyy):"
-        );
-
-        if (dataFinal == null || dataFinal.trim().isEmpty()) {
-            return;
-        }
-
-        try {
-            java.time.format.DateTimeFormatter formato =
-                    java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-            periodo.setDataInicial(
-                    java.time.LocalDate.parse(dataInicial.trim(), formato)
-            );
-
-            periodo.setDataFinal(
-                    java.time.LocalDate.parse(dataFinal.trim(), formato)
-            );
-
-            if (periodo.getDataInicial().isAfter(periodo.getDataFinal())) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "A data inicial não pode ser posterior à data final."
-                );
-                return;
-            }
-
-            periodo.setTodoPeriodo(false);
-
-        } catch (java.time.format.DateTimeParseException e) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Data inválida! Utilize o formato dd/MM/yyyy."
-            );
-            return;
-        }
-    }
-
     try {
-
         ReivindicacaoController controller = new ReivindicacaoController();
 
         int solicitadas = controller.contarReivindicacoesRelatorio(periodo, null);
         int aprovadas = controller.contarReivindicacoesRelatorio(periodo, "Aprovada");
         int recusadas = controller.contarReivindicacoesRelatorio(periodo, "Recusada");
+        int pendentes = controller.contarReivindicacoesRelatorio(periodo, "Pendente");
 
         TelaResultadoRelatorio tela = new TelaResultadoRelatorio();
 
-        tela.preencherRelatorio(solicitadas, aprovadas, recusadas);
-        tela.setLocationRelativeTo(this);
+    tela.preencherRelatorio(solicitadas, aprovadas, recusadas, pendentes);
+    tela.setLocationRelativeTo(this);
         tela.setVisible(true);
 
     } catch (SQLException e) {
-
         JOptionPane.showMessageDialog(
                 this,
                 "Erro ao gerar relatório: " + e.getMessage()
@@ -187,90 +354,13 @@ public class TelaRelatorios extends javax.swing.JFrame {
     }//GEN-LAST:event_jBrelatorioReivindicacoesActionPerformed
 
     private void jBrelatorioObjetosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBrelatorioObjetosActionPerformed
-    String[] opcoes = {
-        "Todo o período",
-        "Personalizado"
-    };
+    PeriodoRelatorio periodo = obterPeriodo();
 
-    int escolha = JOptionPane.showOptionDialog(
-            this,
-            "Selecione o período do relatório:",
-            "Período dos objetos cadastrados",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            opcoes,
-            opcoes[0]
-    );
-
-    if (escolha == JOptionPane.CLOSED_OPTION) {
+    if (periodo == null) {
         return;
     }
 
-    PeriodoRelatorio periodo = new PeriodoRelatorio();
-
-    if (escolha == 0) {
-
-        periodo.setTodoPeriodo(true);
-
-    } else if (escolha == 1) {
-
-        String dataInicial = JOptionPane.showInputDialog(
-                this,
-                "Informe a data inicial (dd/MM/yyyy):"
-        );
-
-        if (dataInicial == null || dataInicial.trim().isEmpty()) {
-            return;
-        }
-
-        String dataFinal = JOptionPane.showInputDialog(
-                this,
-                "Informe a data final (dd/MM/yyyy):"
-        );
-
-        if (dataFinal == null || dataFinal.trim().isEmpty()) {
-            return;
-        }
-
-        try {
-
-            java.time.format.DateTimeFormatter formato =
-                    java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-            periodo.setDataInicial(
-                    java.time.LocalDate.parse(dataInicial.trim(), formato)
-            );
-
-            periodo.setDataFinal(
-                    java.time.LocalDate.parse(dataFinal.trim(), formato)
-            );
-
-            if (periodo.getDataInicial().isAfter(periodo.getDataFinal())) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "A data inicial não pode ser posterior à data final."
-                );
-
-                return;
-            }
-
-            periodo.setTodoPeriodo(false);
-
-        } catch (java.time.format.DateTimeParseException e) {
-
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Data inválida! Utilize o formato dd/MM/yyyy."
-            );
-
-            return;
-        }
-    }
-
     try {
-
         ObjetoController controller = new ObjetoController();
 
         int total = controller.contarObjetosRelatorio(periodo);
@@ -291,8 +381,7 @@ public class TelaRelatorios extends javax.swing.JFrame {
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
 
-    } catch (java.sql.SQLException e) {
-
+    } catch (SQLException e) {
         JOptionPane.showMessageDialog(
                 this,
                 "Erro ao gerar relatório: " + e.getMessage()
@@ -303,6 +392,34 @@ public class TelaRelatorios extends javax.swing.JFrame {
     private void jBvoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBvoltarActionPerformed
     this.dispose();
     }//GEN-LAST:event_jBvoltarActionPerformed
+
+    private void jBsairdatelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsairdatelaActionPerformed
+     int resposta = javax.swing.JOptionPane.showConfirmDialog(
+    this,
+    "Deseja realmente sair do sistema?",
+    "Confirmar saída",
+    javax.swing.JOptionPane.YES_NO_OPTION
+    );
+
+    if (resposta == javax.swing.JOptionPane.YES_OPTION) {
+    System.exit(0);
+    }    }//GEN-LAST:event_jBsairdatelaActionPerformed
+
+    private void jBFiltrarDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFiltrarDataActionPerformed
+
+    boolean mostrar = !jFTDataInicial.isVisible();
+
+    jLabelDataInicial.setVisible(mostrar);
+    jLabelDataFinal.setVisible(mostrar);
+    jFTDataInicial.setVisible(mostrar);
+    jFTDataFinal.setVisible(mostrar);
+
+    jBFiltrarData.setText(
+            mostrar ? "Ocultar filtro de data" : "Filtrar por data"
+    );
+
+    pack();
+    }//GEN-LAST:event_jBFiltrarDataActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,9 +447,21 @@ public class TelaRelatorios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBFiltrarData;
     private javax.swing.JButton jBrelatorioObjetos;
     private javax.swing.JButton jBrelatorioReivindicacoes;
+    private javax.swing.JButton jBsairdatela;
     private javax.swing.JButton jBvoltar;
+    private javax.swing.JFormattedTextField jFTDataFinal;
+    private javax.swing.JFormattedTextField jFTDataInicial;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabelDataFinal;
+    private javax.swing.JLabel jLabelDataInicial;
     private javax.swing.JLabel jLabelTitulo;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

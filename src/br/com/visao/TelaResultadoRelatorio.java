@@ -15,10 +15,42 @@ public class TelaResultadoRelatorio extends javax.swing.JFrame {
     /**
      * Creates new form TelaResultadoRelatorio
      */
-    public TelaResultadoRelatorio() {
-        initComponents();
-    }
+public TelaResultadoRelatorio() {
+    initComponents();
 
+    configurarBarra(jProgressAprovadas, new java.awt.Color(0, 153, 0));
+    configurarBarra(jProgressRecusadas, new java.awt.Color(220, 53, 69));
+    configurarBarra(jProgressPendentes, new java.awt.Color(255, 165, 0));
+}
+
+private void configurarBarra(javax.swing.JProgressBar barra, java.awt.Color cor) {
+    barra.setUI(new javax.swing.plaf.basic.BasicProgressBarUI() {
+        @Override
+        protected void paintString(java.awt.Graphics g, int x, int y,
+                int width, int height, int amountFull, java.awt.Insets b) {
+            g.setColor(java.awt.Color.BLACK);
+            super.paintString(g, x, y, width, height, amountFull, b);
+        }
+    });
+
+    barra.setForeground(cor);
+    barra.setStringPainted(true);
+}
+private void configurarBarra(
+        javax.swing.JProgressBar barra,
+        int quantidade,
+        int total) {
+
+    int porcentagem = total > 0
+        ? (int) Math.round((quantidade * 100.0) / total)
+        : 0;
+
+    barra.setMinimum(0);
+    barra.setMaximum(100);
+    barra.setValue(porcentagem);
+    barra.setStringPainted(true);
+    barra.setString(porcentagem + "%");
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,23 +61,150 @@ public class TelaResultadoRelatorio extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabelTitulo = new javax.swing.JLabel();
-        jLabelSolicitadas = new javax.swing.JLabel();
-        jLabelAprovadas = new javax.swing.JLabel();
-        jLabelRecusadas = new javax.swing.JLabel();
         jBvoltar = new javax.swing.JButton();
+        jPanel3 = new br.com.controller.PainelFundoAzul();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabelSolicitadas = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabelAprovadas = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabelRecusadas = new javax.swing.JLabel();
+        jProgressAprovadas = new javax.swing.JProgressBar();
+        jProgressRecusadas = new javax.swing.JProgressBar();
+        jProgressPendentes = new javax.swing.JProgressBar();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabelTitulo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelTitulo.setForeground(new java.awt.Color(10, 61, 163));
         jLabelTitulo.setText("RELATÓRIO DE REIVINDICAÇÕES");
 
-        jLabelSolicitadas.setText("TOTAL DE REIVINDICAÇÕES SOLICITADAS: 0");
-
-        jLabelAprovadas.setText("TOTAL DE REIVINDICAÇÕES APROVADAS: 0");
-
-        jLabelRecusadas.setText("TOTAL DE REIVINDICAÇÕES RECUSADAS: 0");
-
+        jBvoltar.setBackground(new java.awt.Color(10, 61, 163));
+        jBvoltar.setForeground(new java.awt.Color(255, 255, 255));
         jBvoltar.setText("Voltar");
         jBvoltar.addActionListener(this::jBvoltarActionPerformed);
+
+        jPanel3.setBackground(new java.awt.Color(10, 61, 163));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel3.setToolTipText("");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Achados e Perdidos - Portal do Estudante");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addContainerGap(1006, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        jPanel1.setBackground(new java.awt.Color(10, 61, 163));
+
+        jLabelSolicitadas.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSolicitadas.setText("TOTAL DE REIVINDICAÇÕES SOLICITADAS: 0");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabelSolicitadas)
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jLabelSolicitadas)
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBackground(new java.awt.Color(102, 255, 102));
+
+        jLabelAprovadas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabelAprovadas.setText("TOTAL DE REIVINDICAÇÕES APROVADAS: 0");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabelAprovadas)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabelAprovadas)
+                .addContainerGap(46, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(255, 153, 153));
+
+        jLabelRecusadas.setBackground(new java.awt.Color(0, 153, 153));
+        jLabelRecusadas.setText("TOTAL DE REIVINDICAÇÕES RECUSADAS: 0");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(jLabelRecusadas)
+                .addContainerGap(76, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addComponent(jLabelRecusadas)
+                .addGap(35, 35, 35))
+        );
+
+        jProgressAprovadas.setForeground(new java.awt.Color(51, 255, 51));
+
+        jProgressRecusadas.setForeground(new java.awt.Color(255, 0, 51));
+
+        jProgressPendentes.setForeground(new java.awt.Color(255, 102, 0));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(10, 61, 163));
+        jLabel1.setText("Aprovadas");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(10, 61, 163));
+        jLabel2.setText("Recusadas");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(10, 61, 163));
+        jLabel5.setText("Pendentes");
+        jLabel5.setToolTipText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -53,37 +212,62 @@ public class TelaResultadoRelatorio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabelSolicitadas))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(107, 107, 107)
+                        .addGap(266, 266, 266)
                         .addComponent(jLabelTitulo))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(160, 160, 160)
+                        .addGap(41, 41, 41)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(314, 314, 314)
                         .addComponent(jBvoltar))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabelRecusadas))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabelAprovadas)))
-                .addContainerGap(121, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jProgressAprovadas, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                            .addComponent(jProgressRecusadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jProgressPendentes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelTitulo)
-                .addGap(32, 32, 32)
-                .addComponent(jLabelSolicitadas)
-                .addGap(34, 34, 34)
-                .addComponent(jLabelAprovadas)
-                .addGap(34, 34, 34)
-                .addComponent(jLabelRecusadas)
-                .addGap(28, 28, 28)
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jProgressAprovadas, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jProgressRecusadas, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jProgressPendentes, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jBvoltar)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         pack();
@@ -118,7 +302,8 @@ public class TelaResultadoRelatorio extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new TelaResultadoRelatorio().setVisible(true));
     }
     
-public void preencherRelatorio(int solicitadas, int aprovadas, int recusadas) {
+public void preencherRelatorio(int solicitadas, int aprovadas, int recusadas, int pendentes) {
+
     jLabelSolicitadas.setText(
             "TOTAL DE REIVINDICAÇÕES SOLICITADAS: " + solicitadas
     );
@@ -130,12 +315,28 @@ public void preencherRelatorio(int solicitadas, int aprovadas, int recusadas) {
     jLabelRecusadas.setText(
             "TOTAL DE REIVINDICAÇÕES RECUSADAS: " + recusadas
     );
+
+    configurarBarra(jProgressAprovadas, aprovadas, solicitadas);
+    configurarBarra(jProgressRecusadas, recusadas, solicitadas);
+    configurarBarra(jProgressPendentes, pendentes, solicitadas);
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBvoltar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelAprovadas;
     private javax.swing.JLabel jLabelRecusadas;
     private javax.swing.JLabel jLabelSolicitadas;
     private javax.swing.JLabel jLabelTitulo;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JProgressBar jProgressAprovadas;
+    private javax.swing.JProgressBar jProgressPendentes;
+    private javax.swing.JProgressBar jProgressRecusadas;
     // End of variables declaration//GEN-END:variables
 }
