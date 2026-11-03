@@ -4,6 +4,12 @@
  */
 package br.com.visao;
 
+import br.com.controller.ObjetoController;
+import br.com.controller.PeriodoRelatorio;
+import br.com.controller.ReivindicacaoController;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author migue
@@ -21,6 +27,63 @@ public class EscolherRelatorio extends javax.swing.JFrame {
          setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
+    private PeriodoRelatorio obterPeriodo() {
+
+    PeriodoRelatorio periodo = new PeriodoRelatorio();
+
+    String dataInicial = jFTDataInicial.getText().trim();
+    String dataFinal = jFTDataFinal.getText().trim();
+
+    boolean inicialVazia = dataInicial.replace("/", "").isBlank();
+    boolean finalVazia = dataFinal.replace("/", "").isBlank();
+
+    // As duas datas vazias: todo o período
+    if (inicialVazia && finalVazia) {
+        periodo.setTodoPeriodo(true);
+        return periodo;
+    }
+
+    // Apenas uma data preenchida
+    if (inicialVazia || finalVazia) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Preencha as duas datas ou deixe ambas vazias para todo o período."
+        );
+        return null;
+    }
+
+    try {
+        java.time.format.DateTimeFormatter formato =
+                java.time.format.DateTimeFormatter.ofPattern("dd/MM/uuuu")
+                        .withResolverStyle(java.time.format.ResolverStyle.STRICT);
+
+        periodo.setDataInicial(
+                java.time.LocalDate.parse(dataInicial, formato)
+        );
+
+        periodo.setDataFinal(
+                java.time.LocalDate.parse(dataFinal, formato)
+        );
+
+        if (periodo.getDataInicial().isAfter(periodo.getDataFinal())) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "A data inicial não pode ser posterior à data final."
+            );
+            return null;
+        }
+
+        periodo.setTodoPeriodo(false);
+        return periodo;
+
+    } catch (java.time.format.DateTimeParseException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Informe datas válidas no formato dd/MM/yyyy."
+        );
+        return null;
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,12 +104,10 @@ public class EscolherRelatorio extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jCcategoria = new javax.swing.JComboBox<>();
-        jFdepois_de = new javax.swing.JFormattedTextField();
-        jFantes_de = new javax.swing.JFormattedTextField();
+        jFTDataInicial = new javax.swing.JFormattedTextField();
+        jFTDataFinal = new javax.swing.JFormattedTextField();
         jLabel9 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
+        jTgerar_relatorio = new javax.swing.JToggleButton();
         javax.swing.JPanel jPanel3 = new br.com.controller.PainelFundoAzul();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -111,37 +172,24 @@ public class EscolherRelatorio extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(4, 120, 203));
         jLabel8.setText("Antes de:");
 
-        jCcategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionar tipo de relatório", "Relatório completo", "Relatório de Objetos encontrados", "Relatório de Reivindicações", "Relatório de Devoluções" }));
+        jCcategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionar tipo de relatório", "Relatório de Objetos encontrados", "Relatório de Reivindicações" }));
         jCcategoria.addActionListener(this::jCcategoriaActionPerformed);
 
-        jFdepois_de.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jFdepois_de.setText(" dd/mm/yy");
-        jFdepois_de.addActionListener(this::jFdepois_deActionPerformed);
+        jFTDataInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        jFTDataInicial.addActionListener(this::jFTDataInicialActionPerformed);
 
-        jFantes_de.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jFantes_de.setText(" dd/mm/yy");
-        jFantes_de.addActionListener(this::jFantes_deActionPerformed);
+        jFTDataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        jFTDataFinal.addActionListener(this::jFTDataFinalActionPerformed);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(4, 90, 203));
         jLabel9.setText("Escolha o tipo do relatório");
 
-        jToggleButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jToggleButton1.setForeground(new java.awt.Color(4, 90, 203));
-        jToggleButton1.setText("Imprimir");
-        jToggleButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(4, 90, 203)));
-        jToggleButton1.addActionListener(this::jToggleButton1ActionPerformed);
-
-        jToggleButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jToggleButton2.setForeground(new java.awt.Color(4, 90, 203));
-        jToggleButton2.setText("Gerar PDF");
-        jToggleButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(4, 90, 203)));
-
-        jToggleButton3.setBackground(new java.awt.Color(4, 90, 203));
-        jToggleButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jToggleButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton3.setText("Gerar Relatório");
-        jToggleButton3.addActionListener(this::jToggleButton3ActionPerformed);
+        jTgerar_relatorio.setBackground(new java.awt.Color(4, 90, 203));
+        jTgerar_relatorio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTgerar_relatorio.setForeground(new java.awt.Color(255, 255, 255));
+        jTgerar_relatorio.setText("Gerar Relatório");
+        jTgerar_relatorio.addActionListener(this::jTgerar_relatorioActionPerformed);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -158,19 +206,15 @@ public class EscolherRelatorio extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFdepois_de, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jFTDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(68, 68, 68)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFantes_de, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFTDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 722, Short.MAX_VALUE))))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jToggleButton3)
+                .addComponent(jTgerar_relatorio)
                 .addGap(15, 15, 15))
         );
         jPanel5Layout.setVerticalGroup(
@@ -185,18 +229,15 @@ public class EscolherRelatorio extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFantes_de, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jFTDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFdepois_de, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jFTDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(75, 179, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTgerar_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -356,16 +397,16 @@ public class EscolherRelatorio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCcategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCcategoriaActionPerformed
-        buscar();
+       
     }//GEN-LAST:event_jCcategoriaActionPerformed
 
-    private void jFdepois_deActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFdepois_deActionPerformed
-        buscar();
-    }//GEN-LAST:event_jFdepois_deActionPerformed
+    private void jFTDataInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFTDataInicialActionPerformed
+       
+    }//GEN-LAST:event_jFTDataInicialActionPerformed
 
-    private void jFantes_deActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFantes_deActionPerformed
-        buscar();
-    }//GEN-LAST:event_jFantes_deActionPerformed
+    private void jFTDataFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFTDataFinalActionPerformed
+    
+    }//GEN-LAST:event_jFTDataFinalActionPerformed
 
     private void jBcadastrarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBcadastrarOBActionPerformed
         // TODO add your handling code here:
@@ -411,13 +452,65 @@ public class EscolherRelatorio extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jBinicioActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void jTgerar_relatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTgerar_relatorioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+        
+        
+        try {
+            
+         String opcao = jCcategoria.getSelectedItem().toString();
+        
+            switch (opcao) {
+                case "Relatório de Objetos encontrados":
+                    {
+                        PeriodoRelatorio periodo = obterPeriodo();
+                        if (periodo == null) JOptionPane.showMessageDialog(this, "Escolha um periodo para o relatório");
+                        ObjetoController controller = new ObjetoController();
+                        int total = controller.contarObjetosRelatorio(periodo);
+                        java.util.Map<String, Integer> categorias =
+                                controller.contarObjetosPorCategoriaRelatorio(periodo);
+                        java.util.Map<String, Integer> campus =
+                                controller.contarObjetosPorCampusRelatorio(periodo);
+                        java.util.Map<String, Integer> meses =
+                                controller.contarObjetosPorMesRelatorio(periodo);
+                        TelaResultadoRelatorioObjetos tela =
+                                new TelaResultadoRelatorioObjetos();
+                        tela.preencherRelatorio(total, categorias, campus, meses);
+                        tela.setLocationRelativeTo(this);
+                        tela.setVisible(true);
+                        break;
+                    }
+                case "Relatório de Reivindicações":
+                    {
+                        PeriodoRelatorio periodo = obterPeriodo();
+                        if (periodo == null) {
+                            return;
+                        }               ReivindicacaoController controller = new ReivindicacaoController();
+                        int solicitadas = controller.contarReivindicacoesRelatorio(periodo, null);
+                        int aprovadas = controller.contarReivindicacoesRelatorio(periodo, "Aprovada");
+                        int recusadas = controller.contarReivindicacoesRelatorio(periodo, "Recusada");
+                        int pendentes = controller.contarReivindicacoesRelatorio(periodo, "Pendente");
+                        TelaResultadoRelatorio tela = new TelaResultadoRelatorio();
+                        tela.preencherRelatorio(solicitadas, aprovadas, recusadas, pendentes);
+                        tela.setLocationRelativeTo(this);
+                        tela.setVisible(true);
+                        break;
+                    }
+                case "Selecionar tipo de relatório":
+                    JOptionPane.showMessageDialog(this, "Escolha uma opção de relatório!!");
+                    break;
+                default:
+                    break;
+            }
 
-    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton3ActionPerformed
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao gerar relatório: " + e.getMessage()
+        );
+    }
+        
+    }//GEN-LAST:event_jTgerar_relatorioActionPerformed
 
     private void jBdevolucoes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdevolucoes1ActionPerformed
         // TODO add your handling code here:
@@ -456,8 +549,8 @@ public class EscolherRelatorio extends javax.swing.JFrame {
     private javax.swing.JButton jBreivindicacoes;
     private javax.swing.JButton jBsairTelaPrin;
     private javax.swing.JComboBox<String> jCcategoria;
-    private javax.swing.JFormattedTextField jFantes_de;
-    private javax.swing.JFormattedTextField jFdepois_de;
+    private javax.swing.JFormattedTextField jFTDataFinal;
+    private javax.swing.JFormattedTextField jFTDataInicial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
@@ -474,8 +567,9 @@ public class EscolherRelatorio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPtotal;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JToggleButton jTgerar_relatorio;
     // End of variables declaration//GEN-END:variables
+
 }
+
+ 

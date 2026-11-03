@@ -344,6 +344,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="jFTDataInicial">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFTDataInicialActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="jFTDataFinal">
     </Component>

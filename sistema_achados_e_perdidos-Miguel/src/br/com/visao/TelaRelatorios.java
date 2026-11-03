@@ -241,6 +241,8 @@ private PeriodoRelatorio obterPeriodo() {
         jLabelDataFinal.setForeground(new java.awt.Color(10, 61, 163));
         jLabelDataFinal.setText("Data final:");
 
+        jFTDataInicial.addActionListener(this::jFTDataInicialActionPerformed);
+
         jBFiltrarData.setBackground(new java.awt.Color(10, 61, 163));
         jBFiltrarData.setForeground(new java.awt.Color(255, 255, 255));
         jBFiltrarData.setText("Filtrar por data");
@@ -420,6 +422,10 @@ private PeriodoRelatorio obterPeriodo() {
 
     pack();
     }//GEN-LAST:event_jBFiltrarDataActionPerformed
+
+    private void jFTDataInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFTDataInicialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFTDataInicialActionPerformed
 
     /**
      * @param args the command line arguments

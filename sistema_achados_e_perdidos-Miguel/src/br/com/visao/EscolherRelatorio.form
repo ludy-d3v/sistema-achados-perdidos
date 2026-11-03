@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -169,11 +169,11 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel7" min="-2" pref="120" max="-2" attributes="0"/>
-                                      <Component id="jFdepois_de" min="-2" pref="195" max="-2" attributes="0"/>
+                                      <Component id="jFTDataInicial" min="-2" pref="195" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jFantes_de" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
+                                      <Component id="jFTDataFinal" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
                                       <Component id="jLabel8" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="722" max="32767" attributes="0"/>
@@ -182,11 +182,7 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jToggleButton2" min="-2" pref="104" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jToggleButton1" min="-2" pref="104" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jToggleButton3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTgerar_relatorio" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -203,23 +199,19 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jFantes_de" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="jFTDataFinal" min="-2" pref="31" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jFdepois_de" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="jFTDataInicial" min="-2" pref="31" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="75" pref="179" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jToggleButton3" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
-                              <Component id="jToggleButton1" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
-                              <Component id="jToggleButton2" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jTgerar_relatorio" min="-2" pref="41" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -251,12 +243,10 @@
                 <Component class="javax.swing.JComboBox" name="jCcategoria">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="5">
+                      <StringArray count="3">
                         <StringItem index="0" value="Selecionar tipo de relat&#xf3;rio"/>
-                        <StringItem index="1" value="Relat&#xf3;rio completo"/>
-                        <StringItem index="2" value="Relat&#xf3;rio de Objetos encontrados"/>
-                        <StringItem index="3" value="Relat&#xf3;rio de Reivindica&#xe7;&#xf5;es"/>
-                        <StringItem index="4" value="Relat&#xf3;rio de Devolu&#xe7;&#xf5;es"/>
+                        <StringItem index="1" value="Relat&#xf3;rio de Objetos encontrados"/>
+                        <StringItem index="2" value="Relat&#xf3;rio de Reivindica&#xe7;&#xf5;es"/>
                       </StringArray>
                     </Property>
                   </Properties>
@@ -267,26 +257,24 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="jFdepois_de">
+                <Component class="javax.swing.JFormattedTextField" name="jFTDataInicial">
                   <Properties>
                     <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
                       <Format subtype="1" type="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value=" dd/mm/yy"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFdepois_deActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFTDataInicialActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JFormattedTextField" name="jFantes_de">
+                <Component class="javax.swing.JFormattedTextField" name="jFTDataFinal">
                   <Properties>
                     <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
                       <Format subtype="1" type="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value=" dd/mm/yy"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFantes_deActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFTDataFinalActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel9">
@@ -300,46 +288,7 @@
                     <Property name="text" type="java.lang.String" value="Escolha o tipo do relat&#xf3;rio"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JToggleButton" name="jToggleButton1">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="12" style="1"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="cb" green="5a" red="4" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Imprimir"/>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder>
-                          <Color PropertyName="color" blue="cb" green="5a" red="4" type="rgb"/>
-                        </LineBorder>
-                      </Border>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JToggleButton" name="jToggleButton2">
-                  <Properties>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Segoe UI" size="12" style="1"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="cb" green="5a" red="4" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Gerar PDF"/>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder>
-                          <Color PropertyName="color" blue="cb" green="5a" red="4" type="rgb"/>
-                        </LineBorder>
-                      </Border>
-                    </Property>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JToggleButton" name="jToggleButton3">
+                <Component class="javax.swing.JToggleButton" name="jTgerar_relatorio">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cb" green="5a" red="4" type="rgb"/>
@@ -353,7 +302,7 @@
                     <Property name="text" type="java.lang.String" value="Gerar Relat&#xf3;rio"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton3ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTgerar_relatorioActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

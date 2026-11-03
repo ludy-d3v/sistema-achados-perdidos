@@ -144,4 +144,7 @@ public class DAODevolucoes extends DAO{
     }
 }
 
+    public int contarDevolucoesPorRetirante(int idRetirante) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
