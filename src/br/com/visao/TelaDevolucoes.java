@@ -647,7 +647,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         ca.buscarIdReivindicacao(r, d);
             
 
-         jTmatricula.setText(r.getMatricula());
+         jTmatricula.setText(r.getDocumento_identificacao());
          jTassinatura.setText(r.getNome_aluno());
           
           
