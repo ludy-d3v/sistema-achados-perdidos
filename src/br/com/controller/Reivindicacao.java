@@ -88,14 +88,6 @@ public class Reivindicacao {
         this.documento_identificacao = documento_identificacao;
     }
 
-    public void setMatricula(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
-    public String getMatricula() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    
-    
+
 }

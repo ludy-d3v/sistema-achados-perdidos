@@ -5,20 +5,74 @@
 package br.com.visao;
 
 import java.awt.Color;
+import br.com.controller.Reivindicacao;
+import br.com.entidade.ReivindicacaoEntity;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.RowFilter;
+import java.sql.SQLException;
+import br.com.controller.ReivindicacaoController;
 
 /**
  *
  * @author migue
  */
 public class TelaReivindicacoes extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaReivindicacoes.class.getName());
 
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaReivindicacoes.class.getName());
+    private TableRowSorter<DefaultTableModel> ordenador;
     /**
      * Creates new form RelaReivindicacoes
      */
+private void carregarReivindicacoes() {
+    DefaultTableModel modelo = new DefaultTableModel(
+        new Object[][]{},
+        new String[]{
+            "ID", "Data", "Status", "Observação",
+            "ID Objeto", "ID Retirante", "Nome do aluno", "Documento"
+        }
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    try {
+        ReivindicacaoEntity entidade = new ReivindicacaoEntity();
+
+        List<Reivindicacao> lista = entidade.consultarReivindicacoes();
+
+        for (Reivindicacao r : lista) {
+            modelo.addRow(new Object[]{
+                r.getIdreivindicacao(),
+                r.getData_reivindicacao(),
+                r.getStatus_reivindicacao(),
+                r.getObservacao(),
+                r.getId_objeto(),
+                r.getId_retirante(),
+                r.getNome_aluno(),
+                r.getDocumento_identificacao()
+            });
+        }
+
+    } catch (SQLException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Erro ao consultar reivindicações: " + e.getMessage()
+        );
+    }
+
+    jTabresult.setModel(modelo);
+
+    ordenador = new TableRowSorter<>(modelo);
+    jTabresult.setRowSorter(ordenador);
+}
+
     public TelaReivindicacoes() {
         initComponents();
+        carregarReivindicacoes();
         // o botão "Consultar objetos" não tinha evento no designer
         jBconsultarOB.addActionListener(evt -> {
             ConsultarObjeto tela = new ConsultarObjeto();
@@ -30,6 +84,7 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
         jTabresult.setSelectionForeground(Color.BLACK);
 
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+
     }
 
     /**
@@ -60,6 +115,8 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jBpesq = new javax.swing.JButton();
         jTpesq_obj = new javax.swing.JTextField();
+        jBaprovar = new javax.swing.JButton();
+        jBrecusar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -255,6 +312,20 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
         jPtotal.add(jTpesq_obj);
         jTpesq_obj.setBounds(220, 230, 550, 30);
 
+        jBaprovar.setBackground(new java.awt.Color(4, 120, 203));
+        jBaprovar.setForeground(new java.awt.Color(255, 255, 255));
+        jBaprovar.setText("Aprovar");
+        jBaprovar.addActionListener(this::jBaprovarActionPerformed);
+        jPtotal.add(jBaprovar);
+        jBaprovar.setBounds(1040, 230, 80, 30);
+
+        jBrecusar.setBackground(new java.awt.Color(4, 120, 203));
+        jBrecusar.setForeground(new java.awt.Color(255, 255, 255));
+        jBrecusar.setText("Recusar");
+        jBrecusar.addActionListener(this::jBrecusarActionPerformed);
+        jPtotal.add(jBrecusar);
+        jBrecusar.setBounds(1150, 230, 90, 30);
+
         jPanel1.setBackground(new java.awt.Color(243, 246, 249));
         jPanel1.setLayout(null);
 
@@ -321,11 +392,21 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
     }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jBpesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBpesqActionPerformed
-        // TODO add your handling code here:
+    String pesquisa = jTpesq_obj.getText().trim();
+
+    if (pesquisa.isEmpty()) {
+        ordenador.setRowFilter(null);
+    } else {
+        ordenador.setRowFilter(
+            RowFilter.regexFilter(
+                "(?i)" + java.util.regex.Pattern.quote(pesquisa)
+            )
+        );
+    }
     }//GEN-LAST:event_jBpesqActionPerformed
 
     private void jTpesq_objActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTpesq_objActionPerformed
-        // TODO add your handling code here:
+    jBpesqActionPerformed(evt);
     }//GEN-LAST:event_jTpesq_objActionPerformed
 
     private void jBcadastrarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBcadastrarOBActionPerformed
@@ -338,7 +419,7 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
 
     private void jBconsultarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBconsultarOBActionPerformed
         // TODO add your handling code here:
-        
+
         ConsultarObjeto tela = new ConsultarObjeto();
         tela.setLocationRelativeTo(this);
         tela.setVisible(true);
@@ -353,6 +434,106 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jBgerar_relatorioActionPerformed
 
+    private void jBaprovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBaprovarActionPerformed
+int linhaSelecionada = jTabresult.getSelectedRow();
+
+if (linhaSelecionada == -1) {
+    javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Selecione uma reivindicação para aprovar."
+    );
+    return;
+}
+
+int linhaModelo = jTabresult.convertRowIndexToModel(linhaSelecionada);
+
+int idReivindicacao = (int) jTabresult.getModel()
+        .getValueAt(linhaModelo, 0);
+
+int confirmacao = javax.swing.JOptionPane.showConfirmDialog(
+        this,
+        "Deseja aprovar esta reivindicação?",
+        "Confirmar aprovação",
+        javax.swing.JOptionPane.YES_NO_OPTION
+);
+
+if (confirmacao == javax.swing.JOptionPane.YES_OPTION) {
+    try {
+        ReivindicacaoController controller = new ReivindicacaoController();
+
+        boolean atualizado = controller.atualizarStatus(
+                idReivindicacao, "Aprovada"
+        );
+
+        if (atualizado) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Reivindicação aprovada com sucesso!"
+            );
+            carregarReivindicacoes();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Esta reivindicação não está mais pendente."
+            );
+        }
+
+    } catch (SQLException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this, "Erro ao aprovar reivindicação: " + e.getMessage()
+        );
+    }
+}
+    }//GEN-LAST:event_jBaprovarActionPerformed
+
+    private void jBrecusarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBrecusarActionPerformed
+int linhaSelecionada = jTabresult.getSelectedRow();
+
+if (linhaSelecionada == -1) {
+    javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Selecione uma reivindicação para recusar."
+    );
+    return;
+}
+
+int linhaModelo = jTabresult.convertRowIndexToModel(linhaSelecionada);
+
+int idReivindicacao = (int) jTabresult.getModel()
+        .getValueAt(linhaModelo, 0);
+
+int confirmacao = javax.swing.JOptionPane.showConfirmDialog(
+        this,
+        "Deseja recusar esta reivindicação?",
+        "Confirmar recusa",
+        javax.swing.JOptionPane.YES_NO_OPTION
+);
+
+if (confirmacao == javax.swing.JOptionPane.YES_OPTION) {
+    try {
+        ReivindicacaoController controller = new ReivindicacaoController();
+
+        boolean atualizado = controller.atualizarStatus(
+                idReivindicacao, "Recusada"
+        );
+
+        if (atualizado) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Reivindicação recusada com sucesso!"
+            );
+            carregarReivindicacoes();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this, "Esta reivindicação não está mais pendente."
+            );
+        }
+
+    } catch (SQLException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+                this, "Erro ao recusar reivindicação: " + e.getMessage()
+        );
+    }
+}
+    }//GEN-LAST:event_jBrecusarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -360,7 +541,7 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -379,12 +560,14 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBaprovar;
     private javax.swing.JButton jBcadastrarOB;
     private javax.swing.JButton jBconsultarOB;
     private javax.swing.JButton jBdevolucoes;
     private javax.swing.JButton jBgerar_relatorio;
     private javax.swing.JButton jBinicio;
     private javax.swing.JButton jBpesq;
+    private javax.swing.JButton jBrecusar;
     private javax.swing.JButton jBsairTelaPrin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

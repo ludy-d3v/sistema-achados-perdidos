@@ -83,7 +83,7 @@ public class DAODevolucoes extends DAO{
 
             // Dados do Retirante, vindos do JOIN
             r.setNome_aluno(dao.rs.getString("Nome_Completo"));
-            r.setMatricula(dao.rs.getString("Documento_Identificacao"));
+            r.setDocumento_identificacao(dao.rs.getString("Documento_Identificacao"));
 
             // Busca os dados do objeto
             d.setIdobj(r.getId_objeto());
