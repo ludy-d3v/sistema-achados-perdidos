@@ -56,7 +56,12 @@ public class TelaPrincipal_Alunos extends javax.swing.JFrame {
 
             DefaultTableModel modelo = new DefaultTableModel(
                     new String[]{"ID", "Descrição", "Categoria", "Campus", "Status", "Data do achado"}, 0
-            );
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
 
             for (ObjetoResumo objeto : objetos) {
                 modelo.addRow(new Object[]{

@@ -16,7 +16,7 @@ import javax.swing.ImageIcon;
  * @author lucas
  */
 public class LoginView extends javax.swing.JFrame {
-    
+
 private final LoginController controller = new LoginController();
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginView.class.getName());
@@ -26,7 +26,7 @@ private final LoginController controller = new LoginController();
      */
     public LoginView() {
         initComponents();
-        
+
         Image imagemFundo = ((ImageIcon) jLfundo.getIcon()).getImage();
 
 getContentPane().addComponentListener(
@@ -51,7 +51,7 @@ getContentPane().addComponentListener(
 );
 
 setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        
+
     }
 
     /**
@@ -71,22 +71,35 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         jLtitulo1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jLabel5 = new javax.swing.JLabel();
         jLfundo = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new Color(255, 255, 255, 170)
         );
+        jPanel1.setLayout(null);
 
-        jLtitulo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLtitulo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLtitulo.setForeground(new java.awt.Color(10, 61, 163));
         jLtitulo.setText("SEJA BEM VINDO!");
+        jPanel1.add(jLtitulo);
+        jLtitulo.setBounds(70, 30, 160, 34);
 
+        jBenviarsenha.setBackground(new java.awt.Color(4, 90, 203));
+        jBenviarsenha.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBenviarsenha.setForeground(new java.awt.Color(255, 255, 255));
         jBenviarsenha.setText("ACESSAR");
         jBenviarsenha.addActionListener(this::jBenviarsenhaActionPerformed);
+        jPanel1.add(jBenviarsenha);
+        jBenviarsenha.setBounds(100, 240, 84, 34);
 
         jTSenha.addActionListener(this::jTSenhaActionPerformed);
+        jPanel1.add(jTSenha);
+        jTSenha.setBounds(40, 200, 217, 28);
 
         jTLogin.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -94,60 +107,46 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
             }
         });
         jTLogin.addActionListener(this::jTLoginActionPerformed);
+        jPanel1.add(jTLogin);
+        jTLogin.setBounds(40, 130, 217, 26);
 
         jLtitulo1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLtitulo1.setForeground(new java.awt.Color(4, 90, 203));
         jLtitulo1.setText("ACHADOS E PERDIDOS");
+        jLtitulo1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLtitulo1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel1.add(jLtitulo1);
+        jLtitulo1.setBounds(70, 60, 190, 34);
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(4, 90, 203));
         jLabel2.setText("Email institucional:");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(40, 110, 120, 16);
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(4, 90, 203));
         jLabel3.setText("Senha:");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(40, 180, 37, 16);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(jLtitulo)))
-                .addContainerGap(36, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jBenviarsenha, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(102, 102, 102))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLtitulo1)
-                        .addGap(64, 64, 64))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLtitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLtitulo1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(jBenviarsenha, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jLabel4.setText("Não possui cadastro?");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(50, 290, 120, 16);
+
+        jToggleButton2.setForeground(new java.awt.Color(51, 51, 255));
+        jToggleButton2.setText("Entrar");
+        jToggleButton2.setBorder(null);
+        jToggleButton2.setContentAreaFilled(false);
+        jToggleButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jToggleButton2.addActionListener(this::jToggleButton2ActionPerformed);
+        jPanel1.add(jToggleButton2);
+        jToggleButton2.setBounds(170, 290, 31, 16);
+
+        jLabel5.setBackground(new java.awt.Color(153, 204, 255));
+        jLabel5.setOpaque(true);
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(60, 60, 170, 3);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(610, 210, 290, 330);
@@ -155,8 +154,6 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         jLfundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Universidade Católica de Brasília ao Entardecer.png"))); // NOI18N
         getContentPane().add(jLfundo);
         jLfundo.setBounds(0, 0, 1390, 620);
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(280, 100, 37, 20);
 
         pack();
         setLocationRelativeTo(null);
@@ -164,7 +161,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
     private void jTLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTLoginActionPerformed
         // TODO add your handling code here:
-    
+
     }//GEN-LAST:event_jTLoginActionPerformed
 
     private void jTSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTSenhaActionPerformed
@@ -174,7 +171,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     private void jBenviarsenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBenviarsenhaActionPerformed
     String usuario = jTLogin.getText();
     String senha = jTSenha.getText();
-    
+
     controller.setUsuario(usuario);
     controller.setSenha(senha);
 
@@ -184,8 +181,8 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
                 this,
                 "Login realizado com sucesso!"
             );
-            
-            
+
+
             if (SessaoUsuario.isFuncionario()) {
                 TelaPrincipal tela = new TelaPrincipal();
                 tela.setVisible(true);
@@ -194,7 +191,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
                 tela.setVisible(true);
             }
             this.dispose();
-            
+
         } else {
             javax.swing.JOptionPane.showMessageDialog(
                 this,
@@ -224,6 +221,14 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         // TODO add your handling code here:
     }//GEN-LAST:event_jTLoginFocusGained
 
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        // TODO add your handling code here:
+
+            TelaCadastroUsuario tela = new TelaCadastroUsuario();
+            tela.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -231,7 +236,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -251,14 +256,17 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBenviarsenha;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLfundo;
     private javax.swing.JLabel jLtitulo;
     private javax.swing.JLabel jLtitulo1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTLogin;
     private javax.swing.JTextField jTSenha;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
 }

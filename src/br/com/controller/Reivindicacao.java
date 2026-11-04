@@ -4,7 +4,7 @@
  */
 package br.com.controller;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -13,11 +13,12 @@ import java.time.LocalDate;
 public class Reivindicacao {
     
    private int idreivindicacao;
-   private LocalDate data_reivindicacao;
+   private LocalDateTime  data_reivindicacao;
    private String status_reivindicacao;
    private String observacao;
    private int id_objeto;
    private int id_retirante;
+   
    
    
     public int getIdreivindicacao() {
@@ -28,11 +29,11 @@ public class Reivindicacao {
         this.idreivindicacao = idreivindicacao;
     }
 
-    public LocalDate getData_reivindicacao() {
+    public LocalDateTime  getData_reivindicacao() {
         return data_reivindicacao;
     }
 
-    public void setData_reivindicacao(LocalDate data_reivindicacao) {
+    public void setData_reivindicacao(LocalDateTime  data_reivindicacao) {
         this.data_reivindicacao = data_reivindicacao;
     }
 
@@ -67,13 +68,9 @@ public class Reivindicacao {
     public void setId_objeto(int id_objeto) {
         this.id_objeto = id_objeto;
     }
-
-    public void getId_retirante(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
     
      private String nome_aluno;
-   private String matricula; 
+   private String documento_identificacao; 
 
     public String getNome_aluno() {
         return nome_aluno;
@@ -83,12 +80,20 @@ public class Reivindicacao {
         this.nome_aluno = nome_aluno;
     }
 
-    public String getMatricula() {
-        return matricula;
+    public String getDocumento_identificacao() {
+        return documento_identificacao;
     }
 
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
+    public void setDocumento_identificacao(String documento_identificacao) {
+        this.documento_identificacao = documento_identificacao;
+    }
+
+    public void setMatricula(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public String getMatricula() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

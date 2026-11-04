@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 public class ObjetoController {
 
@@ -176,5 +177,25 @@ public boolean cadastrarObjeto() throws SQLException {
         ObjetoEntity entity = new ObjetoEntity();
         return entity.contarPorStatus(status);
     }
+    public int contarObjetosRelatorio(PeriodoRelatorio periodo) throws SQLException {
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.contarRelatorio(periodo);
+    }
+    public Map<String, Integer> contarObjetosPorCategoriaRelatorio(
+        PeriodoRelatorio periodo) throws SQLException {
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.contarPorCategoriaRelatorio(periodo);
+    }
+    public Map<String, Integer> contarObjetosPorCampusRelatorio(
+        PeriodoRelatorio periodo) throws SQLException {
 
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.contarPorCampusRelatorio(periodo);
+    }
+    public Map<String, Integer> contarObjetosPorMesRelatorio(
+        PeriodoRelatorio periodo) throws SQLException {
+
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.contarPorMesRelatorio(periodo);
+    }
 }

@@ -2,6 +2,7 @@
 package br.com.entidade;
 
 import br.com.controller.ObjetoResumo;
+import br.com.controller.PeriodoRelatorio;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -9,6 +10,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class ObjetoEntity {
 
@@ -352,5 +355,227 @@ public List<String> listarCategorias() throws SQLException {
         }
     }
 }
+public int contarRelatorio(PeriodoRelatorio periodo) throws SQLException {
 
+    DAO dao = new DAO();
+
+    try {
+        dao.abrirBanco();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT COUNT(*) AS total FROM Objeto WHERE 1=1"
+        );
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+            sql.append(" AND Data_Cadastro >= ?");
+            sql.append(" AND Data_Cadastro < ?");
+        }
+
+        dao.pst = dao.con.prepareStatement(sql.toString());
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+
+            if (periodo.getDataInicial() == null || periodo.getDataFinal() == null) {
+                throw new IllegalArgumentException("Período personalizado incompleto.");
+            }
+
+            dao.pst.setTimestamp(
+                    1,
+                    java.sql.Timestamp.valueOf(periodo.getDataInicial().atStartOfDay())
+            );
+
+            dao.pst.setTimestamp(
+                    2,
+                    java.sql.Timestamp.valueOf(periodo.getDataFinal().plusDays(1).atStartOfDay())
+            );
+        }
+
+        dao.rs = dao.pst.executeQuery();
+
+        if (dao.rs.next()) {
+            return dao.rs.getInt("total");
+        }
+
+        return 0;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
+}
+public Map<String, Integer> contarPorCategoriaRelatorio(
+        PeriodoRelatorio periodo) throws SQLException {
+
+    DAO dao = new DAO();
+    Map<String, Integer> resultado = new LinkedHashMap<>();
+
+    try {
+        dao.abrirBanco();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT Categoria, COUNT(*) AS total "
+              + "FROM Objeto WHERE 1=1"
+        );
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+            sql.append(" AND Data_Cadastro >= ?");
+            sql.append(" AND Data_Cadastro < ?");
+        }
+
+        sql.append(" GROUP BY Categoria ORDER BY Categoria");
+
+        dao.pst = dao.con.prepareStatement(sql.toString());
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+            
+            if (periodo.getDataInicial() == null || periodo.getDataFinal() == null) {
+                throw new IllegalArgumentException("Período personalizado incompleto.");
+                }
+            dao.pst.setTimestamp(
+                    1,
+                    java.sql.Timestamp.valueOf(
+                            periodo.getDataInicial().atStartOfDay()
+                    )
+            );
+
+            dao.pst.setTimestamp(
+                    2,
+                    java.sql.Timestamp.valueOf(
+                            periodo.getDataFinal().plusDays(1).atStartOfDay()
+                    )
+            );
+        }
+
+        dao.rs = dao.pst.executeQuery();
+
+        while (dao.rs.next()) {
+            resultado.put(
+                    dao.rs.getString("Categoria"),
+                    dao.rs.getInt("total")
+            );
+        }
+
+        return resultado;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
+}
+public Map<String, Integer> contarPorCampusRelatorio(
+        PeriodoRelatorio periodo) throws SQLException {
+
+    DAO dao = new DAO();
+    Map<String, Integer> resultado = new LinkedHashMap<>();
+
+    try {
+        dao.abrirBanco();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT Campus, COUNT(*) AS total "
+              + "FROM Objeto WHERE 1=1"
+        );
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+            if (periodo.getDataInicial() == null || periodo.getDataFinal() == null) {
+                throw new IllegalArgumentException("Período personalizado incompleto.");
+            }
+
+            sql.append(" AND Data_Cadastro >= ?");
+            sql.append(" AND Data_Cadastro < ?");
+        }
+
+        sql.append(" GROUP BY Campus ORDER BY Campus");
+
+        dao.pst = dao.con.prepareStatement(sql.toString());
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+            dao.pst.setTimestamp(1,
+                    java.sql.Timestamp.valueOf(periodo.getDataInicial().atStartOfDay()));
+
+            dao.pst.setTimestamp(2,
+                    java.sql.Timestamp.valueOf(periodo.getDataFinal().plusDays(1).atStartOfDay()));
+        }
+
+        dao.rs = dao.pst.executeQuery();
+
+        while (dao.rs.next()) {
+            resultado.put(
+                    dao.rs.getString("Campus"),
+                    dao.rs.getInt("total")
+            );
+        }
+
+        return resultado;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
+}
+public Map<String, Integer> contarPorMesRelatorio(
+        PeriodoRelatorio periodo) throws SQLException {
+
+    DAO dao = new DAO();
+    Map<String, Integer> resultado = new LinkedHashMap<>();
+
+    try {
+        dao.abrirBanco();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT DATE_FORMAT(Data_Cadastro, '%m/%Y') AS mes, "
+              + "DATE_FORMAT(Data_Cadastro, '%Y-%m') AS ordem, "
+              + "COUNT(*) AS total "
+              + "FROM Objeto WHERE 1=1"
+        );
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+            if (periodo.getDataInicial() == null || periodo.getDataFinal() == null) {
+                throw new IllegalArgumentException("Período personalizado incompleto.");
+            }
+
+            sql.append(" AND Data_Cadastro >= ?");
+            sql.append(" AND Data_Cadastro < ?");
+        }
+
+        sql.append(" GROUP BY ordem, mes ORDER BY ordem");
+
+        dao.pst = dao.con.prepareStatement(sql.toString());
+
+        if (periodo != null && !periodo.isTodoPeriodo()) {
+            dao.pst.setTimestamp(1,
+                    java.sql.Timestamp.valueOf(periodo.getDataInicial().atStartOfDay()));
+
+            dao.pst.setTimestamp(2,
+                    java.sql.Timestamp.valueOf(periodo.getDataFinal().plusDays(1).atStartOfDay()));
+        }
+
+        dao.rs = dao.pst.executeQuery();
+
+        while (dao.rs.next()) {
+            resultado.put(
+                    dao.rs.getString("mes"),
+                    dao.rs.getInt("total")
+            );
+        }
+
+        return resultado;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
+}
 }
