@@ -305,7 +305,7 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel10.setText("Soliciatadas");
+        jLabel10.setText("Solicitadas");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel12.setText("0");
