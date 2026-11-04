@@ -4,6 +4,7 @@
  */
 package br.com.visao;
 
+import br.com.controller.CampoDataUtil;
 import br.com.controller.ObjetoController;
 import br.com.controller.ObjetoResumo;
 import br.com.controller.ReivindicacaoController;
@@ -31,6 +32,9 @@ public class ProcurarObj extends javax.swing.JFrame {
      */
     public ProcurarObj() {
         initComponents();
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
+        CampoDataUtil.aplicarFormatoAuxiliar(jFdepois_de);
+        CampoDataUtil.aplicarFormatoAuxiliar(jFantes_de);
 
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
@@ -260,11 +264,9 @@ public class ProcurarObj extends javax.swing.JFrame {
         jCcategoria.addActionListener(this::jCcategoriaActionPerformed);
 
         jFdepois_de.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jFdepois_de.setText(" dd/mm/yy");
         jFdepois_de.addActionListener(this::jFdepois_deActionPerformed);
 
         jFantes_de.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        jFantes_de.setText(" dd/mm/yy");
         jFantes_de.addActionListener(this::jFantes_deActionPerformed);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

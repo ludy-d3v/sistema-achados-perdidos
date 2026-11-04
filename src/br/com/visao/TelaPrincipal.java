@@ -6,6 +6,7 @@ package br.com.visao;
 
 import br.com.controller.ObjetoController;
 import br.com.controller.ObjetoResumo;
+import br.com.controller.SessaoUsuario;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -24,6 +25,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
 
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 

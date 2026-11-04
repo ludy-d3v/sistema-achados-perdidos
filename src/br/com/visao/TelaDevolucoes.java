@@ -4,8 +4,10 @@
  */
 package br.com.visao;
 
+import br.com.controller.CampoDataUtil;
 import br.com.controller.Devolucao;
 import br.com.controller.Reivindicacao;
+import br.com.controller.SessaoUsuario;
 import br.com.entidade.DAODevolucoes;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
@@ -30,7 +32,9 @@ public class TelaDevolucoes extends javax.swing.JFrame {
      */
     public TelaDevolucoes() {
         initComponents();
-        
+        jLabel9.setText(SessaoUsuario.getIdentificacao());
+        CampoDataUtil.aplicarFormatoAuxiliar(jFdata_dev);
+
     setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
@@ -565,7 +569,8 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jTpesquisa.setText("");
         jTmatricula.setText("");
         jTassinatura.setText("");
-        jFdata_dev.setText("");
+        jFdata_dev.setForeground(java.awt.Color.GRAY);
+        jFdata_dev.setText(CampoDataUtil.FORMATO);
     }//GEN-LAST:event_jBLimparActionPerformed
 
     private void jBconsultarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBconsultarOBActionPerformed
@@ -598,7 +603,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
     try {
         DateTimeFormatter formato =  DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        LocalDate dataDevolucao = LocalDate.parse(jFdata_dev.getText(), formato );
+        LocalDate dataDevolucao = LocalDate.parse(CampoDataUtil.obterValor(jFdata_dev), formato );
         int idFuncionario = Integer.parseInt(jTid_funcionario.getText().trim());
 
         cadastrou = ca.cadastrarDevolucao(
@@ -607,6 +612,8 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         );
 
         if (cadastrou) {
+            new br.com.controller.ObjetoController().atualizarStatusObjeto(d.getIdbj(), "Devolvido");
+
             JOptionPane.showMessageDialog(
                     this,
                     "Devolução cadastrada com sucesso!"
@@ -626,6 +633,11 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(
                 this,
                 "Informe um ID de funcionário válido."
+        );
+    } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Essa reivindicação já tem uma devolução registrada."
         );
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(

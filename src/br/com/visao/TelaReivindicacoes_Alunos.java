@@ -28,6 +28,7 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
      */
     public TelaReivindicacoes_Alunos() {
         initComponents();
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
         // o botão "Consultar objetos" não tinha evento no designer
         jBprocurar_obj.addActionListener(evt -> {
             ProcurarObj tela = new ProcurarObj();

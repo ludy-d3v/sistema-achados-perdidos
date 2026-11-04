@@ -4,6 +4,8 @@
  */
 package br.com.visao;
 
+import br.com.controller.SessaoUsuario;
+
 /**
  *
  * @author lucas
@@ -17,9 +19,10 @@ public class TelaResultadoRelatorioObjetos extends javax.swing.JFrame {
      */
     public TelaResultadoRelatorioObjetos() {
         initComponents();
-        
+        jLabel11.setText(SessaoUsuario.getIdentificacao());
+
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        
+
         configurarBarra(jProgressCategoria);
         configurarBarra(jProgressCampus);
         configurarBarra(jProgressMes);
@@ -516,13 +519,13 @@ private String montarLista(java.util.Map<String, Integer> dados) {
         jPanel7.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 1, 1, new java.awt.Color(4, 120, 203)));
         jPanel7.setLayout(null);
         jPanel7.add(jProgressMes);
-        jProgressMes.setBounds(30, 245, 377, 16);
+        jProgressMes.setBounds(30, 280, 377, 16);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(4, 120, 203));
         jLabel10.setText("Mês com mais objetos cadastrados.");
         jPanel7.add(jLabel10);
-        jLabel10.setBounds(90, 220, 240, 20);
+        jLabel10.setBounds(90, 260, 240, 20);
 
         jLabelMes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelMes.setForeground(new java.awt.Color(4, 120, 203));
@@ -537,7 +540,7 @@ private String montarLista(java.util.Map<String, Integer> dados) {
         jLabelMes1.setBounds(30, 30, 200, 25);
 
         jPtotal.add(jPanel7);
-        jPanel7.setBounds(450, 540, 430, 280);
+        jPanel7.setBounds(450, 580, 430, 320);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 1, 1, new java.awt.Color(4, 120, 203)));

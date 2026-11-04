@@ -4,6 +4,7 @@
  */
 package br.com.visao;
 import br.com.controller.ObjetoController;
+import br.com.controller.SessaoUsuario;
 /**
  *
  * @author lucas
@@ -17,7 +18,8 @@ public class CadastroObjetoView extends javax.swing.JFrame {
      */
     public CadastroObjetoView() {
         initComponents();
-        
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
+
             setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
     }

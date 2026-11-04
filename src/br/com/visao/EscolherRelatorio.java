@@ -4,9 +4,11 @@
  */
 package br.com.visao;
 
+import br.com.controller.CampoDataUtil;
 import br.com.controller.ObjetoController;
 import br.com.controller.PeriodoRelatorio;
 import br.com.controller.ReivindicacaoController;
+import br.com.controller.SessaoUsuario;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -23,7 +25,10 @@ public class EscolherRelatorio extends javax.swing.JFrame {
      */
     public EscolherRelatorio() {
         initComponents();
-        
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
+        CampoDataUtil.aplicarFormatoAuxiliar(jFTDataInicial);
+        CampoDataUtil.aplicarFormatoAuxiliar(jFTDataFinal);
+
          setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
@@ -31,11 +36,11 @@ public class EscolherRelatorio extends javax.swing.JFrame {
 
     PeriodoRelatorio periodo = new PeriodoRelatorio();
 
-    String dataInicial = jFTDataInicial.getText().trim();
-    String dataFinal = jFTDataFinal.getText().trim();
+    String dataInicial = CampoDataUtil.obterValor(jFTDataInicial);
+    String dataFinal = CampoDataUtil.obterValor(jFTDataFinal);
 
-    boolean inicialVazia = dataInicial.replace("/", "").isBlank();
-    boolean finalVazia = dataFinal.replace("/", "").isBlank();
+    boolean inicialVazia = dataInicial.isEmpty();
+    boolean finalVazia = dataFinal.isEmpty();
 
     // As duas datas vazias: todo o período
     if (inicialVazia && finalVazia) {
@@ -176,6 +181,7 @@ public class EscolherRelatorio extends javax.swing.JFrame {
         jCcategoria.addActionListener(this::jCcategoriaActionPerformed);
 
         jFTDataInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        jFTDataInicial.setToolTipText("");
         jFTDataInicial.addActionListener(this::jFTDataInicialActionPerformed);
 
         jFTDataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));

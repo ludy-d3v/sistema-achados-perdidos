@@ -39,4 +39,8 @@ public class SessaoUsuario {
     public static void setFuncionario(boolean funcionario) {
         SessaoUsuario.funcionario = funcionario;
     }
+
+    public static String getIdentificacao() {
+        return nome + " (ID " + idUsuario + ")";
+    }
 }

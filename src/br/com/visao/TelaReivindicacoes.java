@@ -13,6 +13,7 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.RowFilter;
 import java.sql.SQLException;
 import br.com.controller.ReivindicacaoController;
+import br.com.controller.SessaoUsuario;
 
 /**
  *
@@ -72,6 +73,7 @@ private void carregarReivindicacoes() {
 
     public TelaReivindicacoes() {
         initComponents();
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
         carregarReivindicacoes();
         // o botão "Consultar objetos" não tinha evento no designer
         jBconsultarOB.addActionListener(evt -> {

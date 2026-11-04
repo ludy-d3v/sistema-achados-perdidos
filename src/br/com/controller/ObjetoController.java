@@ -177,6 +177,11 @@ public boolean cadastrarObjeto() throws SQLException {
         ObjetoEntity entity = new ObjetoEntity();
         return entity.contarPorStatus(status);
     }
+
+    public boolean atualizarStatusObjeto(int idObjeto, String status) throws SQLException {
+        ObjetoEntity entity = new ObjetoEntity();
+        return entity.atualizarStatus(idObjeto, status);
+    }
     public int contarObjetosRelatorio(PeriodoRelatorio periodo) throws SQLException {
         ObjetoEntity entity = new ObjetoEntity();
         return entity.contarRelatorio(periodo);
