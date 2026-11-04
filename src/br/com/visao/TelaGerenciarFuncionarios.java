@@ -229,7 +229,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
 
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
         jPtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPtotal.setPreferredSize(new java.awt.Dimension(900, 900));
+        jPtotal.setPreferredSize(new java.awt.Dimension(900, 1020));
         jPtotal.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(243, 246, 249));
