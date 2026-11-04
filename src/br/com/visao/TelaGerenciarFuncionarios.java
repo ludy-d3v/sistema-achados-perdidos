@@ -36,16 +36,6 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jLabel6.setText(SessaoUsuario.getIdentificacao());
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
-        getContentPane().addComponentListener(new java.awt.event.ComponentAdapter() {
-            @Override
-            public void componentResized(java.awt.event.ComponentEvent e) {
-                int largura = getContentPane().getWidth();
-                int altura = getContentPane().getHeight();
-                jPanel6.setBounds(0, 0, 180, altura);
-                jScrollPane1.setBounds(180, 90, largura - 180, altura - 90);
-            }
-        });
-
         jTabresultadousuarios.setSelectionBackground(new Color(197, 216, 248));
         jTabresultadousuarios.setSelectionForeground(Color.BLACK);
 
@@ -227,7 +217,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jBinicio = new javax.swing.JButton();
         jBsairTelaPrin = new javax.swing.JButton();
-        jBgerenciarfuncionarios = new javax.swing.JButton();
+        jBgerenciarfuncionarios = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -452,22 +442,22 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBgerenciarfuncionarios.setBackground(new java.awt.Color(0, 51, 204));
         jBgerenciarfuncionarios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jBgerenciarfuncionarios.setForeground(new java.awt.Color(255, 255, 255));
+        jBgerenciarfuncionarios.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jBgerenciarfuncionarios.setText("Gerenciar Funcionários");
-        jBgerenciarfuncionarios.setBorder(null);
-        jBgerenciarfuncionarios.setBorderPainted(false);
-        jBgerenciarfuncionarios.setContentAreaFilled(false);
-        jBgerenciarfuncionarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jBgerenciarfuncionarios.addActionListener(this::jBgerenciarfuncionariosActionPerformed);
+        jBgerenciarfuncionarios.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 204), 5));
+        jBgerenciarfuncionarios.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBgerenciarfuncionarios.setOpaque(true);
+        jBgerenciarfuncionarios.setPreferredSize(new java.awt.Dimension(113, 18));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBinicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBinicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -476,9 +466,9 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(248, 248, 248)
                 .addComponent(jBinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addGap(57, 57, 57)
                 .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134)
+                .addGap(132, 132, 132)
                 .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(649, Short.MAX_VALUE))
         );
@@ -508,10 +498,6 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_jBsairTelaPrinActionPerformed
-
-    private void jBgerenciarfuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBgerenciarfuncionariosActionPerformed
-        buscar();
-    }//GEN-LAST:event_jBgerenciarfuncionariosActionPerformed
 
     private void jBsalvar_cargo_setorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsalvar_cargo_setorActionPerformed
         salvarCargoSetorSelecionado();
@@ -555,7 +541,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBgerenciarfuncionarios;
+    private javax.swing.JLabel jBgerenciarfuncionarios;
     private javax.swing.JButton jBinicio;
     private javax.swing.JButton jBpesquisar_usuario;
     private javax.swing.JButton jBremovercargo;
