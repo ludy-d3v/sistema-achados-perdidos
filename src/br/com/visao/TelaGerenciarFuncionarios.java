@@ -374,7 +374,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jPtotal);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(180, 90, 1360, 1120);
+        jScrollPane1.setBounds(180, 90, 1360, 970);
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
@@ -439,7 +439,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBsairTelaPrin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jBsairTelaPrin.addActionListener(this::jBsairTelaPrinActionPerformed);
 
-        jBgerenciarfuncionarios.setBackground(new java.awt.Color(10, 61, 163));
+        jBgerenciarfuncionarios.setBackground(new java.awt.Color(0, 51, 204));
         jBgerenciarfuncionarios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jBgerenciarfuncionarios.setForeground(new java.awt.Color(255, 255, 255));
         jBgerenciarfuncionarios.setText("Gerenciar Funcionários");
@@ -464,17 +464,17 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(248, 248, 248)
+                .addGap(227, 227, 227)
                 .addComponent(jBinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addGap(18, 18, 18)
                 .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134)
+                .addGap(18, 18, 18)
                 .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(649, Short.MAX_VALUE))
+                .addContainerGap(677, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel6);
-        jPanel6.setBounds(0, 0, 180, 1210);
+        jPanel6.setBounds(0, 0, 180, 1060);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
