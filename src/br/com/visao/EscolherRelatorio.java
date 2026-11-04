@@ -464,7 +464,9 @@ public class EscolherRelatorio extends javax.swing.JFrame {
                 case "Relatório de Objetos encontrados":
                     {
                         PeriodoRelatorio periodo = obterPeriodo();
-                        if (periodo == null) JOptionPane.showMessageDialog(this, "Escolha um periodo para o relatório");
+                        if (periodo == null) {
+                            return;
+                        }
                         ObjetoController controller = new ObjetoController();
                         int total = controller.contarObjetosRelatorio(periodo);
                         java.util.Map<String, Integer> categorias =
@@ -513,7 +515,10 @@ public class EscolherRelatorio extends javax.swing.JFrame {
     }//GEN-LAST:event_jTgerar_relatorioActionPerformed
 
     private void jBdevolucoes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdevolucoes1ActionPerformed
-        // TODO add your handling code here:
+        ConsultarObjeto tela = new ConsultarObjeto();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBdevolucoes1ActionPerformed
 
     /**

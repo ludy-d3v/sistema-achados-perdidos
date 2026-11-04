@@ -506,7 +506,10 @@ private void configurarBarra(
     }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jBdevolucoes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdevolucoes1ActionPerformed
-        // TODO add your handling code here:
+        ConsultarObjeto tela = new ConsultarObjeto();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBdevolucoes1ActionPerformed
 
     private void jBvoltar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBvoltar1ActionPerformed
@@ -550,6 +553,10 @@ public void preencherRelatorio(int solicitadas, int aprovadas, int recusadas, in
 
     jLabelRecusadas.setText(
             "TOTAL DE REIVINDICAÇÕES RECUSADAS: " + recusadas
+    );
+
+    jLem_analise.setText(
+            "TOTAL DE REIVINDICAÇÕES PENDENTES: " + pendentes
     );
 
     configurarBarra(jProgressAprovadas, aprovadas, solicitadas);

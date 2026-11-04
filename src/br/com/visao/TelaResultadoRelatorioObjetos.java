@@ -71,31 +71,30 @@ public void preencherRelatorio(
 
     jLabelTotal.setText("TOTAL DE OBJETOS CADASTRADOS: " + total);
 
-    jLabelCategoria.setText(montarTexto("OBJETOS POR CATEGORIA", categorias));
-    jLabelCampus.setText(montarTexto("OBJETOS POR CAMPUS", campus));
-    jLabelMes.setText(montarTexto("OBJETOS POR MÊS", meses));
+    jLabelCategoria.setText(montarMaior(categorias));
+    jLabelCampus.setText(montarMaior(campus));
+    jLabelMes.setText(montarMaior(meses));
 
     configurarPercentual(jProgressCategoria, categorias, total);
     configurarPercentual(jProgressCampus, campus, total);
     configurarPercentual(jProgressMes, meses, total);
 }
 
-private String montarTexto(
-        String titulo,
-        java.util.Map<String, Integer> dados) {
+private String montarMaior(java.util.Map<String, Integer> dados) {
 
-    StringBuilder texto = new StringBuilder("<html>");
-    texto.append(titulo).append("<br>");
+    String maiorChave = null;
+    int maiorValor = 0;
 
     for (java.util.Map.Entry<String, Integer> item : dados.entrySet()) {
-        texto.append(item.getKey())
-             .append(": ")
-             .append(item.getValue())
-             .append("<br>");
+        if (item.getValue() > maiorValor) {
+            maiorValor = item.getValue();
+            maiorChave = item.getKey();
+        }
     }
 
-    texto.append("</html>");
-    return texto.toString();
+    return maiorChave == null
+            ? "Sem dados"
+            : maiorChave + ": " + maiorValor;
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -692,7 +691,10 @@ private String montarTexto(
     }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jBdevolucoes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdevolucoes1ActionPerformed
-        // TODO add your handling code here:
+        ConsultarObjeto tela = new ConsultarObjeto();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBdevolucoes1ActionPerformed
 
     /**
