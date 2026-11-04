@@ -587,6 +587,14 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         return;
     }
 
+    if (!"Aprovada".equalsIgnoreCase(r.getStatus_reivindicacao())) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Só é possível registrar a devolução de uma reivindicação aprovada."
+        );
+        return;
+    }
+
     try {
         DateTimeFormatter formato =  DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -654,8 +662,8 @@ public class TelaDevolucoes extends javax.swing.JFrame {
           
           jTpesquisa.setText(null);
           
-        }else if(!jLident_pesq.getText().equalsIgnoreCase("1. Digite a reivindicação do objeto *")){
-        d.setIdobj(Integer.parseInt(jTpesquisa.getText())); 
+        }else if(jLident_pesq.getText().equalsIgnoreCase("1. Digite a reivindicação do objeto *")){
+        r.setIdreivindicacao(Integer.parseInt(jTpesquisa.getText()));
         ca.buscarIdReivindicacao(r, d);
             
 
