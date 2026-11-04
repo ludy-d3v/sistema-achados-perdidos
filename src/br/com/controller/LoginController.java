@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class LoginController {
 
-    private int id;
     private String usuario;
     private String senha;
     private String CPF;
@@ -26,14 +25,6 @@ public class LoginController {
 
     public void setCPF(String CPF) {
         this.CPF = CPF;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUsuario() {
