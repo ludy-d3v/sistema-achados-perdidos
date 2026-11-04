@@ -183,7 +183,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
             );
 
 
-            if (SessaoUsuario.isFuncionario()) {
+            if (SessaoUsuario.isFuncionario() || SessaoUsuario.isAdministrador()) {
                 TelaPrincipal tela = new TelaPrincipal();
                 tela.setVisible(true);
             } else {
