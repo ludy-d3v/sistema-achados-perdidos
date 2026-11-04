@@ -54,6 +54,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jBreivindicacao = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jBinicio = new javax.swing.JButton();
+        jBgerar_relatorio = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         jPtotal = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -197,6 +198,14 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jBinicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jBinicio.addActionListener(this::jBinicioActionPerformed);
 
+        jBgerar_relatorio.setBackground(new java.awt.Color(10, 61, 163));
+        jBgerar_relatorio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBgerar_relatorio.setForeground(new java.awt.Color(255, 255, 255));
+        jBgerar_relatorio.setText("Gerar Relatório");
+        jBgerar_relatorio.setContentAreaFilled(false);
+        jBgerar_relatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBgerar_relatorio.addActionListener(this::jBgerar_relatorioActionPerformed);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -209,7 +218,8 @@ public class TelaDevolucoes extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBreivindicacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBgerar_relatorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -226,8 +236,10 @@ public class TelaDevolucoes extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jBgerar_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(499, Short.MAX_VALUE))
+                .addContainerGap(441, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel4);
@@ -304,7 +316,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jBpesq.setText("Procurar");
         jBpesq.addActionListener(this::jBpesqActionPerformed);
         jPanel2.add(jBpesq);
-        jBpesq.setBounds(610, 130, 100, 31);
+        jBpesq.setBounds(610, 130, 100, 27);
 
         jPanel1.setBackground(new java.awt.Color(242, 247, 251));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(185, 218, 252), 3));
@@ -488,7 +500,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jCopcao_pesq.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pesquisar reivindicação", "Pesquisar ID" }));
         jCopcao_pesq.addActionListener(this::jCopcao_pesqActionPerformed);
         jPanel2.add(jCopcao_pesq);
-        jCopcao_pesq.setBounds(730, 140, 160, 26);
+        jCopcao_pesq.setBounds(730, 140, 160, 22);
 
         jPtotal.add(jPanel2);
         jPanel2.setBounds(90, 210, 1190, 990);
@@ -691,6 +703,14 @@ public class TelaDevolucoes extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jCopcao_pesqActionPerformed
 
+    private void jBgerar_relatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBgerar_relatorioActionPerformed
+        // TODO add your handling code here:
+        EscolherRelatorio tela = new EscolherRelatorio();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jBgerar_relatorioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -720,6 +740,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
     private javax.swing.JButton jBLimpar;
     private javax.swing.JButton jBcadastrarOB;
     private javax.swing.JButton jBconsultarOB;
+    private javax.swing.JButton jBgerar_relatorio;
     private javax.swing.JButton jBinicio;
     private javax.swing.JButton jBpesq;
     private javax.swing.JButton jBreg_devolucao;

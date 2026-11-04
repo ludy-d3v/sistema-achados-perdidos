@@ -77,6 +77,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
+        jLabel8 = new javax.swing.JLabel();
         jLfundo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -89,11 +90,11 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         );
         jPanel1.setLayout(null);
 
-        jLtitulo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLtitulo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLtitulo.setForeground(new java.awt.Color(10, 61, 163));
         jLtitulo.setText("SEJA BEM VINDO!");
         jPanel1.add(jLtitulo);
-        jLtitulo.setBounds(79, 6, 130, 34);
+        jLtitulo.setBounds(60, 10, 160, 34);
 
         jBcadastrarUsuario.setBackground(new java.awt.Color(4, 90, 203));
         jBcadastrarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -102,7 +103,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         jBcadastrarUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jBcadastrarUsuario.addActionListener(this::jBcadastrarUsuarioActionPerformed);
         jPanel1.add(jBcadastrarUsuario);
-        jBcadastrarUsuario.setBounds(80, 350, 110, 34);
+        jBcadastrarUsuario.setBounds(90, 350, 110, 34);
 
         jTSenha.addActionListener(this::jTSenhaActionPerformed);
         jPanel1.add(jTSenha);
@@ -172,6 +173,11 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         jToggleButton1.addActionListener(this::jToggleButton1ActionPerformed);
         jPanel1.add(jToggleButton1);
         jToggleButton1.setBounds(180, 390, 40, 16);
+
+        jLabel8.setBackground(new java.awt.Color(153, 204, 255));
+        jLabel8.setOpaque(true);
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(50, 40, 170, 3);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(610, 180, 290, 420);
@@ -335,6 +341,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLfundo;
     private javax.swing.JLabel jLtitulo;
     private javax.swing.JLabel jLtitulo1;

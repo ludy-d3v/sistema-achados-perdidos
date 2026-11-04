@@ -52,6 +52,7 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
         jBdevolucoes = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jBinicio = new javax.swing.JButton();
+        jBgerar_relatorio = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPtotal = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -135,6 +136,7 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
         jBconsultarOB.setText("Consultar objetos");
         jBconsultarOB.setContentAreaFilled(false);
         jBconsultarOB.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBconsultarOB.addActionListener(this::jBconsultarOBActionPerformed);
 
         jBdevolucoes.setBackground(new java.awt.Color(10, 61, 163));
         jBdevolucoes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -162,6 +164,14 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
         jBinicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jBinicio.addActionListener(this::jBinicioActionPerformed);
 
+        jBgerar_relatorio.setBackground(new java.awt.Color(10, 61, 163));
+        jBgerar_relatorio.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jBgerar_relatorio.setForeground(new java.awt.Color(255, 255, 255));
+        jBgerar_relatorio.setText("Gerar Relatório");
+        jBgerar_relatorio.setContentAreaFilled(false);
+        jBgerar_relatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jBgerar_relatorio.addActionListener(this::jBgerar_relatorioActionPerformed);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -169,11 +179,13 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
             .addComponent(jBcadastrarOB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jBconsultarOB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
             .addComponent(jBdevolucoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jBinicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBgerar_relatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -190,8 +202,10 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jBdevolucoes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jBgerar_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(499, Short.MAX_VALUE))
+                .addContainerGap(441, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel4);
@@ -322,6 +336,23 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
     this.dispose();
     }//GEN-LAST:event_jBcadastrarOBActionPerformed
 
+    private void jBconsultarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBconsultarOBActionPerformed
+        // TODO add your handling code here:
+        
+        ConsultarObjeto tela = new ConsultarObjeto();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jBconsultarOBActionPerformed
+
+    private void jBgerar_relatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBgerar_relatorioActionPerformed
+        // TODO add your handling code here:
+        EscolherRelatorio tela = new EscolherRelatorio();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jBgerar_relatorioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -351,6 +382,7 @@ public class TelaReivindicacoes extends javax.swing.JFrame {
     private javax.swing.JButton jBcadastrarOB;
     private javax.swing.JButton jBconsultarOB;
     private javax.swing.JButton jBdevolucoes;
+    private javax.swing.JButton jBgerar_relatorio;
     private javax.swing.JButton jBinicio;
     private javax.swing.JButton jBpesq;
     private javax.swing.JButton jBsairTelaPrin;
