@@ -1,6 +1,7 @@
 
 package br.com.controller;
 
+import br.com.entidade.ObjetoEntity;
 import br.com.entidade.ReivindicacaoEntity;
 import br.com.entidade.RetiranteEntity;
 import java.sql.SQLException;
@@ -40,6 +41,21 @@ public class ReivindicacaoController {
         if (idObjeto <= 0) {
             throw new IllegalArgumentException(
                     "Selecione um objeto para reivindicar."
+            );
+        }
+
+        ObjetoEntity objetoEntity = new ObjetoEntity();
+        String statusAtual = objetoEntity.buscarStatusAtual(idObjeto);
+
+        if ("Devolvido".equalsIgnoreCase(statusAtual)) {
+            throw new IllegalArgumentException(
+                    "Este objeto já foi devolvido e não pode mais ser reivindicado."
+            );
+        }
+
+        if ("Encaminhado para doacao".equalsIgnoreCase(statusAtual)) {
+            throw new IllegalArgumentException(
+                    "Este objeto já foi encaminhado para doação e não pode mais ser reivindicado."
             );
         }
 
