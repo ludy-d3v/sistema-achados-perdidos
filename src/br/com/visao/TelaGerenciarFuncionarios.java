@@ -36,6 +36,16 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jLabel6.setText(SessaoUsuario.getIdentificacao());
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
+        getContentPane().addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                int largura = getContentPane().getWidth();
+                int altura = getContentPane().getHeight();
+                jPanel6.setBounds(0, 0, 180, altura);
+                jScrollPane1.setBounds(180, 90, largura - 180, altura - 90);
+            }
+        });
+
         jTabresultadousuarios.setSelectionBackground(new Color(197, 216, 248));
         jTabresultadousuarios.setSelectionForeground(Color.BLACK);
 
@@ -374,7 +384,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jPtotal);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(180, 90, 1360, 970);
+        jScrollPane1.setBounds(180, 90, 1360, 1120);
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
@@ -464,17 +474,17 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(227, 227, 227)
+                .addGap(248, 248, 248)
                 .addComponent(jBinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(55, 55, 55)
                 .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(134, 134, 134)
                 .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(677, Short.MAX_VALUE))
+                .addContainerGap(649, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel6);
-        jPanel6.setBounds(0, 0, 180, 1060);
+        jPanel6.setBounds(0, 0, 180, 1210);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
