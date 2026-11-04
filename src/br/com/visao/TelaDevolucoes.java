@@ -668,7 +668,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
             
 
          jTmatricula.setText(r.getDocumento_identificacao());
-         jTassinatura.setText(r.getNome_aluno());
+         jTnome_aluno.setText(r.getNome_aluno());
           
           
           jLnome_obj.setText(d.getNome_obj());
