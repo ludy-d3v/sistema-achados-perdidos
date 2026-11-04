@@ -292,7 +292,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="490" y="930" width="150" height="40"/>
+                  <AbsoluteConstraints x="1150" y="860" width="150" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -314,7 +314,7 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="70" y="930" width="160" height="40"/>
+                  <AbsoluteConstraints x="730" y="860" width="160" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -336,21 +336,21 @@
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="280" y="930" width="160" height="40"/>
+                  <AbsoluteConstraints x="940" y="860" width="160" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
             <Component class="javax.swing.JTextField" name="jTnome_setor">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="400" y="880" width="300" height="-1"/>
+                  <AbsoluteConstraints x="400" y="870" width="300" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
             <Component class="javax.swing.JTextField" name="jTnome_cargo">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="70" y="880" width="280" height="-1"/>
+                  <AbsoluteConstraints x="70" y="870" width="280" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -366,7 +366,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="400" y="840" width="115" height="-1"/>
+                  <AbsoluteConstraints x="400" y="830" width="115" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -382,7 +382,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="70" y="840" width="115" height="-1"/>
+                  <AbsoluteConstraints x="70" y="830" width="115" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -491,12 +491,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jBsairTelaPrin" alignment="1" pref="176" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jBinicio" max="32767" attributes="0"/>
-                      <Component id="jBgerenciarfuncionarios" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jBgerenciarfuncionarios" alignment="1" pref="164" max="32767" attributes="0"/>
+                      <Component id="jBsairTelaPrin" alignment="1" pref="164" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -507,11 +507,11 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="248" max="-2" attributes="0"/>
                   <Component id="jBinicio" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jBgerenciarfuncionarios" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="229" max="-2" attributes="0"/>
                   <Component id="jBsairTelaPrin" min="-2" pref="40" max="-2" attributes="0"/>
-                  <EmptySpace pref="649" max="32767" attributes="0"/>
+                  <EmptySpace pref="591" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

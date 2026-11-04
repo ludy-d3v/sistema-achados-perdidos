@@ -337,7 +337,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBremovercargo.setText("Remover cargo");
         jBremovercargo.addActionListener(this::jBremovercargoActionPerformed);
         jPtotal.add(jBremovercargo);
-        jBremovercargo.setBounds(490, 930, 150, 40);
+        jBremovercargo.setBounds(1150, 860, 150, 40);
 
         jBtornarfuncionario.setBackground(new java.awt.Color(4, 120, 203));
         jBtornarfuncionario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -345,7 +345,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBtornarfuncionario.setText("Tornar funcionário");
         jBtornarfuncionario.addActionListener(this::jBtornarfuncionarioActionPerformed);
         jPtotal.add(jBtornarfuncionario);
-        jBtornarfuncionario.setBounds(70, 930, 160, 40);
+        jBtornarfuncionario.setBounds(730, 860, 160, 40);
 
         jBsalvar_cargo_setor.setBackground(new java.awt.Color(4, 120, 203));
         jBsalvar_cargo_setor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -353,23 +353,23 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBsalvar_cargo_setor.setText("Salvar cargo/setor");
         jBsalvar_cargo_setor.addActionListener(this::jBsalvar_cargo_setorActionPerformed);
         jPtotal.add(jBsalvar_cargo_setor);
-        jBsalvar_cargo_setor.setBounds(280, 930, 160, 40);
+        jBsalvar_cargo_setor.setBounds(940, 860, 160, 40);
         jPtotal.add(jTnome_setor);
-        jTnome_setor.setBounds(400, 880, 300, 26);
+        jTnome_setor.setBounds(400, 870, 300, 26);
         jPtotal.add(jTnome_cargo);
-        jTnome_cargo.setBounds(70, 880, 280, 26);
+        jTnome_cargo.setBounds(70, 870, 280, 26);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(4, 120, 203));
         jLabel2.setText("Setor:");
         jPtotal.add(jLabel2);
-        jLabel2.setBounds(400, 840, 115, 20);
+        jLabel2.setBounds(400, 830, 115, 20);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(4, 120, 203));
         jLabel5.setText("Cargo:");
         jPtotal.add(jLabel5);
-        jLabel5.setBounds(70, 840, 115, 20);
+        jLabel5.setBounds(70, 830, 115, 20);
 
         jScrollPane1.setViewportView(jPtotal);
 
@@ -453,12 +453,12 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBinicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -466,11 +466,11 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(248, 248, 248)
                 .addComponent(jBinicio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
+                .addGap(18, 18, 18)
                 .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(132, 132, 132)
+                .addGap(229, 229, 229)
                 .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(649, Short.MAX_VALUE))
+                .addContainerGap(591, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel6);

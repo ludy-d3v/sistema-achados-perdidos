@@ -188,7 +188,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Devolução");
+        jLabel11.setText("Devoluções");
         jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel11.setOpaque(true);
 
@@ -320,7 +320,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jBpesq.setText("Procurar");
         jBpesq.addActionListener(this::jBpesqActionPerformed);
         jPanel2.add(jBpesq);
-        jBpesq.setBounds(610, 130, 100, 27);
+        jBpesq.setBounds(610, 130, 100, 31);
 
         jPanel1.setBackground(new java.awt.Color(242, 247, 251));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(185, 218, 252), 3));
@@ -504,7 +504,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jCopcao_pesq.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pesquisar reivindicação", "Pesquisar ID" }));
         jCopcao_pesq.addActionListener(this::jCopcao_pesqActionPerformed);
         jPanel2.add(jCopcao_pesq);
-        jCopcao_pesq.setBounds(730, 140, 160, 22);
+        jCopcao_pesq.setBounds(730, 140, 160, 26);
 
         jPtotal.add(jPanel2);
         jPanel2.setBounds(90, 210, 1190, 990);
