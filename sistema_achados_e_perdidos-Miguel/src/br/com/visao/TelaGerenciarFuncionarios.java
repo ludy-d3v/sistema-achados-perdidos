@@ -228,7 +228,9 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jPtotal);
 
         
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real.png")));
+        
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png")));
         jPanelTopo.add(jLabel1);
         jLabel1.setBounds(10, 0, 206, 90);
 
