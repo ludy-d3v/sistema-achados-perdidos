@@ -229,7 +229,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
 
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
         jPtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPtotal.setPreferredSize(new java.awt.Dimension(900, 1020));
+        jPtotal.setPreferredSize(new java.awt.Dimension(900, 1000));
         jPtotal.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(243, 246, 249));
@@ -329,7 +329,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTabresultadousuarios);
 
         jPtotal.add(jScrollPane3);
-        jScrollPane3.setBounds(70, 380, 1190, 470);
+        jScrollPane3.setBounds(70, 350, 1190, 470);
 
         jBremovercargo.setBackground(new java.awt.Color(204, 0, 0));
         jBremovercargo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -337,7 +337,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBremovercargo.setText("Remover cargo");
         jBremovercargo.addActionListener(this::jBremovercargoActionPerformed);
         jPtotal.add(jBremovercargo);
-        jBremovercargo.setBounds(490, 960, 150, 40);
+        jBremovercargo.setBounds(490, 930, 150, 40);
 
         jBtornarfuncionario.setBackground(new java.awt.Color(4, 120, 203));
         jBtornarfuncionario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -345,7 +345,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBtornarfuncionario.setText("Tornar funcionário");
         jBtornarfuncionario.addActionListener(this::jBtornarfuncionarioActionPerformed);
         jPtotal.add(jBtornarfuncionario);
-        jBtornarfuncionario.setBounds(70, 960, 160, 40);
+        jBtornarfuncionario.setBounds(70, 930, 160, 40);
 
         jBsalvar_cargo_setor.setBackground(new java.awt.Color(4, 120, 203));
         jBsalvar_cargo_setor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -353,23 +353,23 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBsalvar_cargo_setor.setText("Salvar cargo/setor");
         jBsalvar_cargo_setor.addActionListener(this::jBsalvar_cargo_setorActionPerformed);
         jPtotal.add(jBsalvar_cargo_setor);
-        jBsalvar_cargo_setor.setBounds(280, 960, 160, 40);
+        jBsalvar_cargo_setor.setBounds(280, 930, 160, 40);
         jPtotal.add(jTnome_setor);
-        jTnome_setor.setBounds(400, 910, 300, 26);
+        jTnome_setor.setBounds(400, 880, 300, 26);
         jPtotal.add(jTnome_cargo);
-        jTnome_cargo.setBounds(70, 910, 280, 26);
+        jTnome_cargo.setBounds(70, 880, 280, 26);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(4, 120, 203));
         jLabel2.setText("Setor:");
         jPtotal.add(jLabel2);
-        jLabel2.setBounds(400, 870, 115, 20);
+        jLabel2.setBounds(400, 840, 115, 20);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(4, 120, 203));
         jLabel5.setText("Cargo:");
         jPtotal.add(jLabel5);
-        jLabel5.setBounds(70, 870, 115, 20);
+        jLabel5.setBounds(70, 840, 115, 20);
 
         jScrollPane1.setViewportView(jPtotal);
 
@@ -470,11 +470,11 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
                 .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(134, 134, 134)
                 .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(589, Short.MAX_VALUE))
+                .addContainerGap(649, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel6);
-        jPanel6.setBounds(0, 0, 180, 1150);
+        jPanel6.setBounds(0, 0, 180, 1210);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -503,6 +503,14 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         buscar();
     }//GEN-LAST:event_jBgerenciarfuncionariosActionPerformed
 
+    private void jBsalvar_cargo_setorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsalvar_cargo_setorActionPerformed
+        salvarCargoSetorSelecionado();
+    }//GEN-LAST:event_jBsalvar_cargo_setorActionPerformed
+
+    private void jBtornarfuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtornarfuncionarioActionPerformed
+        promoverSelecionado();
+    }//GEN-LAST:event_jBtornarfuncionarioActionPerformed
+
     private void jBremovercargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBremovercargoActionPerformed
         removerSelecionado();
     }//GEN-LAST:event_jBremovercargoActionPerformed
@@ -510,14 +518,6 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
     private void jBpesquisar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBpesquisar_usuarioActionPerformed
         buscar();
     }//GEN-LAST:event_jBpesquisar_usuarioActionPerformed
-
-    private void jBtornarfuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtornarfuncionarioActionPerformed
-        promoverSelecionado();
-    }//GEN-LAST:event_jBtornarfuncionarioActionPerformed
-
-    private void jBsalvar_cargo_setorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsalvar_cargo_setorActionPerformed
-        salvarCargoSetorSelecionado();
-    }//GEN-LAST:event_jBsalvar_cargo_setorActionPerformed
 
     /**
      * @param args the command line arguments
