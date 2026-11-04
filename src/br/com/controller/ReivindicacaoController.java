@@ -90,6 +90,11 @@ public class ReivindicacaoController {
         return entity.listarPorRetirante(idRetirante, nomeObjeto);
     }
     
+    public boolean existeReivindicacaoPendente(int idObjeto) throws SQLException {
+        ReivindicacaoEntity entity = new ReivindicacaoEntity();
+        return entity.existePendentePorObjeto(idObjeto);
+    }
+
     public boolean atualizarStatus(int idReivindicacao, String status) throws SQLException {
         ReivindicacaoEntity entity = new ReivindicacaoEntity();
         return entity.atualizarStatus(idReivindicacao, status);

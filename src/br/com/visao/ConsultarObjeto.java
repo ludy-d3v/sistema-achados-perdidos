@@ -7,13 +7,16 @@ package br.com.visao;
 import br.com.controller.ObjetoController;
 import br.com.controller.CampoDataUtil;
 import br.com.controller.ObjetoResumo;
+import br.com.controller.ReivindicacaoController;
 import br.com.controller.SessaoUsuario;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -60,9 +63,25 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         String descricao = String.valueOf(jTabresult.getModel().getValueAt(linha, 1));
         String categoria = String.valueOf(jTabresult.getModel().getValueAt(linha, 2));
         String campus = String.valueOf(jTabresult.getModel().getValueAt(linha, 3));
+        String statusNovo = String.valueOf(jTabresult.getModel().getValueAt(linha, 4));
 
         try {
             ObjetoController controller = new ObjetoController();
+
+            String statusAtual = controller.buscarStatusAtual(id);
+
+            if ("Disponivel".equalsIgnoreCase(statusAtual) && !statusAtual.equalsIgnoreCase(statusNovo)) {
+
+                ReivindicacaoController reivindicacaoController = new ReivindicacaoController();
+                if (reivindicacaoController.existeReivindicacaoPendente(id)) {
+                    JOptionPane.showMessageDialog(this,
+                            "Não é possível alterar o status: este objeto tem uma reivindicação pendente.");
+                    return;
+                }
+
+                controller.atualizarStatusObjeto(id, statusNovo);
+            }
+
             if (controller.atualizarObjeto(id, descricao, categoria, campus)) {
                 JOptionPane.showMessageDialog(this, "Objeto atualizado com sucesso!");
                 buscar();
@@ -154,8 +173,15 @@ public class ConsultarObjeto extends javax.swing.JFrame {
             ) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
-                    // só Descrição, Categoria e Campus podem ser editados na tabela
-                    return column == 1 || column == 2 || column == 3;
+                    // Descrição, Categoria e Campus sempre podem ser editados na tabela
+                    if (column == 1 || column == 2 || column == 3) {
+                        return true;
+                    }
+                    // Status só pode ser alterado manualmente quando o objeto está Disponível
+                    if (column == 4) {
+                        return "Disponivel".equalsIgnoreCase(String.valueOf(getValueAt(row, 4)));
+                    }
+                    return false;
                 }
             };
 
@@ -171,6 +197,11 @@ public class ConsultarObjeto extends javax.swing.JFrame {
             }
 
             jTabresult.setModel(modelo);
+
+            JComboBox<String> comboStatus = new JComboBox<>(new String[]{
+                "Disponivel", "Em analise de posse", "Encaminhado para doacao"
+            });
+            jTabresult.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboStatus));
 
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
