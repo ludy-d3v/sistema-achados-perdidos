@@ -186,7 +186,6 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPanelMenu = new javax.swing.JPanel();
-        jBinicio = new javax.swing.JButton();
         jBsairTelaPrin = new javax.swing.JButton();
         jPtotal = new javax.swing.JPanel();
         jLabelTitulo = new javax.swing.JLabel();
@@ -232,16 +231,6 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jPanelMenu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanelMenu.setLayout(null);
 
-        jBinicio.setBackground(new java.awt.Color(10, 61, 163));
-        jBinicio.setFont(new java.awt.Font("Segoe UI", 1, 14));
-        jBinicio.setForeground(new java.awt.Color(255, 255, 255));
-        jBinicio.setText("Início");
-        jBinicio.setContentAreaFilled(false);
-        jBinicio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jBinicio.addActionListener(this::jBinicioActionPerformed);
-        jPanelMenu.add(jBinicio);
-        jBinicio.setBounds(10, 227, 160, 40);
-
         jBsairTelaPrin.setBackground(new java.awt.Color(10, 61, 163));
         jBsairTelaPrin.setFont(new java.awt.Font("Segoe UI", 1, 14));
         jBsairTelaPrin.setForeground(new java.awt.Color(255, 255, 255));
@@ -250,7 +239,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBsairTelaPrin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jBsairTelaPrin.addActionListener(this::jBsairTelaPrinActionPerformed);
         jPanelMenu.add(jBsairTelaPrin);
-        jBsairTelaPrin.setBounds(10, 285, 160, 40);
+        jBsairTelaPrin.setBounds(10, 227, 160, 40);
 
         getContentPane().add(jPanelMenu);
         jPanelMenu.setBounds(0, 0, 180, 1060);
@@ -336,13 +325,6 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         pack();
     }
 
-    private void jBinicioActionPerformed(java.awt.event.ActionEvent evt) {
-        TelaPrincipal tela = new TelaPrincipal();
-        tela.setLocationRelativeTo(this);
-        tela.setVisible(true);
-        this.dispose();
-    }
-
     private void jBsairTelaPrinActionPerformed(java.awt.event.ActionEvent evt) {
         int resposta = JOptionPane.showConfirmDialog(
                 this,
@@ -380,7 +362,6 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new TelaGerenciarFuncionarios().setVisible(true));
     }
 
-    private javax.swing.JButton jBinicio;
     private javax.swing.JButton jBpesq;
     private javax.swing.JButton jBpromover;
     private javax.swing.JButton jBremover;

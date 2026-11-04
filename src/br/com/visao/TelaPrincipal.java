@@ -26,7 +26,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public TelaPrincipal() {
         initComponents();
         jLabel6.setText(SessaoUsuario.getIdentificacao());
-        jBfuncionarios.setVisible(SessaoUsuario.isAdministrador());
 
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
@@ -89,7 +88,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jBdevolucoes = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jBgerar_relatorio = new javax.swing.JButton();
-        jBfuncionarios = new javax.swing.JButton();
         jPanel2 = new br.com.controller.PainelFundoAzulado();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -212,14 +210,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jBgerar_relatorio.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jBgerar_relatorio.addActionListener(this::jBgerar_relatorioActionPerformed);
 
-        jBfuncionarios.setBackground(new java.awt.Color(10, 61, 163));
-        jBfuncionarios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jBfuncionarios.setForeground(new java.awt.Color(255, 255, 255));
-        jBfuncionarios.setText("Gerenciar Funcionários");
-        jBfuncionarios.setContentAreaFilled(false);
-        jBfuncionarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jBfuncionarios.addActionListener(this::jBfuncionariosActionPerformed);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -233,7 +223,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBgerar_relatorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBfuncionarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -253,10 +242,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jBgerar_relatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jBfuncionarios, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(403, Short.MAX_VALUE))
+                .addContainerGap(441, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -369,13 +356,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     this.dispose();
     }//GEN-LAST:event_jBgerar_relatorioActionPerformed
 
-    private void jBfuncionariosActionPerformed(java.awt.event.ActionEvent evt) {
-        TelaGerenciarFuncionarios tela = new TelaGerenciarFuncionarios();
-        tela.setLocationRelativeTo(this);
-        tela.setVisible(true);
-        this.dispose();
-    }
-
     /**
      * @param args the command line arguments
      */
@@ -405,7 +385,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jBcadastrarOB;
     private javax.swing.JButton jBconsultarOB;
     private javax.swing.JButton jBdevolucoes;
-    private javax.swing.JButton jBfuncionarios;
     private javax.swing.JButton jBgerar_relatorio;
     private javax.swing.JButton jBreivindicacoes;
     private javax.swing.JButton jBsairTelaPrin;
