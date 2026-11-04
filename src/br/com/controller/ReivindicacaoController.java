@@ -53,6 +53,12 @@ public class ReivindicacaoController {
             );
         }
 
+        if ("Encaminhado para doacao".equalsIgnoreCase(statusAtual)) {
+            throw new IllegalArgumentException(
+                    "Este objeto já foi encaminhado para doação e não pode mais ser reivindicado."
+            );
+        }
+
         RetiranteEntity retiranteEntity = new RetiranteEntity();
 
         int idRetirante = retiranteEntity.buscarPorDocumento(documentoRetirante.trim());
