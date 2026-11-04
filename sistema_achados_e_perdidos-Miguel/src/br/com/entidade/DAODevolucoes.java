@@ -83,7 +83,7 @@ public class DAODevolucoes extends DAO{
 
             // Dados do Retirante, vindos do JOIN
             r.setNome_aluno(dao.rs.getString("Nome_Completo"));
-            r.setMatricula(dao.rs.getString("Documento_Identificacao"));
+            r.setDocumento_identificacao(dao.rs.getString("Documento_Identificacao"));
 
             // Busca os dados do objeto
             d.setIdobj(r.getId_objeto());
@@ -144,7 +144,31 @@ public class DAODevolucoes extends DAO{
     }
 }
 
-    public int contarDevolucoesPorRetirante(int idRetirante) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+public int contarDevolucoesPorRetirante(int idRetirante) throws SQLException {
+    DAO dao = new DAO();
+
+    try {
+        dao.abrirBanco();
+
+        String sql = "SELECT COUNT(*) AS total FROM Devolucao WHERE ID_Retirante = ?";
+
+        dao.pst = dao.con.prepareStatement(sql);
+        dao.pst.setInt(1, idRetirante);
+        dao.rs = dao.pst.executeQuery();
+
+        if (dao.rs.next()) {
+            return dao.rs.getInt("total");
+        }
+
+        return 0;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
     }
+}
+
 }

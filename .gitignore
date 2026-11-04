@@ -4,7 +4,11 @@
 
 build/
 nbproject/private/
+<<<<<<< HEAD
 banco.txt
 inserts.sql
 src/br/com/entidade/DAO.java
 
+=======
+src/br/com/entidade/DAO.java
+>>>>>>> 4f65734cc37e84924333250f3e69e3e8559cbb72

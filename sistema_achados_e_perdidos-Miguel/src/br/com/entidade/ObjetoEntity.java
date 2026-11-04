@@ -210,6 +210,33 @@ public boolean excluirObjeto(int id) throws SQLException {
     }
 }
 
+public String buscarStatusAtual(int id) throws SQLException {
+    DAO dao = new DAO();
+
+    try {
+        dao.abrirBanco();
+
+        String sql = "SELECT Status_Atual FROM Objeto WHERE ID_Objeto = ?";
+
+        dao.pst = dao.con.prepareStatement(sql);
+        dao.pst.setInt(1, id);
+        dao.rs = dao.pst.executeQuery();
+
+        if (dao.rs.next()) {
+            return dao.rs.getString("Status_Atual");
+        }
+
+        return null;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+        }
+    }
+}
+
 public boolean atualizarStatus(int id, String status) throws SQLException {
     DAO dao = new DAO();
 

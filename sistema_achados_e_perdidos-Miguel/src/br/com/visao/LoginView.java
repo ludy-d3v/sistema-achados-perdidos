@@ -4,8 +4,9 @@
  */
 package br.com.visao;
 import br.com.controller.LoginController;
+import br.com.controller.SessaoUsuario;
 import java.awt.Color;
-
+import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -15,7 +16,7 @@ import javax.swing.ImageIcon;
  * @author lucas
  */
 public class LoginView extends javax.swing.JFrame {
-    
+
 private final LoginController controller = new LoginController();
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginView.class.getName());
@@ -25,7 +26,7 @@ private final LoginController controller = new LoginController();
      */
     public LoginView() {
         initComponents();
-        
+
         Image imagemFundo = ((ImageIcon) jLfundo.getIcon()).getImage();
 
 getContentPane().addComponentListener(
@@ -50,7 +51,7 @@ getContentPane().addComponentListener(
 );
 
 setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        
+
     }
 
     /**
@@ -150,7 +151,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         getContentPane().add(jPanel1);
         jPanel1.setBounds(610, 210, 290, 330);
 
-        jLfundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Universidade Católica de Brasília ao Entardecer.png"))); // NOI18N
+        jLfundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Universidade Católica de Brasília ao Entardecer.png"))); // NOI18N
         getContentPane().add(jLfundo);
         jLfundo.setBounds(0, 0, 1390, 620);
 
@@ -160,7 +161,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
     private void jTLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTLoginActionPerformed
         // TODO add your handling code here:
-    
+
     }//GEN-LAST:event_jTLoginActionPerformed
 
     private void jTSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTSenhaActionPerformed
@@ -170,7 +171,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     private void jBenviarsenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBenviarsenhaActionPerformed
     String usuario = jTLogin.getText();
     String senha = jTSenha.getText();
-    
+
     controller.setUsuario(usuario);
     controller.setSenha(senha);
 
@@ -180,12 +181,44 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
                 this,
                 "Login realizado com sucesso!"
             );
-            
-            
-            TelaPrincipal tela = new TelaPrincipal();
-            tela.setVisible(true);
-            this.dispose();    
-            
+
+
+            boolean funcionario = SessaoUsuario.isFuncionario();
+            boolean administrador = SessaoUsuario.isAdministrador();
+
+            if (funcionario && administrador) {
+                Object[] opcoes = {"Entrar como Funcionário", "Entrar como Administrador"};
+
+                int escolha = javax.swing.JOptionPane.showOptionDialog(
+                        this,
+                        "Essa conta tem acesso de funcionário e de administrador. Como deseja entrar?",
+                        "Escolha o acesso",
+                        javax.swing.JOptionPane.DEFAULT_OPTION,
+                        javax.swing.JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        opcoes,
+                        opcoes[0]
+                );
+
+                if (escolha == 1) {
+                    TelaGerenciarFuncionarios tela = new TelaGerenciarFuncionarios();
+                    tela.setVisible(true);
+                } else {
+                    TelaPrincipal tela = new TelaPrincipal();
+                    tela.setVisible(true);
+                }
+            } else if (administrador) {
+                TelaGerenciarFuncionarios tela = new TelaGerenciarFuncionarios();
+                tela.setVisible(true);
+            } else if (funcionario) {
+                TelaPrincipal tela = new TelaPrincipal();
+                tela.setVisible(true);
+            } else {
+                TelaPrincipal_Alunos tela = new TelaPrincipal_Alunos();
+                tela.setVisible(true);
+            }
+            this.dispose();
+
         } else {
             javax.swing.JOptionPane.showMessageDialog(
                 this,
@@ -194,6 +227,13 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
                 javax.swing.JOptionPane.ERROR_MESSAGE
             );
         }
+    } catch (IllegalArgumentException e) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            e.getMessage(),
+            "Erro",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+        );
     } catch (java.sql.SQLException e) {
         javax.swing.JOptionPane.showMessageDialog(
             this,
@@ -210,10 +250,10 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
-        
+
             TelaCadastroUsuario tela = new TelaCadastroUsuario();
             tela.setVisible(true);
-            this.dispose();  
+            this.dispose();
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     /**
@@ -223,7 +263,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -253,7 +293,6 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTLogin;
     private javax.swing.JTextField jTSenha;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
     // End of variables declaration//GEN-END:variables
 }

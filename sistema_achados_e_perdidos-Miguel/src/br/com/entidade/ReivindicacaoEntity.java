@@ -11,6 +11,30 @@ import java.sql.Timestamp;
 
 public class ReivindicacaoEntity {
 
+    public boolean existePendentePorObjeto(int idObjeto) throws SQLException {
+        DAO dao = new DAO();
+
+        try {
+            dao.abrirBanco();
+
+            String sql = "SELECT COUNT(*) AS total FROM Reivindicacao "
+                       + "WHERE ID_Objeto = ? AND Status_Reivindicacao = 'Pendente'";
+
+            dao.pst = dao.con.prepareStatement(sql);
+            dao.pst.setInt(1, idObjeto);
+            dao.rs = dao.pst.executeQuery();
+
+            return dao.rs.next() && dao.rs.getInt("total") > 0;
+
+        } finally {
+            try {
+                dao.fecharBanco();
+            } catch (Exception e) {
+                System.out.println("Erro ao fechar recursos: " + e.getMessage());
+            }
+        }
+    }
+
     public boolean criarReivindicacao(int idRetirante, int idObjeto) throws SQLException {
         DAO dao = new DAO();
 

@@ -6,10 +6,13 @@ package br.com.visao;
 
 import br.com.controller.ObjetoController;
 import br.com.controller.ObjetoResumo;
+import br.com.controller.ReivindicacaoController;
+import br.com.controller.SessaoUsuario;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -24,6 +27,7 @@ public class TelaPrincipal_Alunos extends javax.swing.JFrame {
      */
     public TelaPrincipal_Alunos() {
         initComponents();
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
 
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
@@ -31,16 +35,36 @@ public class TelaPrincipal_Alunos extends javax.swing.JFrame {
         jTabrecentes.setSelectionForeground(Color.BLACK);
 
         carregarRecentes();
+        carregarEstatisticas();
+    }
+
+    private void carregarEstatisticas() {
+        try {
+            ObjetoController objetoController = new ObjetoController();
+            jLabel12.setText(String.valueOf(objetoController.contarObjetosTotal()));
+            jLabel9.setText(String.valueOf(objetoController.contarObjetosPorStatus("Devolvido")));
+
+            ReivindicacaoController reivindicacaoController = new ReivindicacaoController();
+            jLabel14.setText(String.valueOf(reivindicacaoController.contarReivindicacoesTotal()));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao carregar estatísticas: " + e.getMessage());
+        }
     }
 
     private void carregarRecentes() {
         try {
             ObjetoController controller = new ObjetoController();
-            List<ObjetoResumo> objetos = controller.listarRecentes(5);
+            List<ObjetoResumo> objetos = controller.listarRecentes(20);
 
             DefaultTableModel modelo = new DefaultTableModel(
                     new String[]{"ID", "Descrição", "Categoria", "Campus", "Status", "Data do achado"}, 0
-            );
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
 
             for (ObjetoResumo objeto : objetos) {
                 modelo.addRow(new Object[]{
@@ -103,7 +127,7 @@ public class TelaPrincipal_Alunos extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
         jLabel3.setToolTipText("");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -235,10 +259,10 @@ public class TelaPrincipal_Alunos extends javax.swing.JFrame {
         jLabel7.setBounds(400, 220, 520, 40);
 
         jLabel2.setBackground(new java.awt.Color(243, 246, 249));
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel2.setToolTipText("");
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(240, 120, 1220, 200);
+        jLabel2.setBounds(240, 130, 1220, 200);
 
         jTabrecentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

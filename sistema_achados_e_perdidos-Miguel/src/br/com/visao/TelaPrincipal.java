@@ -6,10 +6,12 @@ package br.com.visao;
 
 import br.com.controller.ObjetoController;
 import br.com.controller.ObjetoResumo;
+import br.com.controller.SessaoUsuario;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -24,6 +26,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
 
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
@@ -36,11 +39,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void carregarRecentes() {
         try {
             ObjetoController controller = new ObjetoController();
-            List<ObjetoResumo> objetos = controller.listarRecentes(5);
+            List<ObjetoResumo> objetos = controller.listarRecentes(20);
 
             DefaultTableModel modelo = new DefaultTableModel(
                     new String[]{"ID", "Descrição", "Categoria", "Campus", "Status", "Data do achado"}, 0
-            );
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
 
             for (ObjetoResumo objeto : objetos) {
                 modelo.addRow(new Object[]{
@@ -97,7 +105,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
         jLabel3.setToolTipText("");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -263,7 +271,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel2.add(jLabel7);
         jLabel7.setBounds(400, 220, 520, 40);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel2.setToolTipText("");
         jPanel2.add(jLabel2);
         jLabel2.setBounds(240, 130, 1220, 200);

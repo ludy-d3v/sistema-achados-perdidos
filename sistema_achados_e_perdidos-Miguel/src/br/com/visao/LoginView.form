@@ -204,7 +204,7 @@
     <Component class="javax.swing.JLabel" name="jLfundo">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/ICON/Universidade Cat&#xf3;lica de Bras&#xed;lia ao Entardecer.png"/>
+          <Image iconType="3" name="/br/com/img/Universidade Cat&#xf3;lica de Bras&#xed;lia ao Entardecer.png"/>
         </Property>
       </Properties>
       <Constraints>

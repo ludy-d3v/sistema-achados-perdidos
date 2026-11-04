@@ -4,8 +4,9 @@
  */
 package br.com.visao;
 
+import br.com.controller.SessaoUsuario;
 import javax.swing.JProgressBar;
-
+import javax.swing.ImageIcon;
 /**
  *
  * @author lucas
@@ -19,6 +20,7 @@ public class TelaResultadoRelatorio extends javax.swing.JFrame {
      */
 public TelaResultadoRelatorio() {
     initComponents();
+    jLabel11.setText(SessaoUsuario.getIdentificacao());
 
             setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     
@@ -94,6 +96,7 @@ private void configurarBarra(
         jLabel3 = new javax.swing.JLabel();
         jProgressPendentes = new javax.swing.JProgressBar();
         jLem_analise = new javax.swing.JLabel();
+        jProgressPendentes1 = new javax.swing.JProgressBar();
         jPanel3 = new javax.swing.JPanel();
         jProgressAprovadas = new javax.swing.JProgressBar();
         jLabel10 = new javax.swing.JLabel();
@@ -104,7 +107,7 @@ private void configurarBarra(
 
         jPanel5.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
         jLabel7.setToolTipText("");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -278,7 +281,7 @@ private void configurarBarra(
         jLabel18.setBounds(120, 10, 3, 85);
 
         jLabel9.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel9.setToolTipText("");
         jPanel10.add(jLabel9);
         jLabel9.setBounds(-10, 0, 1220, 110);
@@ -379,6 +382,8 @@ private void configurarBarra(
         jLem_analise.setForeground(new java.awt.Color(255, 153, 0));
         jLem_analise.setText("0");
 
+        jProgressPendentes1.setForeground(new java.awt.Color(255, 102, 0));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -396,6 +401,11 @@ private void configurarBarra(
                                 .addComponent(jLabel3)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jProgressPendentes1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -407,6 +417,11 @@ private void configurarBarra(
                 .addGap(12, 12, 12)
                 .addComponent(jProgressPendentes, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(9, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(87, Short.MAX_VALUE)
+                    .addComponent(jProgressPendentes1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
 
         jPtotal.add(jPanel2);
@@ -506,7 +521,10 @@ private void configurarBarra(
     }//GEN-LAST:event_jBinicioActionPerformed
 
     private void jBdevolucoes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdevolucoes1ActionPerformed
-        // TODO add your handling code here:
+        ConsultarObjeto tela = new ConsultarObjeto();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBdevolucoes1ActionPerformed
 
     private void jBvoltar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBvoltar1ActionPerformed
@@ -552,6 +570,10 @@ public void preencherRelatorio(int solicitadas, int aprovadas, int recusadas, in
             "TOTAL DE REIVINDICAÇÕES RECUSADAS: " + recusadas
     );
 
+    jLem_analise.setText(
+            "TOTAL DE REIVINDICAÇÕES PENDENTES: " + pendentes
+    );
+
     configurarBarra(jProgressAprovadas, aprovadas, solicitadas);
     configurarBarra(jProgressRecusadas, recusadas, solicitadas);
     configurarBarra(jProgressPendentes, pendentes, solicitadas);
@@ -588,6 +610,7 @@ public void preencherRelatorio(int solicitadas, int aprovadas, int recusadas, in
     private javax.swing.JPanel jPanel6;
     private javax.swing.JProgressBar jProgressAprovadas;
     private javax.swing.JProgressBar jProgressPendentes;
+    private javax.swing.JProgressBar jProgressPendentes1;
     private javax.swing.JProgressBar jProgressRecusadas;
     private javax.swing.JPanel jPtotal;
     // End of variables declaration//GEN-END:variables

@@ -182,7 +182,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         getContentPane().add(jPanel1);
         jPanel1.setBounds(610, 180, 290, 420);
 
-        jLfundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Universidade Católica de Brasília ao Entardecer.png"))); // NOI18N
+        jLfundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Universidade Católica de Brasília ao Entardecer.png"))); // NOI18N
         getContentPane().add(jLfundo);
         jLfundo.setBounds(0, 0, 1390, 620);
         getContentPane().add(jLabel1);

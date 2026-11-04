@@ -4,24 +4,34 @@
  */
 package br.com.visao;
 
+import br.com.controller.DevolucaoController;
+import br.com.controller.ReivindicacaoController;
+import br.com.controller.ReivindicacaoResumo;
+import br.com.controller.SessaoUsuario;
 import java.awt.Color;
-
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.ImageIcon;
 /**
  *
  * @author migue
  */
 public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaReivindicacoes_Alunos.class.getName());
+
+    private int idRetirante = -1;
 
     /**
      * Creates new form RelaReivindicacoes
      */
     public TelaReivindicacoes_Alunos() {
         initComponents();
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
         // o botão "Consultar objetos" não tinha evento no designer
         jBprocurar_obj.addActionListener(evt -> {
-            ConsultarObjeto tela = new ConsultarObjeto();
+            ProcurarObj tela = new ProcurarObj();
             tela.setVisible(true);
             this.dispose();
         });
@@ -30,6 +40,71 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
         jTabresult.setSelectionForeground(Color.BLACK);
 
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+
+        carregarEstatisticas();
+        buscarReivindicacoes();
+    }
+
+    private void buscarReivindicacoes() {
+        if (idRetirante == -1) {
+            return;
+        }
+
+        try {
+            ReivindicacaoController controller = new ReivindicacaoController();
+            List<ReivindicacaoResumo> reivindicacoes = controller.listarMinhasReivindicacoes(
+                    idRetirante, jTpesq_obj.getText().trim()
+            );
+
+            DefaultTableModel modelo = new DefaultTableModel(
+                    new String[]{"Objeto", "Categoria", "Campus", "Status", "Data da reivindicação"}, 0
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            for (ReivindicacaoResumo r : reivindicacoes) {
+                modelo.addRow(new Object[]{
+                    r.getDescricaoObjeto(),
+                    r.getCategoriaObjeto(),
+                    r.getCampusObjeto(),
+                    r.getStatus(),
+                    r.getDataReivindicacao()
+                });
+            }
+
+            jTabresult.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao buscar reivindicações: " + e.getMessage());
+        }
+    }
+
+    private void carregarEstatisticas() {
+        try {
+            ReivindicacaoController reivindicacaoController = new ReivindicacaoController();
+            idRetirante = reivindicacaoController.buscarIdRetirantePorCpf(SessaoUsuario.getCpf());
+
+            if (idRetirante == -1) {
+                jLabel9.setText("0");
+                jLabel12.setText("0");
+                jLabel17.setText("0");
+                jLabel19.setText("0");
+                return;
+            }
+
+            jLabel12.setText(String.valueOf(reivindicacaoController.contarReivindicacoes(idRetirante, null)));
+            jLabel17.setText(String.valueOf(reivindicacaoController.contarReivindicacoes(idRetirante, "Aprovada")));
+            jLabel19.setText(String.valueOf(reivindicacaoController.contarReivindicacoes(idRetirante, "Recusada")));
+
+            DevolucaoController devolucaoController = new DevolucaoController();
+            jLabel9.setText(String.valueOf(devolucaoController.contarDevolucoesPorRetirante(idRetirante)));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao carregar estatísticas: " + e.getMessage());
+        }
     }
 
     /**
@@ -81,7 +156,7 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
         jLabel1.setToolTipText("");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -122,12 +197,16 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setBorder(null);
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(1010, 1010));
         jScrollPane2.setViewportView(jPtotal);
 
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
-        jPtotal.setPreferredSize(new java.awt.Dimension(900, 900));
+        jPtotal.setPreferredSize(new java.awt.Dimension(1000, 1000));
         jPtotal.setLayout(null);
+
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setViewportView(jTabresult);
 
         jTabresult.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -143,7 +222,7 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTabresult);
 
         jPtotal.add(jScrollPane1);
-        jScrollPane1.setBounds(90, 400, 1190, 420);
+        jScrollPane1.setBounds(90, 400, 1190, 250);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(4, 120, 203));
@@ -230,7 +309,7 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel10.setText("Soliciatadas");
+        jLabel10.setText("Solicitadas");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel12.setText("0");
@@ -426,11 +505,11 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBpesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBpesqActionPerformed
-        // TODO add your handling code here:
+        buscarReivindicacoes();
     }//GEN-LAST:event_jBpesqActionPerformed
 
     private void jTpesq_objActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTpesq_objActionPerformed
-        // TODO add your handling code here:
+        buscarReivindicacoes();
     }//GEN-LAST:event_jTpesq_objActionPerformed
 
     private void jBinicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinicioActionPerformed

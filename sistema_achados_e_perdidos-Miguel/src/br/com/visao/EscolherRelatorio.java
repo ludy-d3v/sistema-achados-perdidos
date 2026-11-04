@@ -4,11 +4,14 @@
  */
 package br.com.visao;
 
+import br.com.controller.CampoDataUtil;
 import br.com.controller.ObjetoController;
 import br.com.controller.PeriodoRelatorio;
 import br.com.controller.ReivindicacaoController;
+import br.com.controller.SessaoUsuario;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -23,7 +26,10 @@ public class EscolherRelatorio extends javax.swing.JFrame {
      */
     public EscolherRelatorio() {
         initComponents();
-        
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
+        CampoDataUtil.aplicarFormatoAuxiliar(jFTDataInicial);
+        CampoDataUtil.aplicarFormatoAuxiliar(jFTDataFinal);
+
          setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
@@ -31,11 +37,11 @@ public class EscolherRelatorio extends javax.swing.JFrame {
 
     PeriodoRelatorio periodo = new PeriodoRelatorio();
 
-    String dataInicial = jFTDataInicial.getText().trim();
-    String dataFinal = jFTDataFinal.getText().trim();
+    String dataInicial = CampoDataUtil.obterValor(jFTDataInicial);
+    String dataFinal = CampoDataUtil.obterValor(jFTDataFinal);
 
-    boolean inicialVazia = dataInicial.replace("/", "").isBlank();
-    boolean finalVazia = dataFinal.replace("/", "").isBlank();
+    boolean inicialVazia = dataInicial.isEmpty();
+    boolean finalVazia = dataFinal.isEmpty();
 
     // As duas datas vazias: todo o período
     if (inicialVazia && finalVazia) {
@@ -153,7 +159,7 @@ public class EscolherRelatorio extends javax.swing.JFrame {
         jLabel14.setBounds(120, 10, 3, 85);
 
         jLabel3.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel3.setToolTipText("");
         jPanel2.add(jLabel3);
         jLabel3.setBounds(-10, 0, 1220, 110);
@@ -176,6 +182,7 @@ public class EscolherRelatorio extends javax.swing.JFrame {
         jCcategoria.addActionListener(this::jCcategoriaActionPerformed);
 
         jFTDataInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        jFTDataInicial.setToolTipText("");
         jFTDataInicial.addActionListener(this::jFTDataInicialActionPerformed);
 
         jFTDataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
@@ -251,7 +258,7 @@ public class EscolherRelatorio extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
         jLabel1.setToolTipText("");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -464,7 +471,9 @@ public class EscolherRelatorio extends javax.swing.JFrame {
                 case "Relatório de Objetos encontrados":
                     {
                         PeriodoRelatorio periodo = obterPeriodo();
-                        if (periodo == null) JOptionPane.showMessageDialog(this, "Escolha um periodo para o relatório");
+                        if (periodo == null) {
+                            return;
+                        }
                         ObjetoController controller = new ObjetoController();
                         int total = controller.contarObjetosRelatorio(periodo);
                         java.util.Map<String, Integer> categorias =
@@ -513,7 +522,10 @@ public class EscolherRelatorio extends javax.swing.JFrame {
     }//GEN-LAST:event_jTgerar_relatorioActionPerformed
 
     private void jBdevolucoes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdevolucoes1ActionPerformed
-        // TODO add your handling code here:
+        ConsultarObjeto tela = new ConsultarObjeto();
+        tela.setLocationRelativeTo(this);
+        tela.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jBdevolucoes1ActionPerformed
 
     /**

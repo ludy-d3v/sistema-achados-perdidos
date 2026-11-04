@@ -1,6 +1,7 @@
 
 package br.com.entidade;
 
+import br.com.controller.SessaoUsuario;
 import java.sql.SQLException;
 
 public class LoginEntity {
@@ -13,7 +14,7 @@ public class LoginEntity {
         try {
             dao.abrirBanco();
 
-            String sql = "SELECT ID_Usuario FROM Usuario "
+            String sql = "SELECT ID_Usuario, Nome, CPF FROM Usuario "
            + "WHERE Email_Institucional = ? AND Senha = ?";
 
             dao.pst = dao.con.prepareStatement(sql);
@@ -22,7 +23,28 @@ public class LoginEntity {
 
             dao.rs = dao.pst.executeQuery();
 
-            return dao.rs.next();
+            if (dao.rs.next()) {
+                int idUsuario = dao.rs.getInt("ID_Usuario");
+                SessaoUsuario.setIdUsuario(idUsuario);
+                SessaoUsuario.setNome(dao.rs.getString("Nome"));
+                SessaoUsuario.setCpf(dao.rs.getString("CPF"));
+
+                String sqlFuncionario = "SELECT ID_Funcionario FROM Funcionario WHERE ID_Usuario = ?";
+                dao.pst = dao.con.prepareStatement(sqlFuncionario);
+                dao.pst.setInt(1, idUsuario);
+                dao.rs = dao.pst.executeQuery();
+                SessaoUsuario.setFuncionario(dao.rs.next());
+
+                String sqlAdministrador = "SELECT ID_Administrador FROM Administrador WHERE ID_Usuario = ?";
+                dao.pst = dao.con.prepareStatement(sqlAdministrador);
+                dao.pst.setInt(1, idUsuario);
+                dao.rs = dao.pst.executeQuery();
+                SessaoUsuario.setAdministrador(dao.rs.next());
+
+                return true;
+            }
+
+            return false;
 
         } finally {
             try {
@@ -34,8 +56,8 @@ public class LoginEntity {
             }
         }
     }
-    
-        public boolean consultarCadastro(String usuario, String CPF)
+
+    public boolean consultarCadastro(String usuario, String CPF)
             throws SQLException {
 
         DAO dao = new DAO();
@@ -65,73 +87,59 @@ public class LoginEntity {
         }
     }
 
-   
-public boolean cadastrarUsuario( String nome, String usuario, String senha,String CPF) throws SQLException {
+    public boolean cadastrarUsuario(String nome, String usuario, String senha, String CPF) throws SQLException {
 
-    DAO dao = new DAO();
-
-    try {
-       
-        dao.abrirBanco();
-        dao.con.setAutoCommit(false);
-        String sql ="INSERT INTO Usuario "
-                + "(ID_Usuario, Nome, Email_Institucional, Senha, CPF) "
-                + "VALUES (NULL,?, ?, ?, ?)";
-
-        dao.pst = dao.con.prepareStatement(sql,java.sql.Statement.RETURN_GENERATED_KEYS);
-
-        dao.pst.setString(1, nome);
-        dao.pst.setString(2, usuario);
-        dao.pst.setString(3, senha);
-        dao.pst.setString(4, CPF);
-
-        int resultado = dao.pst.executeUpdate();
-
-        if (resultado == 0) {
-            dao.con.rollback();
-            return false;
-        }
-
-        dao.rs = dao.pst.getGeneratedKeys();
-
-        if (!dao.rs.next()) {
-            dao.con.rollback();
-            return false;
-        }
-
-        int idUsuario = dao.rs.getInt(1);
-
-        if (usuario.toLowerCase().endsWith("@p.ucb.br")) {
-
-            String sqlFuncionario ="INSERT INTO Funcionario (ID_Usuario) "
-                                     + "VALUES (?)";
-
-            dao.pst = dao.con.prepareStatement(sqlFuncionario);
-            dao.pst.setInt(1, idUsuario);
-            dao.pst.executeUpdate();
-        }
-
-        dao.con.commit();
-
-        return true;
-
-    } catch (SQLException e) {
-
-        if (dao.con != null) {
-            dao.con.rollback();
-        }throw e;
-
-    } finally {
+        DAO dao = new DAO();
 
         try {
-            dao.fecharBanco();
-        } catch (Exception e) {
-            System.out.println(
-                    "Erro ao fechar conexão: " + e.getMessage()
-            );
+
+            dao.abrirBanco();
+            dao.con.setAutoCommit(false);
+            String sql = "INSERT INTO Usuario "
+                    + "(ID_Usuario, Nome, Email_Institucional, Senha, CPF) "
+                    + "VALUES (NULL,?, ?, ?, ?)";
+
+            dao.pst = dao.con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+
+            dao.pst.setString(1, nome);
+            dao.pst.setString(2, usuario);
+            dao.pst.setString(3, senha);
+            dao.pst.setString(4, CPF);
+
+            int resultado = dao.pst.executeUpdate();
+
+            if (resultado == 0) {
+                dao.con.rollback();
+                return false;
+            }
+
+            dao.rs = dao.pst.getGeneratedKeys();
+
+            if (!dao.rs.next()) {
+                dao.con.rollback();
+                return false;
+            }
+
+            dao.con.commit();
+
+            return true;
+
+        } catch (SQLException e) {
+
+            if (dao.con != null) {
+                dao.con.rollback();
+            }
+            throw e;
+
+        } finally {
+
+            try {
+                dao.fecharBanco();
+            } catch (Exception e) {
+                System.out.println(
+                        "Erro ao fechar conexão: " + e.getMessage()
+                );
+            }
         }
     }
-}
-        
-        
 }

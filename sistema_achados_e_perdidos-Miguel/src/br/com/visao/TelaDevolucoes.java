@@ -4,14 +4,17 @@
  */
 package br.com.visao;
 
+import br.com.controller.CampoDataUtil;
 import br.com.controller.Devolucao;
 import br.com.controller.Reivindicacao;
+import br.com.controller.SessaoUsuario;
 import br.com.entidade.DAODevolucoes;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -30,7 +33,9 @@ public class TelaDevolucoes extends javax.swing.JFrame {
      */
     public TelaDevolucoes() {
         initComponents();
-        
+        jLabel9.setText(SessaoUsuario.getIdentificacao());
+        CampoDataUtil.aplicarFormatoAuxiliar(jFdata_dev);
+
     setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
@@ -105,7 +110,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real.png"))); // NOI18N
         jLabel3.setToolTipText("");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -270,7 +275,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jLabel15.setBounds(110, 20, 400, 30);
 
         jLabel10.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel10.setToolTipText("");
         jPanel7.add(jLabel10);
         jLabel10.setBounds(-10, 0, 1280, 110);
@@ -565,7 +570,8 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jTpesquisa.setText("");
         jTmatricula.setText("");
         jTassinatura.setText("");
-        jFdata_dev.setText("");
+        jFdata_dev.setForeground(java.awt.Color.GRAY);
+        jFdata_dev.setText(CampoDataUtil.FORMATO);
     }//GEN-LAST:event_jBLimparActionPerformed
 
     private void jBconsultarOBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBconsultarOBActionPerformed
@@ -587,10 +593,18 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         return;
     }
 
+    if (!"Aprovada".equalsIgnoreCase(r.getStatus_reivindicacao())) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Só é possível registrar a devolução de uma reivindicação aprovada."
+        );
+        return;
+    }
+
     try {
         DateTimeFormatter formato =  DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        LocalDate dataDevolucao = LocalDate.parse(jFdata_dev.getText(), formato );
+        LocalDate dataDevolucao = LocalDate.parse(CampoDataUtil.obterValor(jFdata_dev), formato );
         int idFuncionario = Integer.parseInt(jTid_funcionario.getText().trim());
 
         cadastrou = ca.cadastrarDevolucao(
@@ -599,6 +613,8 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         );
 
         if (cadastrou) {
+            new br.com.controller.ObjetoController().atualizarStatusObjeto(d.getIdbj(), "Devolvido");
+
             JOptionPane.showMessageDialog(
                     this,
                     "Devolução cadastrada com sucesso!"
@@ -618,6 +634,11 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(
                 this,
                 "Informe um ID de funcionário válido."
+        );
+    } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Essa reivindicação já tem uma devolução registrada."
         );
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(
@@ -654,13 +675,13 @@ public class TelaDevolucoes extends javax.swing.JFrame {
           
           jTpesquisa.setText(null);
           
-        }else if(!jLident_pesq.getText().equalsIgnoreCase("1. Digite a reivindicação do objeto *")){
-        d.setIdobj(Integer.parseInt(jTpesquisa.getText())); 
+        }else if(jLident_pesq.getText().equalsIgnoreCase("1. Digite a reivindicação do objeto *")){
+        r.setIdreivindicacao(Integer.parseInt(jTpesquisa.getText()));
         ca.buscarIdReivindicacao(r, d);
             
 
-         jTmatricula.setText(r.getMatricula());
-         jTassinatura.setText(r.getNome_aluno());
+         jTmatricula.setText(r.getDocumento_identificacao());
+         jTnome_aluno.setText(r.getNome_aluno());
           
           
           jLnome_obj.setText(d.getNome_obj());

@@ -4,6 +4,8 @@
  */
 package br.com.visao;
 import br.com.controller.ObjetoController;
+import br.com.controller.SessaoUsuario;
+import javax.swing.ImageIcon;
 /**
  *
  * @author lucas
@@ -17,7 +19,8 @@ public class CadastroObjetoView extends javax.swing.JFrame {
      */
     public CadastroObjetoView() {
         initComponents();
-        
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
+
             setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
     }
@@ -89,7 +92,7 @@ public class CadastroObjetoView extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
         jLabel1.setToolTipText("");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -419,7 +422,7 @@ public class CadastroObjetoView extends javax.swing.JFrame {
         jLabel14.setBounds(120, 10, 3, 85);
 
         jLabel3.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel3.setToolTipText("");
         jPanel5.add(jLabel3);
         jLabel3.setBounds(-10, 0, 1220, 110);

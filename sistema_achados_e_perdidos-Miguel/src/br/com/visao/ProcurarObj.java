@@ -4,8 +4,11 @@
  */
 package br.com.visao;
 
+import br.com.controller.CampoDataUtil;
 import br.com.controller.ObjetoController;
 import br.com.controller.ObjetoResumo;
+import br.com.controller.ReivindicacaoController;
+import br.com.controller.SessaoUsuario;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -15,6 +18,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -29,6 +33,9 @@ public class ProcurarObj extends javax.swing.JFrame {
      */
     public ProcurarObj() {
         initComponents();
+        jLabel6.setText(SessaoUsuario.getIdentificacao());
+        CampoDataUtil.aplicarFormatoAuxiliar(jFdepois_de);
+        CampoDataUtil.aplicarFormatoAuxiliar(jFantes_de);
 
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
@@ -41,49 +48,21 @@ public class ProcurarObj extends javax.swing.JFrame {
         jTnome_obj.addActionListener(evt -> buscar());
     }
 
-    // dê um duplo clique na célula pra editar Descrição, Categoria ou Campus
-    // direto na tabela, depois chame este método pra salvar
-    private void salvarEdicao() {
+    private void reivindicarSelecionado() {
         int linhaView = jTabresult.getSelectedRow();
         if (linhaView == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione uma linha da tabela.");
+            JOptionPane.showMessageDialog(this, "Selecione um objeto na tabela.");
             return;
         }
         int linha = jTabresult.convertRowIndexToModel(linhaView);
+        int idObjeto = (Integer) jTabresult.getModel().getValueAt(linha, 0);
 
-        int id = (Integer) jTabresult.getModel().getValueAt(linha, 0);
-        String descricao = String.valueOf(jTabresult.getModel().getValueAt(linha, 1));
-        String categoria = String.valueOf(jTabresult.getModel().getValueAt(linha, 2));
-        String campus = String.valueOf(jTabresult.getModel().getValueAt(linha, 3));
-
-        try {
-            ObjetoController controller = new ObjetoController();
-            if (controller.atualizarObjeto(id, descricao, categoria, campus)) {
-                JOptionPane.showMessageDialog(this, "Objeto atualizado com sucesso!");
-                buscar();
-            } else {
-                JOptionPane.showMessageDialog(this, "Não foi possível atualizar o objeto.");
-            }
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao atualizar objeto: " + e.getMessage());
-        }
-    }
-
-    private void excluirSelecionado() {
-        int linhaView = jTabresult.getSelectedRow();
-        if (linhaView == -1) {
-            return;
-        }
-        int linha = jTabresult.convertRowIndexToModel(linhaView);
-
-        int id = (Integer) jTabresult.getModel().getValueAt(linha, 0);
+        String telefone = JOptionPane.showInputDialog(this, "Telefone para contato (opcional):");
 
         int resposta = JOptionPane.showConfirmDialog(
                 this,
-                "Deseja realmente excluir o objeto #" + id + "?",
-                "Confirmar exclusão",
+                "Confirma a reivindicação deste objeto?",
+                "Confirmar reivindicação",
                 JOptionPane.YES_NO_OPTION
         );
 
@@ -92,22 +71,21 @@ public class ProcurarObj extends javax.swing.JFrame {
         }
 
         try {
-            ObjetoController controller = new ObjetoController();
-            boolean excluiu = controller.excluirObjeto(id);
+            ReivindicacaoController controller = new ReivindicacaoController();
+            controller.setNomeRetirante(SessaoUsuario.getNome());
+            controller.setDocumentoRetirante(SessaoUsuario.getCpf());
+            controller.setTelefoneRetirante(telefone);
+            controller.setIdObjeto(idObjeto);
 
-            if (excluiu) {
-                JOptionPane.showMessageDialog(this, "Objeto excluído com sucesso!");
-                buscar();
+            if (controller.reivindicarObjeto()) {
+                JOptionPane.showMessageDialog(this, "Reivindicação registrada com sucesso!");
             } else {
-                JOptionPane.showMessageDialog(this, "Não foi possível excluir o objeto.");
+                JOptionPane.showMessageDialog(this, "Não foi possível registrar a reivindicação.");
             }
-        } catch (java.sql.SQLIntegrityConstraintViolationException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Não é possível excluir este objeto: ele já tem devolução, foto, "
-                    + "pergunta de segurança ou reivindicação registrada no sistema.");
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Erro ao excluir objeto: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao reivindicar objeto: " + e.getMessage());
         }
     }
 
@@ -149,8 +127,7 @@ public class ProcurarObj extends javax.swing.JFrame {
             ) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
-                    // só Descrição, Categoria e Campus podem ser editados na tabela
-                    return column == 1 || column == 2 || column == 3;
+                    return false;
                 }
             };
 
@@ -212,8 +189,7 @@ public class ProcurarObj extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTabresult = new javax.swing.JTable();
-        jBexcluirobj = new javax.swing.JButton();
-        jBsalvaredicaoobj1 = new javax.swing.JButton();
+        jBreivindicarobj = new javax.swing.JButton();
         javax.swing.JPanel jPanel3 = new br.com.controller.PainelFundoAzul();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -234,7 +210,7 @@ public class ProcurarObj extends javax.swing.JFrame {
 
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
         jPtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPtotal.setPreferredSize(new java.awt.Dimension(900, 900));
+        jPtotal.setPreferredSize(new java.awt.Dimension(1100, 1100));
         jPtotal.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(243, 246, 249));
@@ -258,7 +234,7 @@ public class ProcurarObj extends javax.swing.JFrame {
         jLabel14.setBounds(120, 10, 3, 85);
 
         jLabel3.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel3.setToolTipText("");
         jPanel2.add(jLabel3);
         jLabel3.setBounds(-10, 0, 1220, 110);
@@ -377,23 +353,15 @@ public class ProcurarObj extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTabresult);
 
         jPtotal.add(jScrollPane3);
-        jScrollPane3.setBounds(70, 380, 1190, 470);
+        jScrollPane3.setBounds(70, 380, 1190, 350);
 
-        jBexcluirobj.setBackground(new java.awt.Color(4, 120, 203));
-        jBexcluirobj.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jBexcluirobj.setForeground(new java.awt.Color(255, 255, 255));
-        jBexcluirobj.setText("Excluir objeto");
-        jBexcluirobj.addActionListener(this::jBexcluirobjActionPerformed);
-        jPtotal.add(jBexcluirobj);
-        jBexcluirobj.setBounds(220, 870, 120, 40);
-
-        jBsalvaredicaoobj1.setBackground(new java.awt.Color(4, 120, 203));
-        jBsalvaredicaoobj1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jBsalvaredicaoobj1.setForeground(new java.awt.Color(255, 255, 255));
-        jBsalvaredicaoobj1.setText("Salvar edição");
-        jBsalvaredicaoobj1.addActionListener(this::jBsalvaredicaoobj1ActionPerformed);
-        jPtotal.add(jBsalvaredicaoobj1);
-        jBsalvaredicaoobj1.setBounds(80, 870, 120, 40);
+        jBreivindicarobj.setBackground(new java.awt.Color(4, 120, 203));
+        jBreivindicarobj.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBreivindicarobj.setForeground(new java.awt.Color(255, 255, 255));
+        jBreivindicarobj.setText("Reivindicar");
+        jBreivindicarobj.addActionListener(this::jBreivindicarobjActionPerformed);
+        jPtotal.add(jBreivindicarobj);
+        jBreivindicarobj.setBounds(80, 770, 120, 40);
 
         jScrollPane1.setViewportView(jPtotal);
 
@@ -402,7 +370,7 @@ public class ProcurarObj extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
         jLabel1.setToolTipText("");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -526,13 +494,9 @@ public class ProcurarObj extends javax.swing.JFrame {
         buscar();
     }//GEN-LAST:event_jFantes_deActionPerformed
 
-    private void jBsalvaredicaoobj1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsalvaredicaoobj1ActionPerformed
-        salvarEdicao();
-    }//GEN-LAST:event_jBsalvaredicaoobj1ActionPerformed
-
-    private void jBexcluirobjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBexcluirobjActionPerformed
-        excluirSelecionado();
-    }//GEN-LAST:event_jBexcluirobjActionPerformed
+    private void jBreivindicarobjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBreivindicarobjActionPerformed
+        reivindicarSelecionado();
+    }//GEN-LAST:event_jBreivindicarobjActionPerformed
 
     private void jBinicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBinicioActionPerformed
         // TODO add your handling code here:
@@ -589,11 +553,10 @@ public class ProcurarObj extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBexcluirobj;
     private javax.swing.JButton jBinicio;
     private javax.swing.JButton jBreivindicacoes;
+    private javax.swing.JButton jBreivindicarobj;
     private javax.swing.JButton jBsairTelaPrin;
-    private javax.swing.JButton jBsalvaredicaoobj1;
     private javax.swing.JComboBox<String> jCcategoria;
     private javax.swing.JFormattedTextField jFantes_de;
     private javax.swing.JFormattedTextField jFdepois_de;
