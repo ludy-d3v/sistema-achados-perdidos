@@ -183,7 +183,34 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
             );
 
 
-            if (SessaoUsuario.isFuncionario() || SessaoUsuario.isAdministrador()) {
+            boolean funcionario = SessaoUsuario.isFuncionario();
+            boolean administrador = SessaoUsuario.isAdministrador();
+
+            if (funcionario && administrador) {
+                Object[] opcoes = {"Entrar como Funcionário", "Entrar como Administrador"};
+
+                int escolha = javax.swing.JOptionPane.showOptionDialog(
+                        this,
+                        "Essa conta tem acesso de funcionário e de administrador. Como deseja entrar?",
+                        "Escolha o acesso",
+                        javax.swing.JOptionPane.DEFAULT_OPTION,
+                        javax.swing.JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        opcoes,
+                        opcoes[0]
+                );
+
+                if (escolha == 1) {
+                    TelaGerenciarFuncionarios tela = new TelaGerenciarFuncionarios();
+                    tela.setVisible(true);
+                } else {
+                    TelaPrincipal tela = new TelaPrincipal();
+                    tela.setVisible(true);
+                }
+            } else if (administrador) {
+                TelaGerenciarFuncionarios tela = new TelaGerenciarFuncionarios();
+                tela.setVisible(true);
+            } else if (funcionario) {
                 TelaPrincipal tela = new TelaPrincipal();
                 tela.setVisible(true);
             } else {
