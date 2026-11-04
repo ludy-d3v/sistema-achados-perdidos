@@ -35,6 +35,12 @@ public class LoginEntity {
                 dao.rs = dao.pst.executeQuery();
                 SessaoUsuario.setFuncionario(dao.rs.next());
 
+                String sqlAdministrador = "SELECT ID_Administrador FROM Administrador WHERE ID_Usuario = ?";
+                dao.pst = dao.con.prepareStatement(sqlAdministrador);
+                dao.pst.setInt(1, idUsuario);
+                dao.rs = dao.pst.executeQuery();
+                SessaoUsuario.setAdministrador(dao.rs.next());
+
                 return true;
             }
 
@@ -112,18 +118,6 @@ public class LoginEntity {
             if (!dao.rs.next()) {
                 dao.con.rollback();
                 return false;
-            }
-
-            int idUsuario = dao.rs.getInt(1);
-
-            if (usuario.toLowerCase().endsWith("@p.ucb.br")) {
-
-                String sqlFuncionario = "INSERT INTO Funcionario (ID_Usuario) "
-                        + "VALUES (?)";
-
-                dao.pst = dao.con.prepareStatement(sqlFuncionario);
-                dao.pst.setInt(1, idUsuario);
-                dao.pst.executeUpdate();
             }
 
             dao.con.commit();

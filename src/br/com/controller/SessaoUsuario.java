@@ -7,6 +7,7 @@ public class SessaoUsuario {
     private static String nome;
     private static String cpf;
     private static boolean funcionario;
+    private static boolean administrador;
 
     public static int getIdUsuario() {
         return idUsuario;
@@ -38,6 +39,14 @@ public class SessaoUsuario {
 
     public static void setFuncionario(boolean funcionario) {
         SessaoUsuario.funcionario = funcionario;
+    }
+
+    public static boolean isAdministrador() {
+        return administrador;
+    }
+
+    public static void setAdministrador(boolean administrador) {
+        SessaoUsuario.administrador = administrador;
     }
 
     public static String getIdentificacao() {
