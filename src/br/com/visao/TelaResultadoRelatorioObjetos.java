@@ -69,32 +69,34 @@ public void preencherRelatorio(
         java.util.Map<String, Integer> campus,
         java.util.Map<String, Integer> meses) {
 
-    jLabelTotal.setText("TOTAL DE OBJETOS CADASTRADOS: " + total);
+    jLabelTotal.setText(String.valueOf(total));
 
-    jLabelCategoria.setText(montarMaior(categorias));
-    jLabelCampus.setText(montarMaior(campus));
-    jLabelMes.setText(montarMaior(meses));
+    jLabelCategoria.setText(montarLista(categorias));
+    jLabelCampus.setText(montarLista(campus));
+    jLabelMes.setText(montarLista(meses));
 
     configurarPercentual(jProgressCategoria, categorias, total);
     configurarPercentual(jProgressCampus, campus, total);
     configurarPercentual(jProgressMes, meses, total);
 }
 
-private String montarMaior(java.util.Map<String, Integer> dados) {
+private String montarLista(java.util.Map<String, Integer> dados) {
 
-    String maiorChave = null;
-    int maiorValor = 0;
-
-    for (java.util.Map.Entry<String, Integer> item : dados.entrySet()) {
-        if (item.getValue() > maiorValor) {
-            maiorValor = item.getValue();
-            maiorChave = item.getKey();
-        }
+    if (dados.isEmpty()) {
+        return "Sem dados";
     }
 
-    return maiorChave == null
-            ? "Sem dados"
-            : maiorChave + ": " + maiorValor;
+    StringBuilder texto = new StringBuilder("<html>");
+
+    for (java.util.Map.Entry<String, Integer> item : dados.entrySet()) {
+        texto.append(item.getKey())
+             .append(": ")
+             .append(item.getValue())
+             .append("<br>");
+    }
+
+    texto.append("</html>");
+    return texto.toString();
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -508,25 +510,25 @@ private String montarMaior(java.util.Map<String, Integer> dados) {
         jBvoltar.setText("Voltar");
         jBvoltar.addActionListener(this::jBvoltarActionPerformed);
         jPtotal.add(jBvoltar);
-        jBvoltar.setBounds(1190, 630, 140, 40);
+        jBvoltar.setBounds(1190, 840, 140, 40);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 1, 1, new java.awt.Color(4, 120, 203)));
         jPanel7.setLayout(null);
         jPanel7.add(jProgressMes);
-        jProgressMes.setBounds(30, 160, 377, 16);
+        jProgressMes.setBounds(30, 245, 377, 16);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(4, 120, 203));
         jLabel10.setText("Mês com mais objetos cadastrados.");
         jPanel7.add(jLabel10);
-        jLabel10.setBounds(90, 130, 240, 20);
+        jLabel10.setBounds(90, 220, 240, 20);
 
-        jLabelMes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelMes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelMes.setForeground(new java.awt.Color(4, 120, 203));
         jLabelMes.setText("0");
         jPanel7.add(jLabelMes);
-        jLabelMes.setBounds(30, 60, 130, 16);
+        jLabelMes.setBounds(30, 60, 380, 150);
 
         jLabelMes1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelMes1.setForeground(new java.awt.Color(4, 120, 203));
@@ -535,7 +537,7 @@ private String montarMaior(java.util.Map<String, Integer> dados) {
         jLabelMes1.setBounds(30, 30, 200, 25);
 
         jPtotal.add(jPanel7);
-        jPanel7.setBounds(450, 460, 430, 190);
+        jPanel7.setBounds(450, 540, 430, 280);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 1, 1, new java.awt.Color(4, 120, 203)));
@@ -547,11 +549,11 @@ private String montarMaior(java.util.Map<String, Integer> dados) {
         jPanel8.add(jLabel14);
         jLabel14.setBounds(10, 10, 280, 25);
 
-        jLabelCategoria.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelCategoria.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelCategoria.setForeground(new java.awt.Color(4, 120, 203));
         jLabelCategoria.setText("0");
         jPanel8.add(jLabelCategoria);
-        jLabelCategoria.setBounds(10, 110, 180, 25);
+        jLabelCategoria.setBounds(10, 110, 400, 160);
 
         jLabelTotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelTotal.setForeground(new java.awt.Color(4, 120, 203));
@@ -565,28 +567,28 @@ private String montarMaior(java.util.Map<String, Integer> dados) {
         jPanel8.add(jLabelCategoria3);
         jLabelCategoria3.setBounds(10, 80, 230, 25);
         jPanel8.add(jProgressCategoria);
-        jProgressCategoria.setBounds(30, 190, 377, 20);
+        jProgressCategoria.setBounds(30, 300, 377, 20);
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(4, 120, 203));
         jLabel15.setText("Maior categoria de objetos cadastrados.");
         jPanel8.add(jLabel15);
-        jLabel15.setBounds(80, 170, 280, 20);
+        jLabel15.setBounds(80, 280, 320, 20);
 
         jPtotal.add(jPanel8);
-        jPanel8.setBounds(100, 200, 430, 230);
+        jPanel8.setBounds(100, 200, 430, 340);
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 1, 1, new java.awt.Color(4, 120, 203)));
         jPanel9.setLayout(null);
         jPanel9.add(jProgressCampus);
-        jProgressCampus.setBounds(20, 160, 377, 18);
+        jProgressCampus.setBounds(20, 270, 377, 18);
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(4, 120, 203));
         jLabel13.setText("Campus com mais objetos cadastrados.");
         jPanel9.add(jLabel13);
-        jLabel13.setBounds(70, 140, 270, 20);
+        jLabel13.setBounds(70, 250, 270, 20);
 
         jLabelCampus2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabelCampus2.setForeground(new java.awt.Color(4, 120, 203));
@@ -594,14 +596,14 @@ private String montarMaior(java.util.Map<String, Integer> dados) {
         jPanel9.add(jLabelCampus2);
         jLabelCampus2.setBounds(20, 40, 240, 25);
 
-        jLabelCampus.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelCampus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelCampus.setForeground(new java.awt.Color(4, 120, 203));
         jLabelCampus.setText("0");
         jPanel9.add(jLabelCampus);
-        jLabelCampus.setBounds(20, 70, 240, 25);
+        jLabelCampus.setBounds(20, 70, 390, 160);
 
         jPtotal.add(jPanel9);
-        jPanel9.setBounds(850, 200, 430, 230);
+        jPanel9.setBounds(850, 200, 430, 340);
 
         jPanel10.setBackground(new java.awt.Color(243, 246, 249));
         jPanel10.setLayout(null);
