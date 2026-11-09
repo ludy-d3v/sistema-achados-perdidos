@@ -11,7 +11,6 @@ import br.com.controller.ReivindicacaoController;
 import br.com.controller.SessaoUsuario;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -132,7 +131,7 @@ public class EscolherRelatorio extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
         jPtotal.setPreferredSize(new java.awt.Dimension(900, 900));

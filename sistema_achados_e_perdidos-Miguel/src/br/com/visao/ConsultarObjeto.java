@@ -20,7 +20,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -206,7 +205,7 @@ public class ConsultarObjeto extends javax.swing.JFrame {
 
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
-         } catch (Exception e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
                     "Erro ao buscar objetos: " + e.getMessage());
         }
@@ -274,7 +273,7 @@ public class ConsultarObjeto extends javax.swing.JFrame {
 
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
         jPtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPtotal.setPreferredSize(new java.awt.Dimension(900, 900));
+        jPtotal.setPreferredSize(new java.awt.Dimension(1100, 1100));
         jPtotal.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(243, 246, 249));
@@ -438,7 +437,7 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jPtotal);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(180, 90, 1360, 970);
+        jScrollPane1.setBounds(180, 90, 1360, 790);
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 

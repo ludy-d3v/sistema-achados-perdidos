@@ -8,6 +8,8 @@ import br.com.controller.FuncionarioController;
 import br.com.controller.SessaoUsuario;
 import br.com.controller.UsuarioResumo;
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -124,6 +126,64 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao promover usuário: " + e.getMessage());
         }
     }
+    
+    private void deletarSelecionado() {
+
+    int id = obterIdSelecionado();
+
+    if (id == -1) {
+        return;
+    }
+
+    int resposta = JOptionPane.showConfirmDialog(
+            this,
+            "Deseja realmente excluir este usuário?",
+            "Confirmar exclusão",
+            JOptionPane.YES_NO_OPTION
+    );
+
+    if (resposta != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    try {
+
+        FuncionarioController controller =
+                new FuncionarioController();
+
+        if (controller.deletarUsuario(id)) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Usuário excluído com sucesso!"
+            );
+
+            buscar();
+
+        } else {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Não é possível excluir este usuário.\n"
+                    + "Ele possui cargo ou é administrador."
+            );
+        }
+
+    } catch (java.sql.SQLIntegrityConstraintViolationException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Não é possível excluir este usuário.\n"
+                + "Existem registros vinculados a ele."
+        );
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao excluir usuário: " + e.getMessage()
+        );
+    }}
 
     private void salvarCargoSetorSelecionado() {
         int id = obterIdSelecionado();
@@ -141,7 +201,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
             }
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar cargo/setor: " + e.getMessage());
         }
     }
@@ -176,7 +236,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             JOptionPane.showMessageDialog(this,
                     "Não é possível remover: esse funcionário já tem devoluções registradas no sistema.");
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, "Erro ao remover funcionário: " + e.getMessage());
         }
     }
@@ -197,19 +257,20 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jBpesquisar_usuario = new javax.swing.JButton();
-        jTnome_email_cpf_usuario = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTabresultadousuarios = new javax.swing.JTable();
         jBremovercargo = new javax.swing.JButton();
-        jBtornarfuncionario = new javax.swing.JButton();
+        jBdeletarusuario = new javax.swing.JButton();
         jBsalvar_cargo_setor = new javax.swing.JButton();
         jTnome_setor = new javax.swing.JTextField();
         jTnome_cargo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jBtornarfuncionario1 = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jBpesquisar_usuario = new javax.swing.JButton();
+        jTnome_email_cpf_usuario = new javax.swing.JTextField();
         javax.swing.JPanel jPanel3 = new br.com.controller.PainelFundoAzul();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -225,18 +286,12 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(800, 800));
         jScrollPane1.setViewportView(jPtotal);
-
-        
-        
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png")));
-        jPanelTopo.add(jLabel1);
-        jLabel1.setBounds(10, 0, 206, 90);
 
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
         jPtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPtotal.setPreferredSize(new java.awt.Dimension(900, 1000));
+        jPtotal.setPreferredSize(new java.awt.Dimension(1100, 1100));
         jPtotal.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(243, 246, 249));
@@ -260,57 +315,13 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jLabel14.setBounds(120, 10, 3, 85);
 
         jLabel3.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel3.setToolTipText("");
         jPanel2.add(jLabel3);
         jLabel3.setBounds(-10, 0, 1220, 110);
 
         jPtotal.add(jPanel2);
         jPanel2.setBounds(60, 80, 1220, 120);
-
-        jPanel5.setBackground(new java.awt.Color(243, 247, 254));
-        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 216, 248), 2));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(4, 90, 203));
-        jLabel9.setText("Pesquisar por nome, e-mail ou CPF:");
-
-        jBpesquisar_usuario.setBackground(new java.awt.Color(4, 120, 203));
-        jBpesquisar_usuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jBpesquisar_usuario.setForeground(new java.awt.Color(255, 255, 255));
-        jBpesquisar_usuario.setText("Pesquisar");
-        jBpesquisar_usuario.addActionListener(this::jBpesquisar_usuarioActionPerformed);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jTnome_email_cpf_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                        .addComponent(jBpesquisar_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(418, 418, 418))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBpesquisar_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTnome_email_cpf_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
-        );
-
-        jPtotal.add(jPanel5);
-        jPanel5.setBounds(70, 220, 1190, 110);
 
         jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -344,15 +355,15 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBremovercargo.setText("Remover cargo");
         jBremovercargo.addActionListener(this::jBremovercargoActionPerformed);
         jPtotal.add(jBremovercargo);
-        jBremovercargo.setBounds(1150, 860, 150, 40);
+        jBremovercargo.setBounds(1030, 860, 150, 40);
 
-        jBtornarfuncionario.setBackground(new java.awt.Color(4, 120, 203));
-        jBtornarfuncionario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jBtornarfuncionario.setForeground(new java.awt.Color(255, 255, 255));
-        jBtornarfuncionario.setText("Tornar funcionário");
-        jBtornarfuncionario.addActionListener(this::jBtornarfuncionarioActionPerformed);
-        jPtotal.add(jBtornarfuncionario);
-        jBtornarfuncionario.setBounds(730, 860, 160, 40);
+        jBdeletarusuario.setBackground(new java.awt.Color(204, 0, 0));
+        jBdeletarusuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBdeletarusuario.setForeground(new java.awt.Color(255, 255, 255));
+        jBdeletarusuario.setText("Deletar usuário");
+        jBdeletarusuario.addActionListener(this::jBdeletarusuarioActionPerformed);
+        jPtotal.add(jBdeletarusuario);
+        jBdeletarusuario.setBounds(1030, 920, 150, 40);
 
         jBsalvar_cargo_setor.setBackground(new java.awt.Color(4, 120, 203));
         jBsalvar_cargo_setor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -360,11 +371,11 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jBsalvar_cargo_setor.setText("Salvar cargo/setor");
         jBsalvar_cargo_setor.addActionListener(this::jBsalvar_cargo_setorActionPerformed);
         jPtotal.add(jBsalvar_cargo_setor);
-        jBsalvar_cargo_setor.setBounds(940, 860, 160, 40);
+        jBsalvar_cargo_setor.setBounds(790, 920, 160, 40);
         jPtotal.add(jTnome_setor);
-        jTnome_setor.setBounds(400, 870, 300, 26);
+        jTnome_setor.setBounds(400, 870, 300, 22);
         jPtotal.add(jTnome_cargo);
-        jTnome_cargo.setBounds(70, 870, 280, 26);
+        jTnome_cargo.setBounds(70, 870, 280, 22);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(4, 120, 203));
@@ -378,14 +389,66 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         jPtotal.add(jLabel5);
         jLabel5.setBounds(70, 830, 115, 20);
 
+        jBtornarfuncionario1.setBackground(new java.awt.Color(4, 120, 203));
+        jBtornarfuncionario1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBtornarfuncionario1.setForeground(new java.awt.Color(255, 255, 255));
+        jBtornarfuncionario1.setText("Tornar funcionário");
+        jBtornarfuncionario1.addActionListener(this::jBtornarfuncionario1ActionPerformed);
+        jPtotal.add(jBtornarfuncionario1);
+        jBtornarfuncionario1.setBounds(790, 860, 160, 40);
+
+        jPanel7.setBackground(new java.awt.Color(243, 247, 254));
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(197, 216, 248), 2));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(4, 90, 203));
+        jLabel10.setText("Pesquisar por nome, e-mail ou CPF:");
+
+        jBpesquisar_usuario.setBackground(new java.awt.Color(4, 120, 203));
+        jBpesquisar_usuario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jBpesquisar_usuario.setForeground(new java.awt.Color(255, 255, 255));
+        jBpesquisar_usuario.setText("Pesquisar");
+        jBpesquisar_usuario.addActionListener(this::jBpesquisar_usuarioActionPerformed);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jTnome_email_cpf_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addComponent(jBpesquisar_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(418, 418, 418))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBpesquisar_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTnome_email_cpf_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
+        );
+
+        jPtotal.add(jPanel7);
+        jPanel7.setBounds(70, 230, 1190, 110);
+
         jScrollPane1.setViewportView(jPtotal);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(180, 90, 1360, 1120);
+        jScrollPane1.setBounds(180, 90, 1360, 710);
 
         jPanel3.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
         jLabel1.setToolTipText("");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -405,7 +468,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 857, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 853, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(283, 283, 283))
         );
@@ -464,7 +527,7 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBinicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(jBgerenciarfuncionarios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                     .addComponent(jBsairTelaPrin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -510,17 +573,21 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
         salvarCargoSetorSelecionado();
     }//GEN-LAST:event_jBsalvar_cargo_setorActionPerformed
 
-    private void jBtornarfuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtornarfuncionarioActionPerformed
-        promoverSelecionado();
-    }//GEN-LAST:event_jBtornarfuncionarioActionPerformed
+    private void jBdeletarusuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdeletarusuarioActionPerformed
+        deletarSelecionado();
+    }//GEN-LAST:event_jBdeletarusuarioActionPerformed
 
     private void jBremovercargoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBremovercargoActionPerformed
         removerSelecionado();
     }//GEN-LAST:event_jBremovercargoActionPerformed
 
     private void jBpesquisar_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBpesquisar_usuarioActionPerformed
-        buscar();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jBpesquisar_usuarioActionPerformed
+
+    private void jBtornarfuncionario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtornarfuncionario1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtornarfuncionario1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -548,14 +615,16 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBdeletarusuario;
     private javax.swing.JLabel jBgerenciarfuncionarios;
     private javax.swing.JButton jBinicio;
     private javax.swing.JButton jBpesquisar_usuario;
     private javax.swing.JButton jBremovercargo;
     private javax.swing.JButton jBsairTelaPrin;
     private javax.swing.JButton jBsalvar_cargo_setor;
-    private javax.swing.JButton jBtornarfuncionario;
+    private javax.swing.JButton jBtornarfuncionario1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -564,10 +633,9 @@ public class TelaGerenciarFuncionarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPtotal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;

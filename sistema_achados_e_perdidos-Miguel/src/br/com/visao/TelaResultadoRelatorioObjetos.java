@@ -5,7 +5,7 @@
 package br.com.visao;
 
 import br.com.controller.SessaoUsuario;
-import javax.swing.ImageIcon;
+
 /**
  *
  * @author lucas
@@ -140,6 +140,7 @@ private String montarLista(java.util.Map<String, Integer> dados) {
         jLabel12 = new javax.swing.JLabel();
         jBinicio = new javax.swing.JButton();
         jBdevolucoes1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
         jPtotal = new javax.swing.JPanel();
         jBvoltar = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
@@ -504,8 +505,12 @@ private String montarLista(java.util.Map<String, Integer> dados) {
         getContentPane().add(jPanel6);
         jPanel6.setBounds(0, 0, 180, 1060);
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setViewportView(jPtotal);
+
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
-        jPtotal.setPreferredSize(new java.awt.Dimension(1100, 1100));
+        jPtotal.setPreferredSize(new java.awt.Dimension(1200, 1200));
         jPtotal.setLayout(null);
 
         jBvoltar.setBackground(new java.awt.Color(10, 61, 163));
@@ -637,8 +642,10 @@ private String montarLista(java.util.Map<String, Integer> dados) {
         jPtotal.add(jPanel10);
         jPanel10.setBounds(90, 50, 1220, 120);
 
-        getContentPane().add(jPtotal);
-        jPtotal.setBounds(180, 90, 1430, 1100);
+        jScrollPane1.setViewportView(jPtotal);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(180, 90, 1360, 920);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -781,5 +788,6 @@ private String montarLista(java.util.Map<String, Integer> dados) {
     private javax.swing.JProgressBar jProgressPendentes;
     private javax.swing.JProgressBar jProgressRecusadas;
     private javax.swing.JPanel jPtotal;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

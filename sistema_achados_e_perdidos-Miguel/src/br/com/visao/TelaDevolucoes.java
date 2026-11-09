@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -110,7 +109,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(10, 61, 163));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Emblema Branco sobre Azul Real.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Emblema Branco sobre Azul Real (1).png"))); // NOI18N
         jLabel3.setToolTipText("");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -321,7 +320,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jBpesq.setText("Procurar");
         jBpesq.addActionListener(this::jBpesqActionPerformed);
         jPanel2.add(jBpesq);
-        jBpesq.setBounds(610, 130, 100, 31);
+        jBpesq.setBounds(610, 130, 100, 27);
 
         jPanel1.setBackground(new java.awt.Color(242, 247, 251));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(185, 218, 252), 3));
@@ -505,7 +504,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jCopcao_pesq.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pesquisar reivindicação", "Pesquisar ID" }));
         jCopcao_pesq.addActionListener(this::jCopcao_pesqActionPerformed);
         jPanel2.add(jCopcao_pesq);
-        jCopcao_pesq.setBounds(730, 140, 160, 26);
+        jCopcao_pesq.setBounds(730, 140, 160, 22);
 
         jPtotal.add(jPanel2);
         jPanel2.setBounds(90, 210, 1190, 990);

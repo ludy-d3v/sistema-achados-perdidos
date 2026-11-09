@@ -526,7 +526,7 @@
                       <Color blue="cb" green="78" red="4" type="rgb"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/ICON/Background (4).png"/>
+                      <Image iconType="3" name="/br/com/img/Background (4).png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>

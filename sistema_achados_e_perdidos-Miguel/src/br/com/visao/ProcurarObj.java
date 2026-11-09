@@ -18,7 +18,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -210,7 +209,7 @@ public class ProcurarObj extends javax.swing.JFrame {
 
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
         jPtotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPtotal.setPreferredSize(new java.awt.Dimension(1100, 1100));
+        jPtotal.setPreferredSize(new java.awt.Dimension(900, 900));
         jPtotal.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(243, 246, 249));
@@ -353,7 +352,7 @@ public class ProcurarObj extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTabresult);
 
         jPtotal.add(jScrollPane3);
-        jScrollPane3.setBounds(70, 380, 1190, 350);
+        jScrollPane3.setBounds(70, 380, 1190, 470);
 
         jBreivindicarobj.setBackground(new java.awt.Color(4, 120, 203));
         jBreivindicarobj.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -361,7 +360,7 @@ public class ProcurarObj extends javax.swing.JFrame {
         jBreivindicarobj.setText("Reivindicar");
         jBreivindicarobj.addActionListener(this::jBreivindicarobjActionPerformed);
         jPtotal.add(jBreivindicarobj);
-        jBreivindicarobj.setBounds(80, 770, 120, 40);
+        jBreivindicarobj.setBounds(70, 340, 120, 40);
 
         jScrollPane1.setViewportView(jPtotal);
 

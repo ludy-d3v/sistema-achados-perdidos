@@ -14,7 +14,6 @@ import javax.swing.RowFilter;
 import java.sql.SQLException;
 import br.com.controller.ReivindicacaoController;
 import br.com.controller.SessaoUsuario;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -350,7 +349,7 @@ private void carregarReivindicacoes() {
         jLabel14.setBounds(120, 10, 3, 85);
 
         jLabel3.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel3.setToolTipText("");
         jPanel1.add(jLabel3);
         jLabel3.setBounds(0, 0, 1220, 110);

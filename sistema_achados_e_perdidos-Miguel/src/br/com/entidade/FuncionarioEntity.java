@@ -109,6 +109,41 @@ public class FuncionarioEntity {
             }
         }
     }
+    
+    public boolean deletarUsuario(int idUsuario) throws SQLException {
+
+    DAO dao = new DAO();
+
+    try {
+        dao.abrirBanco();
+
+        String sql = "DELETE FROM Usuario "
+                + "WHERE ID_Usuario = ? "
+                + "AND NOT EXISTS ("
+                + "SELECT 1 FROM Funcionario f "
+                + "WHERE f.ID_Usuario = Usuario.ID_Usuario"
+                + ") "
+                + "AND NOT EXISTS ("
+                + "SELECT 1 FROM Administrador a "
+                + "WHERE a.ID_Usuario = Usuario.ID_Usuario"
+                + ")";
+
+        dao.pst = dao.con.prepareStatement(sql);
+
+        dao.pst.setInt(1, idUsuario);
+
+        return dao.pst.executeUpdate() > 0;
+
+    } finally {
+        try {
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println(
+                    "Erro ao fechar recursos: " + e.getMessage()
+            );
+        }
+    }
+}
 
     public boolean removerFuncionario(int idUsuario) throws SQLException {
         DAO dao = new DAO();

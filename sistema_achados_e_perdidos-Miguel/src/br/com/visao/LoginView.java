@@ -6,7 +6,7 @@ package br.com.visao;
 import br.com.controller.LoginController;
 import br.com.controller.SessaoUsuario;
 import java.awt.Color;
-import javax.swing.ImageIcon;
+
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -141,7 +141,7 @@ setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         jToggleButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jToggleButton2.addActionListener(this::jToggleButton2ActionPerformed);
         jPanel1.add(jToggleButton2);
-        jToggleButton2.setBounds(170, 290, 31, 16);
+        jToggleButton2.setBounds(170, 290, 40, 16);
 
         jLabel5.setBackground(new java.awt.Color(153, 204, 255));
         jLabel5.setOpaque(true);

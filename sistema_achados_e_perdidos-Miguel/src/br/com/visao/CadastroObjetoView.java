@@ -5,7 +5,6 @@
 package br.com.visao;
 import br.com.controller.ObjetoController;
 import br.com.controller.SessaoUsuario;
-import javax.swing.ImageIcon;
 /**
  *
  * @author lucas
@@ -46,6 +45,7 @@ public class CadastroObjetoView extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jBinicio = new javax.swing.JButton();
         jBgerar_relatorio = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
         jPtotal = new br.com.controller.PainelFundoAzulado();
         jPanel2 = new br.com.controller.PainelFundoBranco();
         jLDescricao = new javax.swing.JLabel();
@@ -75,11 +75,6 @@ public class CadastroObjetoView extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTnomeobj = new javax.swing.JTextPane();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -110,9 +105,9 @@ public class CadastroObjetoView extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(112, 112, 112)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 707, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 801, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(279, 279, 279))
         );
@@ -233,9 +228,14 @@ public class CadastroObjetoView extends javax.swing.JFrame {
         getContentPane().add(jPanel4);
         jPanel4.setBounds(0, 0, 180, 1060);
 
+        jScrollPane6.setBorder(null);
+        jScrollPane6.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane6.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane6.setViewportView(jPtotal);
+
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
         jPtotal.setForeground(new java.awt.Color(255, 255, 255));
-        jPtotal.setPreferredSize(new java.awt.Dimension(800, 800));
+        jPtotal.setPreferredSize(new java.awt.Dimension(1000, 1000));
         jPtotal.setLayout(null);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -371,36 +371,6 @@ public class CadastroObjetoView extends javax.swing.JFrame {
         jPtotal.add(jPanel2);
         jPanel2.setBounds(90, 230, 1190, 520);
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel5.setText("Início");
-        jPtotal.add(jLabel5);
-        jLabel5.setBounds(10, 10, 40, 20);
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel7.setText("Achados e Perdidos");
-        jPtotal.add(jLabel7);
-        jLabel7.setBounds(60, 10, 130, 20);
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel8.setText("Cadastrar objeto");
-        jPtotal.add(jLabel8);
-        jLabel8.setBounds(200, 10, 110, 20);
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel9.setText("/");
-        jPtotal.add(jLabel9);
-        jLabel9.setBounds(190, 10, 10, 20);
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel10.setText("/");
-        jPtotal.add(jLabel10);
-        jLabel10.setBounds(50, 10, 10, 20);
-
         jPanel5.setBackground(new java.awt.Color(243, 246, 249));
         jPanel5.setLayout(null);
 
@@ -430,8 +400,10 @@ public class CadastroObjetoView extends javax.swing.JFrame {
         jPtotal.add(jPanel5);
         jPanel5.setBounds(80, 60, 1220, 120);
 
-        getContentPane().add(jPtotal);
-        jPtotal.setBounds(180, 90, 1390, 890);
+        jScrollPane6.setViewportView(jPtotal);
+
+        getContentPane().add(jScrollPane6);
+        jScrollPane6.setBounds(180, 90, 1360, 850);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -614,7 +586,6 @@ try {
     private javax.swing.JLabel jLDetalhesSensiveis;
     private javax.swing.JLabel jLHoraAchado;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -623,11 +594,7 @@ try {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -637,6 +604,7 @@ try {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextPane jTBloco;
     private javax.swing.JTextPane jTCategoria;
     private javax.swing.JTextField jTDataAchado;

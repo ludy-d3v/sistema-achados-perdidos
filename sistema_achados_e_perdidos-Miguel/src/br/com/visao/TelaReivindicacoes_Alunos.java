@@ -12,7 +12,7 @@ import java.awt.Color;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.ImageIcon;
+
 /**
  *
  * @author migue
@@ -197,16 +197,12 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setBorder(null);
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(1010, 1010));
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setViewportView(jPtotal);
 
         jPtotal.setBackground(new java.awt.Color(243, 246, 249));
-        jPtotal.setPreferredSize(new java.awt.Dimension(1000, 1000));
+        jPtotal.setPreferredSize(new java.awt.Dimension(900, 900));
         jPtotal.setLayout(null);
-
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane1.setViewportView(jTabresult);
 
         jTabresult.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -222,7 +218,7 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTabresult);
 
         jPtotal.add(jScrollPane1);
-        jScrollPane1.setBounds(90, 400, 1190, 250);
+        jScrollPane1.setBounds(90, 400, 1190, 420);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(4, 120, 203));
@@ -263,7 +259,7 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
         jLabel14.setBounds(120, 10, 3, 85);
 
         jLabel3.setForeground(new java.awt.Color(4, 120, 203));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICON/Background (4).png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/img/Background (4).png"))); // NOI18N
         jLabel3.setToolTipText("");
         jPanel1.add(jLabel3);
         jLabel3.setBounds(0, 0, 1220, 110);

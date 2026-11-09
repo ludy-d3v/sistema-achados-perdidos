@@ -28,6 +28,13 @@ public class FuncionarioController {
         FuncionarioEntity entity = new FuncionarioEntity();
         return entity.removerFuncionario(idUsuario);
     }
+    
+    public boolean deletarUsuario(int idUsuario) throws SQLException {
+
+    FuncionarioEntity entity = new FuncionarioEntity();
+
+    return entity.deletarUsuario(idUsuario);
+}
 
     private void validarCargoSetor(String cargo, String setor) {
         if (cargo == null || cargo.trim().isEmpty() || setor == null || setor.trim().isEmpty()) {

@@ -6,7 +6,7 @@ package br.com.visao;
 
 import br.com.controller.SessaoUsuario;
 import javax.swing.JProgressBar;
-import javax.swing.ImageIcon;
+
 /**
  *
  * @author lucas
