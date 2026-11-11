@@ -518,10 +518,10 @@ public class TelaReivindicacoes_Alunos extends javax.swing.JFrame {
 
     private void jBsairTelaPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBsairTelaPrinActionPerformed
         int resposta = javax.swing.JOptionPane.showConfirmDialog(
-            this,
-            "Deseja realmente sair do sistema?",
-            "Confirmar saída",
-            javax.swing.JOptionPane.YES_NO_OPTION
+                this,
+                "Deseja realmente sair do sistema?",
+                "Confirmar saída",
+                javax.swing.JOptionPane.YES_NO_OPTION
         );
 
         if (resposta == javax.swing.JOptionPane.YES_OPTION) {

@@ -145,57 +145,59 @@ public class ReivindicacaoEntity {
     }
 
     public List<ReivindicacaoResumo> listarPorRetirante(int idRetirante, String nomeObjeto) throws SQLException {
-        DAO dao = new DAO();
-        List<ReivindicacaoResumo> resultado = new ArrayList<>();
+    DAO dao = new DAO();
+    List<ReivindicacaoResumo> resultado = new ArrayList<>();
 
+    try {
+        dao.abrirBanco();
+
+        StringBuilder sql = new StringBuilder(
+                "SELECT ID_Reivindicacao, Data_Reivindicacao, Status_Reivindicacao, "
+              + "Descricao_Generica, Categoria, Campus "
+              + "FROM reivindicacoes_por_retirante "
+              + "WHERE ID_Retirante = ?"
+        );
+
+        if (nomeObjeto != null && !nomeObjeto.isEmpty()) {
+            sql.append(" AND Descricao_Generica LIKE ?");
+        }
+
+        sql.append(" ORDER BY Data_Reivindicacao DESC");
+
+        dao.pst = dao.con.prepareStatement(sql.toString());
+        dao.pst.setInt(1, idRetirante);
+
+        if (nomeObjeto != null && !nomeObjeto.isEmpty()) {
+            dao.pst.setString(2, "%" + nomeObjeto + "%");
+        }
+
+        dao.rs = dao.pst.executeQuery();
+
+        while (dao.rs.next()) {
+            ReivindicacaoResumo resumo = new ReivindicacaoResumo();
+
+            resumo.setId(dao.rs.getInt("ID_Reivindicacao"));
+            resumo.setDataReivindicacao(dao.rs.getTimestamp("Data_Reivindicacao").toLocalDateTime());
+            resumo.setStatus(dao.rs.getString("Status_Reivindicacao"));
+            resumo.setDescricaoObjeto(dao.rs.getString("Descricao_Generica"));
+            resumo.setCategoriaObjeto(dao.rs.getString("Categoria"));
+            resumo.setCampusObjeto(dao.rs.getString("Campus"));
+
+            resultado.add(resumo);
+        }
+
+        return resultado;
+
+    } finally {
         try {
-            dao.abrirBanco();
-
-            StringBuilder sql = new StringBuilder(
-                    "SELECT r.ID_Reivindicacao, r.Data_Reivindicacao, r.Status_Reivindicacao, "
-                  + "o.Descricao_Generica, o.Categoria, o.Campus "
-                  + "FROM Reivindicacao r "
-                  + "INNER JOIN Objeto o ON r.ID_Objeto = o.ID_Objeto "
-                  + "WHERE r.ID_Retirante = ?"
-            );
-
-            if (nomeObjeto != null && !nomeObjeto.isEmpty()) {
-                sql.append(" AND o.Descricao_Generica LIKE ?");
-            }
-
-            sql.append(" ORDER BY r.Data_Reivindicacao DESC");
-
-            dao.pst = dao.con.prepareStatement(sql.toString());
-            dao.pst.setInt(1, idRetirante);
-
-            if (nomeObjeto != null && !nomeObjeto.isEmpty()) {
-                dao.pst.setString(2, "%" + nomeObjeto + "%");
-            }
-
-            dao.rs = dao.pst.executeQuery();
-
-            while (dao.rs.next()) {
-                ReivindicacaoResumo resumo = new ReivindicacaoResumo();
-                resumo.setId(dao.rs.getInt("ID_Reivindicacao"));
-                resumo.setDataReivindicacao(dao.rs.getTimestamp("Data_Reivindicacao").toLocalDateTime());
-                resumo.setStatus(dao.rs.getString("Status_Reivindicacao"));
-                resumo.setDescricaoObjeto(dao.rs.getString("Descricao_Generica"));
-                resumo.setCategoriaObjeto(dao.rs.getString("Categoria"));
-                resumo.setCampusObjeto(dao.rs.getString("Campus"));
-                resultado.add(resumo);
-            }
-
-            return resultado;
-
-        } finally {
-            try {
-                dao.fecharBanco();
-            } catch (Exception e) {
-                System.out.println("Erro ao fechar recursos: " + e.getMessage());
-            }
+            dao.fecharBanco();
+        } catch (Exception e) {
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
         }
     }
-    public List<Reivindicacao> consultarReivindicacoes() throws SQLException {
+}
+    
+public List<Reivindicacao> consultarReivindicacoes() throws SQLException {
 
     DAO dao = new DAO();
     List<Reivindicacao> lista = new ArrayList<>();
@@ -204,25 +206,16 @@ public class ReivindicacaoEntity {
         dao.abrirBanco();
 
         String sql = "SELECT "
-                + "r.ID_Reivindicacao, "
-                + "r.Data_Reivindicacao, "
-                + "r.Status_Reivindicacao, "
-                + "r.Observacao, "
-                + "r.ID_Objeto, "
-                + "r.ID_Retirante, "
-                + "ret.Nome_Completo, "
-                + "ret.Documento_Identificacao, "
-                + "o.Descricao_Generica, "
-                + "o.Categoria, "
-                + "o.Campus, "
-                + "o.Bloco, "
-                + "o.Ambiente "
-                + "FROM Reivindicacao r "
-                + "INNER JOIN Retirante ret "
-                + "ON r.ID_Retirante = ret.ID_Retirante "
-                + "INNER JOIN Objeto o "
-                + "ON r.ID_Objeto = o.ID_Objeto "
-                + "ORDER BY r.Data_Reivindicacao DESC";
+                + "ID_Reivindicacao, "
+                + "Data_Reivindicacao, "
+                + "Status_Reivindicacao, "
+                + "Observacao, "
+                + "ID_Objeto, "
+                + "ID_Retirante, "
+                + "Nome_Completo, "
+                + "Documento_Identificacao "
+                + "FROM consultar_reivindicacoes "
+                + "ORDER BY Data_Reivindicacao DESC";
 
         dao.pst = dao.con.prepareStatement(sql);
         dao.rs = dao.pst.executeQuery();

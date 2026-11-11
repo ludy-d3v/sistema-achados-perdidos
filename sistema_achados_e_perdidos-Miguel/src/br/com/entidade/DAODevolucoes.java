@@ -60,13 +60,9 @@ public class DAODevolucoes extends DAO{
     try {
         dao.abrirBanco();
 
-        String sql = "SELECT r.*, "
-                   + "rt.Nome_Completo, "
-                   + "rt.Documento_Identificacao "
-                   + "FROM Reivindicacao r "
-                   + "INNER JOIN Retirante rt "
-                   + "ON r.ID_Retirante = rt.ID_Retirante "
-                   + "WHERE r.ID_Reivindicacao = ?";
+        String sql = "SELECT * "
+                   + "FROM consultar_reivindicacoes "
+                   + "WHERE ID_Reivindicacao = ?";
 
         dao.pst = dao.con.prepareStatement(sql);
         dao.pst.setInt(1, r.getIdreivindicacao());
@@ -81,7 +77,7 @@ public class DAODevolucoes extends DAO{
             r.setObservacao(dao.rs.getString("Observacao"));
             r.setStatus_reivindicacao(dao.rs.getString("Status_Reivindicacao"));
 
-            // Dados do Retirante, vindos do JOIN
+            // Dados do Retirante
             r.setNome_aluno(dao.rs.getString("Nome_Completo"));
             r.setDocumento_identificacao(dao.rs.getString("Documento_Identificacao"));
 
