@@ -21,10 +21,26 @@ public class DAO {
       try {
         Class.forName("com.mysql.cj.jdbc.Driver");//classe para utilização do arquivo com configurções do serivdor mysql
         String url = "jdbc:mysql://localhost:3306/achados_perdidos";// drive servidor e banco de dados a serem utilizados e indicação do banco a ser utilizado
-        String user ="root";// usuario do banco de dados
-        String senha ="3623";//senha do usuario do banco de dados    
+        String user;
+        String senha;
+
+        if (br.com.controller.SessaoUsuario.isAdministrador()) {
+            user = "achados_admin";
+            senha = "Admin@chados2026!";
+        } else if (br.com.controller.SessaoUsuario.isFuncionario()) {
+            user = "achados_funcionario";
+            senha = "Func@chados2026!";
+        } else if (br.com.controller.SessaoUsuario.getIdUsuario() > 0) {
+            user = "achados_aluno";
+            senha = "Aluno@chados2026!";
+        } else {
+            // antes do login (ou cadastro de usuario novo): ainda nao sabemos o papel
+            user = "app_achados";
+            senha = "App@chados2026!";
+        }
+
         con=(Connection) DriverManager.getConnection(url,user,senha);//metodo que usa os parametros para conectar com o banco
-         System.out.println("Conectado ao banco de dados ");
+         System.out.println("Conectado ao banco de dados como " + user);
       } catch (ClassNotFoundException ex) {//tratamento de erro de drive
           System.out.println("Classe não encontrada, adicione o driver nas bibliotecas.");
         Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
