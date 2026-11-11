@@ -324,6 +324,8 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(4, 120, 203));
         jLabel8.setText("Antes de:");
 
+        jTnome_obj.addActionListener(this::jTnome_objActionPerformed);
+
         jCcategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionar categoria" }));
         jCcategoria.addActionListener(this::jCcategoriaActionPerformed);
 
@@ -657,6 +659,10 @@ public class ConsultarObjeto extends javax.swing.JFrame {
         tela.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jBgerar_relatorioActionPerformed
+
+    private void jTnome_objActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTnome_objActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTnome_objActionPerformed
 
     /**
      * @param args the command line arguments

@@ -145,6 +145,8 @@ public boolean cadastrarObjeto() throws SQLException {
         return entity.listarCategorias();
     }
 
+    
+    
     public List<ObjetoResumo> listarRecentes(int limite) throws SQLException {
         ObjetoEntity entity = new ObjetoEntity();
         return entity.listarRecentes(limite);
