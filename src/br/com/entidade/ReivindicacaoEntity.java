@@ -35,7 +35,7 @@ public class ReivindicacaoEntity {
         }
     }
 
-    public boolean criarReivindicacao(int idRetirante, int idObjeto) throws SQLException {
+    public String criarReivindicacao(int idRetirante, int idObjeto) throws SQLException {
         DAO dao = new DAO();
 
         try {
@@ -45,11 +45,27 @@ public class ReivindicacaoEntity {
                     + "(Data_Reivindicacao, Status_Reivindicacao, ID_Retirante, ID_Objeto) "
                     + "VALUES (NOW(), 'Pendente', ?, ?)";
 
-            dao.pst = dao.con.prepareStatement(sql);
+            dao.pst = dao.con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             dao.pst.setInt(1, idRetirante);
             dao.pst.setInt(2, idObjeto);
 
-            return dao.pst.executeUpdate() > 0;
+            if (dao.pst.executeUpdate() == 0) {
+                return null;
+            }
+
+            dao.rs = dao.pst.getGeneratedKeys();
+
+            if (!dao.rs.next()) {
+                return null;
+            }
+
+            int idReivindicacao = dao.rs.getInt(1);
+
+            dao.pst = dao.con.prepareStatement("SELECT fn_gerar_protocolo_reivindicacao(?) AS protocolo");
+            dao.pst.setInt(1, idReivindicacao);
+            dao.rs = dao.pst.executeQuery();
+
+            return dao.rs.next() ? dao.rs.getString("protocolo") : null;
 
         } finally {
             try {

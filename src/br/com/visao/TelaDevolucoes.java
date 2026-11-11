@@ -35,6 +35,9 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         jLabel9.setText(SessaoUsuario.getIdentificacao());
         CampoDataUtil.aplicarFormatoAuxiliar(jFdata_dev);
 
+        jTid_funcionario.setText(String.valueOf(SessaoUsuario.getIdUsuario()));
+        jTid_funcionario.setEditable(false);
+
     setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
@@ -582,7 +585,7 @@ public class TelaDevolucoes extends javax.swing.JFrame {
     }//GEN-LAST:event_jBconsultarOBActionPerformed
 
     private void jBreg_devolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBreg_devolucaoActionPerformed
-        boolean cadastrou = false;
+        String protocolo = null;
 
     if (r.getIdreivindicacao() == 0) {
         JOptionPane.showMessageDialog(
@@ -606,17 +609,17 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         LocalDate dataDevolucao = LocalDate.parse(CampoDataUtil.obterValor(jFdata_dev), formato );
         int idFuncionario = Integer.parseInt(jTid_funcionario.getText().trim());
 
-        cadastrou = ca.cadastrarDevolucao(
+        protocolo = ca.cadastrarDevolucao(
                 d.getIdbj(), r.getId_retirante(), idFuncionario,
                 r.getIdreivindicacao(), dataDevolucao, jTassinatura.getText()
         );
 
-        if (cadastrou) {
+        if (protocolo != null) {
             new br.com.controller.ObjetoController().atualizarStatusObjeto(d.getIdbj(), "Devolvido");
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Devolução cadastrada com sucesso!"
+                    "Devolução cadastrada com sucesso!\nProtocolo: " + protocolo
             );
         } else {
             JOptionPane.showMessageDialog(

@@ -110,7 +110,7 @@ public class DAODevolucoes extends DAO{
     }
 }
    
-     public boolean cadastrarDevolucao(int idObjeto, int idRetirante, int idUsuario, int idReivindicacao, LocalDate dataDevolucao, String assinaturaDigital) throws SQLException {
+     public String cadastrarDevolucao(int idObjeto, int idRetirante, int idUsuario, int idReivindicacao, LocalDate dataDevolucao, String assinaturaDigital) throws SQLException {
 
     DAO dao = new DAO();
 
@@ -122,7 +122,7 @@ public class DAODevolucoes extends DAO{
                 + "Data_Devolucao, Assinatura_Digital) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        dao.pst = dao.con.prepareStatement(sql);
+        dao.pst = dao.con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
 
         dao.pst.setInt(1, idObjeto);
         dao.pst.setInt(2, idRetirante);
@@ -131,7 +131,32 @@ public class DAODevolucoes extends DAO{
         dao.pst.setDate(5, Date.valueOf(dataDevolucao));
         dao.pst.setString(6, assinaturaDigital);
 
-        return dao.pst.executeUpdate() > 0;
+        if (dao.pst.executeUpdate() == 0) {
+            return null;
+        }
+
+        dao.rs = dao.pst.getGeneratedKeys();
+
+        if (!dao.rs.next()) {
+            return null;
+        }
+
+        int idDevolucao = dao.rs.getInt(1);
+
+        dao.pst = dao.con.prepareStatement("SELECT fn_gerar_protocolo_devolucao(?) AS protocolo");
+        dao.pst.setInt(1, idDevolucao);
+        dao.rs = dao.pst.executeQuery();
+
+        String protocolo = dao.rs.next() ? dao.rs.getString("protocolo") : null;
+
+        if (protocolo != null) {
+            new LogAuditoriaEntity().registrarAcao(
+                    "Devolução registrada - Protocolo " + protocolo + " (Objeto #" + idObjeto + ")",
+                    idUsuario
+            );
+        }
+
+        return protocolo;
 
     } finally {
         try {
