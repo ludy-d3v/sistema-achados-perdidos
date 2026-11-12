@@ -506,27 +506,23 @@ public class EscolherRelatorio extends javax.swing.JFrame {
 
                 PeriodoRelatorio periodo = obterPeriodo();
 
-                if (periodo == null) {
-                    return;
+                 if (periodo == null) {
+                  return;
                 }
 
                 ReivindicacaoController controller =
-                        new ReivindicacaoController();
+                     new ReivindicacaoController();
 
-                int solicitadas =
-                        controller.contarReivindicacoesRelatorio(periodo, null);
+                Map<String, Integer> resultado =
+                controller.gerarRelatorioReivindicacoes(periodo);
 
-                int aprovadas =
-                        controller.contarReivindicacoesRelatorio(periodo, "Aprovada");
-
-                int recusadas =
-                        controller.contarReivindicacoesRelatorio(periodo, "Recusada");
-
-                int pendentes =
-                        controller.contarReivindicacoesRelatorio(periodo, "Pendente");
+                int solicitadas = resultado.get("solicitadas");
+                int aprovadas = resultado.get("aprovadas");
+                int recusadas = resultado.get("recusadas");
+                int pendentes = resultado.get("pendentes");
 
                 TelaResultadoRelatorio tela =
-                        new TelaResultadoRelatorio();
+                  new TelaResultadoRelatorio();
 
                 tela.preencherRelatorio(
                         solicitadas,
@@ -539,7 +535,7 @@ public class EscolherRelatorio extends javax.swing.JFrame {
                 tela.setVisible(true);
 
                 break;
-            }
+                }
 
             case "Selecionar tipo de relatório": {
 

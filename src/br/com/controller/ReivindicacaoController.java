@@ -7,6 +7,7 @@ import br.com.entidade.ReivindicacaoEntity;
 import br.com.entidade.RetiranteEntity;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class ReivindicacaoController {
 
@@ -126,8 +127,10 @@ public class ReivindicacaoController {
         return entity.atualizarStatus(idReivindicacao, status);
     } 
     
-    public int contarReivindicacoesRelatorio(PeriodoRelatorio periodo, String status) throws SQLException {
+    public Map<String, Integer> gerarRelatorioReivindicacoes(
+            PeriodoRelatorio periodo) throws SQLException {
+
         ReivindicacaoEntity entity = new ReivindicacaoEntity();
-        return entity.contarRelatorio(periodo, status);
+        return entity.gerarRelatorioReivindicacoes(periodo);
     }
 }
