@@ -41,9 +41,9 @@ public class ReivindicacaoEntity {
         try {
             dao.abrirBanco();
 
-            String sql = "INSERT INTO Reivindicacao "
-                    + "(Data_Reivindicacao, Status_Reivindicacao, ID_Retirante, ID_Objeto) "
-                    + "VALUES (NOW(), 'Pendente', ?, ?)";
+        String sql = "INSERT INTO Reivindicacao "
+               + "(Data_Reivindicacao, ID_Retirante, ID_Objeto) "
+               + "VALUES (NOW(), ?, ?)";
 
             dao.pst = dao.con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             dao.pst.setInt(1, idRetirante);
