@@ -19,6 +19,7 @@ GRANT SELECT, UPDATE ON achados_perdidos.Reivindicacao TO 'achados_funcionario'@
 GRANT SELECT, INSERT ON achados_perdidos.Devolucao TO 'achados_funcionario'@'localhost';
 GRANT SELECT ON achados_perdidos.Retirante TO 'achados_funcionario'@'localhost';
 GRANT INSERT ON achados_perdidos.Log_Auditoria TO 'achados_funcionario'@'localhost';
+GRANT SELECT ON achados_perdidos.consultar_reivindicacoes TO 'achados_funcionario'@'localhost';
 
 -- aluno: consulta objeto e reivindica
 DROP USER IF EXISTS 'achados_aluno'@'localhost';
@@ -28,6 +29,7 @@ GRANT SELECT, INSERT ON achados_perdidos.Retirante TO 'achados_aluno'@'localhost
 GRANT SELECT, INSERT ON achados_perdidos.Reivindicacao TO 'achados_aluno'@'localhost';
 GRANT SELECT ON achados_perdidos.Devolucao TO 'achados_aluno'@'localhost';
 GRANT INSERT ON achados_perdidos.Log_Auditoria TO 'achados_aluno'@'localhost';
+GRANT SELECT ON achados_perdidos.reivindicacoes_por_retirante TO 'achados_aluno'@'localhost';
 
 FLUSH PRIVILEGES;
 

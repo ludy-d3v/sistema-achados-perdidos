@@ -168,18 +168,17 @@ public class ReivindicacaoEntity {
             dao.abrirBanco();
 
             StringBuilder sql = new StringBuilder(
-                    "SELECT r.ID_Reivindicacao, r.Data_Reivindicacao, r.Status_Reivindicacao, "
-                  + "o.Descricao_Generica, o.Categoria, o.Campus "
-                  + "FROM Reivindicacao r "
-                  + "INNER JOIN Objeto o ON r.ID_Objeto = o.ID_Objeto "
-                  + "WHERE r.ID_Retirante = ?"
+                    "SELECT ID_Reivindicacao, Data_Reivindicacao, Status_Reivindicacao, "
+                  + "Descricao_Generica, Categoria, Campus "
+                  + "FROM reivindicacoes_por_retirante "
+                  + "WHERE ID_Retirante = ?"
             );
 
             if (nomeObjeto != null && !nomeObjeto.isEmpty()) {
-                sql.append(" AND o.Descricao_Generica LIKE ?");
+                sql.append(" AND Descricao_Generica LIKE ?");
             }
 
-            sql.append(" ORDER BY r.Data_Reivindicacao DESC");
+            sql.append(" ORDER BY Data_Reivindicacao DESC");
 
             dao.pst = dao.con.prepareStatement(sql.toString());
             dao.pst.setInt(1, idRetirante);
@@ -220,25 +219,16 @@ public class ReivindicacaoEntity {
         dao.abrirBanco();
 
         String sql = "SELECT "
-                + "r.ID_Reivindicacao, "
-                + "r.Data_Reivindicacao, "
-                + "r.Status_Reivindicacao, "
-                + "r.Observacao, "
-                + "r.ID_Objeto, "
-                + "r.ID_Retirante, "
-                + "ret.Nome_Completo, "
-                + "ret.Documento_Identificacao, "
-                + "o.Descricao_Generica, "
-                + "o.Categoria, "
-                + "o.Campus, "
-                + "o.Bloco, "
-                + "o.Ambiente "
-                + "FROM Reivindicacao r "
-                + "INNER JOIN Retirante ret "
-                + "ON r.ID_Retirante = ret.ID_Retirante "
-                + "INNER JOIN Objeto o "
-                + "ON r.ID_Objeto = o.ID_Objeto "
-                + "ORDER BY r.Data_Reivindicacao DESC";
+                + "ID_Reivindicacao, "
+                + "Data_Reivindicacao, "
+                + "Status_Reivindicacao, "
+                + "Observacao, "
+                + "ID_Objeto, "
+                + "ID_Retirante, "
+                + "Nome_Completo, "
+                + "Documento_Identificacao "
+                + "FROM consultar_reivindicacoes "
+                + "ORDER BY Data_Reivindicacao DESC";
 
         dao.pst = dao.con.prepareStatement(sql);
         dao.rs = dao.pst.executeQuery();
