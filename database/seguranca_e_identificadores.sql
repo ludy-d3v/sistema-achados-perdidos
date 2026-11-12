@@ -41,6 +41,7 @@ FLUSH PRIVILEGES;
 DELIMITER $$
 
 -- protocolo legivel da devolucao, ex: DEV-2026-000001
+DROP FUNCTION IF EXISTS fn_gerar_protocolo_devolucao $$
 CREATE FUNCTION fn_gerar_protocolo_devolucao(p_id_devolucao INT)
 RETURNS VARCHAR(20)
 DETERMINISTIC
@@ -52,6 +53,7 @@ BEGIN
 END $$
 
 -- protocolo legivel da reivindicacao, ex: REIV-2026-000045
+DROP FUNCTION IF EXISTS fn_gerar_protocolo_reivindicacao $$
 CREATE FUNCTION fn_gerar_protocolo_reivindicacao(p_id_reivindicacao INT)
 RETURNS VARCHAR(20)
 DETERMINISTIC
