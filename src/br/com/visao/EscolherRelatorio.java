@@ -11,6 +11,7 @@ import br.com.controller.ReivindicacaoController;
 import br.com.controller.SessaoUsuario;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import java.util.Map;
 
 /**
  *
@@ -460,64 +461,116 @@ public class EscolherRelatorio extends javax.swing.JFrame {
 
     private void jTgerar_relatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTgerar_relatorioActionPerformed
         // TODO add your handling code here:
-        
-        
-        try {
-            
-         String opcao = jCcategoria.getSelectedItem().toString();
-        
-            switch (opcao) {
-                case "Relatório de Objetos encontrados":
-                    {
-                        PeriodoRelatorio periodo = obterPeriodo();
-                        if (periodo == null) {
-                            return;
-                        }
-                        ObjetoController controller = new ObjetoController();
-                        int total = controller.contarObjetosRelatorio(periodo);
-                        java.util.Map<String, Integer> categorias =
-                                controller.contarObjetosPorCategoriaRelatorio(periodo);
-                        java.util.Map<String, Integer> campus =
-                                controller.contarObjetosPorCampusRelatorio(periodo);
-                        java.util.Map<String, Integer> meses =
-                                controller.contarObjetosPorMesRelatorio(periodo);
-                        TelaResultadoRelatorioObjetos tela =
-                                new TelaResultadoRelatorioObjetos();
-                        tela.preencherRelatorio(total, categorias, campus, meses);
-                        tela.setLocationRelativeTo(this);
-                        tela.setVisible(true);
-                        break;
-                    }
-                case "Relatório de Reivindicações":
-                    {
-                        PeriodoRelatorio periodo = obterPeriodo();
-                        if (periodo == null) {
-                            return;
-                        }               ReivindicacaoController controller = new ReivindicacaoController();
-                        int solicitadas = controller.contarReivindicacoesRelatorio(periodo, null);
-                        int aprovadas = controller.contarReivindicacoesRelatorio(periodo, "Aprovada");
-                        int recusadas = controller.contarReivindicacoesRelatorio(periodo, "Recusada");
-                        int pendentes = controller.contarReivindicacoesRelatorio(periodo, "Pendente");
-                        TelaResultadoRelatorio tela = new TelaResultadoRelatorio();
-                        tela.preencherRelatorio(solicitadas, aprovadas, recusadas, pendentes);
-                        tela.setLocationRelativeTo(this);
-                        tela.setVisible(true);
-                        break;
-                    }
-                case "Selecionar tipo de relatório":
-                    JOptionPane.showMessageDialog(this, "Escolha uma opção de relatório!!");
-                    break;
-                default:
-                    break;
+
+    try {
+
+        String opcao = jCcategoria.getSelectedItem().toString();
+
+        switch (opcao) {
+
+            case "Relatório de Objetos encontrados": {
+
+                PeriodoRelatorio periodo = obterPeriodo();
+
+                if (periodo == null) {
+                    return;
+                }
+
+                ObjetoController controller = new ObjetoController();
+
+                Map<String, Object> relatorio =
+                        controller.gerarRelatorioObjetos(periodo);
+
+                int total = (Integer) relatorio.get("total");
+
+                Map<String, Integer> categorias =
+                        (Map<String, Integer>) relatorio.get("categorias");
+
+                Map<String, Integer> campus =
+                        (Map<String, Integer>) relatorio.get("campus");
+
+                Map<String, Integer> meses =
+                        (Map<String, Integer>) relatorio.get("meses");
+
+                TelaResultadoRelatorioObjetos tela =
+                        new TelaResultadoRelatorioObjetos();
+
+                tela.preencherRelatorio(total, categorias, campus, meses);
+                tela.setLocationRelativeTo(this);
+                tela.setVisible(true);
+
+                break;
             }
 
+            case "Relatório de Reivindicações": {
+
+                PeriodoRelatorio periodo = obterPeriodo();
+
+                if (periodo == null) {
+                    return;
+                }
+
+                ReivindicacaoController controller =
+                        new ReivindicacaoController();
+
+                int solicitadas =
+                        controller.contarReivindicacoesRelatorio(periodo, null);
+
+                int aprovadas =
+                        controller.contarReivindicacoesRelatorio(periodo, "Aprovada");
+
+                int recusadas =
+                        controller.contarReivindicacoesRelatorio(periodo, "Recusada");
+
+                int pendentes =
+                        controller.contarReivindicacoesRelatorio(periodo, "Pendente");
+
+                TelaResultadoRelatorio tela =
+                        new TelaResultadoRelatorio();
+
+                tela.preencherRelatorio(
+                        solicitadas,
+                        aprovadas,
+                        recusadas,
+                        pendentes
+                );
+
+                tela.setLocationRelativeTo(this);
+                tela.setVisible(true);
+
+                break;
+            }
+
+            case "Selecionar tipo de relatório": {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Escolha uma opção de relatório!!"
+                );
+
+                break;
+            }
+
+            default:
+                break;
+        }
+
     } catch (SQLException e) {
+
         JOptionPane.showMessageDialog(
                 this,
                 "Erro ao gerar relatório: " + e.getMessage()
         );
-    }
-        
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro inesperado: " + e.getMessage()
+        );
+
+        e.printStackTrace();
+    } 
     }//GEN-LAST:event_jTgerar_relatorioActionPerformed
 
     private void jBdevolucoes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdevolucoes1ActionPerformed
