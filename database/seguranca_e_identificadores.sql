@@ -41,7 +41,6 @@ FLUSH PRIVILEGES;
 DELIMITER $$
 
 -- protocolo legivel da devolucao, ex: DEV-2026-000001
-DROP FUNCTION IF EXISTS fn_gerar_protocolo_devolucao $$
 CREATE FUNCTION fn_gerar_protocolo_devolucao(p_id_devolucao INT)
 RETURNS VARCHAR(20)
 DETERMINISTIC
@@ -53,7 +52,6 @@ BEGIN
 END $$
 
 -- protocolo legivel da reivindicacao, ex: REIV-2026-000045
-DROP FUNCTION IF EXISTS fn_gerar_protocolo_reivindicacao $$
 CREATE FUNCTION fn_gerar_protocolo_reivindicacao(p_id_reivindicacao INT)
 RETURNS VARCHAR(20)
 DETERMINISTIC
@@ -72,5 +70,11 @@ GRANT EXECUTE ON FUNCTION achados_perdidos.fn_gerar_protocolo_devolucao TO 'acha
 GRANT EXECUTE ON FUNCTION achados_perdidos.fn_gerar_protocolo_reivindicacao TO 'app_achados'@'localhost';
 GRANT EXECUTE ON FUNCTION achados_perdidos.fn_gerar_protocolo_reivindicacao TO 'achados_admin'@'localhost';
 GRANT EXECUTE ON FUNCTION achados_perdidos.fn_gerar_protocolo_reivindicacao TO 'achados_aluno'@'localhost';
+GRANT EXECUTE ON PROCEDURE achados_perdidos.sp_relatorio_objetos TO 'app_achados'@'localhost';
+GRANT EXECUTE ON PROCEDURE achados_perdidos.sp_relatorio_objetos TO 'achados_admin'@'localhost';
+GRANT EXECUTE ON PROCEDURE achados_perdidos.sp_relatorio_objetos TO 'achados_funcionario'@'localhost';
+GRANT EXECUTE ON PROCEDURE achados_perdidos.sp_relatorio_reivindicacoes TO 'app_achados'@'localhost';
+GRANT EXECUTE ON PROCEDURE achados_perdidos.sp_relatorio_reivindicacoes TO 'achados_admin'@'localhost';
+GRANT EXECUTE ON PROCEDURE achados_perdidos.sp_relatorio_reivindicacoes TO 'achados_funcionario'@'localhost';
 
 FLUSH PRIVILEGES;

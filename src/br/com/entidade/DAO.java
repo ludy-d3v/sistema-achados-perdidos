@@ -4,6 +4,7 @@
  */
 package br.com.entidade;
 
+import br.com.controller.SessaoUsuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,13 +25,13 @@ public class DAO {
         String user;
         String senha;
 
-        if (br.com.controller.SessaoUsuario.isAdministrador()) {
+        if (SessaoUsuario.isAdministrador()) {
             user = "achados_admin";
             senha = "Admin@chados2026!";
-        } else if (br.com.controller.SessaoUsuario.isFuncionario()) {
+        } else if (SessaoUsuario.isFuncionario()) {
             user = "achados_funcionario";
             senha = "Func@chados2026!";
-        } else if (br.com.controller.SessaoUsuario.getIdUsuario() > 0) {
+        } else if (SessaoUsuario.getIdUsuario() > 0) {
             user = "achados_aluno";
             senha = "Aluno@chados2026!";
         } else {
@@ -51,8 +52,15 @@ public class DAO {
      }    
     
     public void fecharBanco() throws Exception{//criando metodo que fechao conexão com o banco
-       if (pst!= null) { //limpando os dados de conexão   
+       if (rs != null) {
+            rs.close();
+       }
+       if (pst!= null) { //limpando os dados de conexão
             pst.close();//fechando o ambiente de conexão
             System.out.println("Execuçao da Query fechada\n");
-    }    }
+       }
+       if (con != null) {
+            con.close();//fechando a conexao com o banco, pra nao acumular conexao aberta
+       }
+    }
 }

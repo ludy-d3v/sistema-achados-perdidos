@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import br.com.controller.Reivindicacao;
 import br.com.controller.PeriodoRelatorio;
-import java.sql.Timestamp;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ReivindicacaoEntity {
 
@@ -42,8 +45,8 @@ public class ReivindicacaoEntity {
             dao.abrirBanco();
 
             String sql = "INSERT INTO Reivindicacao "
-                    + "(Data_Reivindicacao, Status_Reivindicacao, ID_Retirante, ID_Objeto) "
-                    + "VALUES (NOW(), 'Pendente', ?, ?)";
+                    + "(Data_Reivindicacao, ID_Retirante, ID_Objeto) "
+                    + "VALUES (NOW(), ?, ?)";
 
             dao.pst = dao.con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
             dao.pst.setInt(1, idRetirante);
@@ -304,58 +307,63 @@ public class ReivindicacaoEntity {
         }
     }
 }
-public int contarRelatorio(PeriodoRelatorio periodo, String status) throws SQLException {
+public Map<String, Integer> gerarRelatorioReivindicacoes(
+        PeriodoRelatorio periodo) throws SQLException {
 
     DAO dao = new DAO();
+
+    Map<String, Integer> resultado = new LinkedHashMap<>();
 
     try {
         dao.abrirBanco();
 
-        StringBuilder sql = new StringBuilder(
-                "SELECT COUNT(*) AS total FROM Reivindicacao WHERE 1=1"
-        );
+        String sql = "{CALL sp_relatorio_reivindicacoes(?, ?)}";
 
-        if (periodo != null && !periodo.isTodoPeriodo()) {
-            sql.append(" AND Data_Reivindicacao >= ?");
-            sql.append(" AND Data_Reivindicacao < ?");
-        }
+        try (CallableStatement cs = dao.con.prepareCall(sql)) {
 
-        if (status != null) {
-            sql.append(" AND Status_Reivindicacao = ?");
-        }
+            if (periodo == null || periodo.isTodoPeriodo()) {
 
-        dao.pst = dao.con.prepareStatement(sql.toString());
+                cs.setNull(1, java.sql.Types.DATE);
+                cs.setNull(2, java.sql.Types.DATE);
 
-        int parametro = 1;
+            } else {
 
-        if (periodo != null && !periodo.isTodoPeriodo()) {
+                if (periodo.getDataInicial() == null
+                        || periodo.getDataFinal() == null) {
+                    throw new IllegalArgumentException(
+                            "Período personalizado incompleto."
+                    );
+                }
 
-            if (periodo.getDataInicial() == null || periodo.getDataFinal() == null) {
-                throw new IllegalArgumentException("Período personalizado incompleto.");
+                cs.setDate(1, java.sql.Date.valueOf(
+                        periodo.getDataInicial()
+                ));
+
+                cs.setDate(2, java.sql.Date.valueOf(
+                        periodo.getDataFinal()
+                ));
             }
 
-            dao.pst.setTimestamp(
-                    parametro++,
-                    Timestamp.valueOf(periodo.getDataInicial().atStartOfDay())
-            );
+            try (ResultSet rs = cs.executeQuery()) {
 
-            dao.pst.setTimestamp(
-                    parametro++,
-                    Timestamp.valueOf(periodo.getDataFinal().plusDays(1).atStartOfDay())
-            );
+                if (rs.next()) {
+
+                    resultado.put("solicitadas",
+                            rs.getInt("solicitadas"));
+
+                    resultado.put("aprovadas",
+                            rs.getInt("aprovadas"));
+
+                    resultado.put("recusadas",
+                            rs.getInt("recusadas"));
+
+                    resultado.put("pendentes",
+                            rs.getInt("pendentes"));
+                }
+            }
         }
 
-        if (status != null) {
-            dao.pst.setString(parametro, status);
-        }
-
-        dao.rs = dao.pst.executeQuery();
-
-        if (dao.rs.next()) {
-            return dao.rs.getInt("total");
-        }
-
-        return 0;
+        return resultado;
 
     } finally {
         try {

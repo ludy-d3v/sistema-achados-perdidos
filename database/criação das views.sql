@@ -1,7 +1,6 @@
 use achados_perdidos;
 
 -- Criação da view "reivindicacoes_por_retirante" para ajudar na consulta, basicamente não precisa-se mais utilizar inner join na consulta
-DROP VIEW IF EXISTS reivindicacoes_por_retirante;
 CREATE VIEW reivindicacoes_por_retirante AS
 SELECT
     r.ID_Reivindicacao, r.ID_Retirante,
@@ -14,7 +13,6 @@ INNER JOIN Objeto o
     
     
   -- Criação da view "consultar_reivindicacoes" com o mesmo proposito da outra
-    DROP VIEW IF EXISTS consultar_reivindicacoes;
     CREATE VIEW consultar_reivindicacoes AS
 SELECT
     r.ID_Reivindicacao,r.Data_Reivindicacao,r.Status_Reivindicacao,

@@ -615,8 +615,6 @@ public class TelaDevolucoes extends javax.swing.JFrame {
         );
 
         if (protocolo != null) {
-            new br.com.controller.ObjetoController().atualizarStatusObjeto(d.getIdbj(), "Devolvido");
-
             JOptionPane.showMessageDialog(
                     this,
                     "Devolução cadastrada com sucesso!\nProtocolo: " + protocolo
