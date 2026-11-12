@@ -189,25 +189,9 @@ public boolean cadastrarObjeto() throws SQLException {
         ObjetoEntity entity = new ObjetoEntity();
         return entity.buscarStatusAtual(idObjeto);
     }
-    public int contarObjetosRelatorio(PeriodoRelatorio periodo) throws SQLException {
+    public Map<String, Object> gerarRelatorioObjetos(
+            PeriodoRelatorio periodo) throws SQLException {     
         ObjetoEntity entity = new ObjetoEntity();
-        return entity.contarRelatorio(periodo);
-    }
-    public Map<String, Integer> contarObjetosPorCategoriaRelatorio(
-        PeriodoRelatorio periodo) throws SQLException {
-        ObjetoEntity entity = new ObjetoEntity();
-        return entity.contarPorCategoriaRelatorio(periodo);
-    }
-    public Map<String, Integer> contarObjetosPorCampusRelatorio(
-        PeriodoRelatorio periodo) throws SQLException {
-
-        ObjetoEntity entity = new ObjetoEntity();
-        return entity.contarPorCampusRelatorio(periodo);
-    }
-    public Map<String, Integer> contarObjetosPorMesRelatorio(
-        PeriodoRelatorio periodo) throws SQLException {
-
-        ObjetoEntity entity = new ObjetoEntity();
-        return entity.contarPorMesRelatorio(periodo);
+        return entity.gerarRelatorioObjetos(periodo);
     }
 }

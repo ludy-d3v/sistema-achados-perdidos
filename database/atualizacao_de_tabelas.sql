@@ -16,7 +16,8 @@ CREATE TABLE rel_usuario_grupo (
 
     CONSTRAINT fk_ug_usuario
         FOREIGN KEY (id_usuario)
-        REFERENCES usuario(ID_Usuario),
+        REFERENCES Usuario(ID_Usuario),
+
 
     CONSTRAINT fk_ug_grupo
         FOREIGN KEY (id_grupo)
@@ -36,19 +37,19 @@ VALUES
 -- Fazendo a relação dos usuarios, dividindo-os entre os grupos de admin, funcionario e aluno
 
 -- relação dos admins
-INSERT INTO usuario_grupo (id_usuario, id_grupo)
+INSERT INTO rel_usuario_grupo (id_usuario, id_grupo)
 SELECT ID_Usuario, 1
 FROM Administrador;
 
 -- relação dos funcionarios
-INSERT INTO usuario_grupo (id_usuario, id_grupo)
+INSERT INTO rel_usuario_grupo (id_usuario, id_grupo)
 SELECT ID_Usuario, 2
 FROM Funcionario;
 
 -- relacionando todos os outros como alunos
-INSERT INTO usuario_grupo (id_usuario, id_grupo)
+INSERT INTO rel_usuario_grupo (id_usuario, id_grupo)
 SELECT u.ID_Usuario, 3
-FROM usuarios u
+FROM Usuario u
 WHERE NOT EXISTS (
     SELECT 1
     FROM Funcionario f

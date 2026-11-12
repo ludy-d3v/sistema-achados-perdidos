@@ -76,8 +76,10 @@ public class ProcurarObj extends javax.swing.JFrame {
             controller.setTelefoneRetirante(telefone);
             controller.setIdObjeto(idObjeto);
 
-            if (controller.reivindicarObjeto()) {
-                JOptionPane.showMessageDialog(this, "Reivindicação registrada com sucesso!");
+            String protocolo = controller.reivindicarObjeto();
+
+            if (protocolo != null) {
+                JOptionPane.showMessageDialog(this, "Reivindicação registrada com sucesso!\nProtocolo: " + protocolo);
             } else {
                 JOptionPane.showMessageDialog(this, "Não foi possível registrar a reivindicação.");
             }

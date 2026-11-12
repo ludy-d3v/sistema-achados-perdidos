@@ -1,11 +1,13 @@
 
 package br.com.controller;
 
+import br.com.entidade.LogAuditoriaEntity;
 import br.com.entidade.ObjetoEntity;
 import br.com.entidade.ReivindicacaoEntity;
 import br.com.entidade.RetiranteEntity;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class ReivindicacaoController {
 
@@ -30,7 +32,7 @@ public class ReivindicacaoController {
         this.idObjeto = idObjeto;
     }
 
-    public boolean reivindicarObjeto() throws SQLException {
+    public String reivindicarObjeto() throws SQLException {
         if (nomeRetirante == null || nomeRetirante.trim().isEmpty()
                 || documentoRetirante == null || documentoRetirante.trim().isEmpty()) {
             throw new IllegalArgumentException(
@@ -83,7 +85,16 @@ public class ReivindicacaoController {
             );
         }
 
-        return reivindicacaoEntity.criarReivindicacao(idRetirante, idObjeto);
+        String protocolo = reivindicacaoEntity.criarReivindicacao(idRetirante, idObjeto);
+
+        if (protocolo != null) {
+            new LogAuditoriaEntity().registrarAcao(
+                    "Reivindicação registrada - Protocolo " + protocolo + " (Objeto #" + idObjeto + ")",
+                    SessaoUsuario.getIdUsuario()
+            );
+        }
+
+        return protocolo;
     }
 
     public int buscarIdRetirantePorCpf(String cpf) throws SQLException {
@@ -116,8 +127,10 @@ public class ReivindicacaoController {
         return entity.atualizarStatus(idReivindicacao, status);
     } 
     
-    public int contarReivindicacoesRelatorio(PeriodoRelatorio periodo, String status) throws SQLException {
+    public Map<String, Integer> gerarRelatorioReivindicacoes(
+            PeriodoRelatorio periodo) throws SQLException {
+
         ReivindicacaoEntity entity = new ReivindicacaoEntity();
-        return entity.contarRelatorio(periodo, status);
+        return entity.gerarRelatorioReivindicacoes(periodo);
     }
 }
