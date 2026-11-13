@@ -71,4 +71,4 @@ src/        código-fonte (visao, controller, entidade)
 
 ## Documentação
 
-- [`docs/Documento Técnico - Achados e Perdidos.pdf`](docs/Documento%20T%C3%A9cnico%20-%20Achados%20e%20Perdidos.pdf): artigo técnico (objetivos, metodologia, tecnologias, DER e justificativa de cada recurso do banco).
+- [`docs/Documento Técnico - Achados e Perdidos.pdf`](docs/Documento%20T%C3%A9cnico%20-%20Achados%20e%20Perdidos.pdf) (objetivos, metodologia, tecnologias, DER e justificativa de cada recurso do banco).
