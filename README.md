@@ -71,5 +71,4 @@ src/        código-fonte (visao, controller, entidade)
 
 ## Documentação
 
-- [`docs/Documento Técnico - Achados e Perdidos.docx`](docs/Documento%20T%C3%A9cnico%20-%20Achados%20e%20Perdidos.docx): artigo técnico (objetivos, metodologia, tecnologias, DER e justificativa de cada recurso do banco).
-- [`docs/MBD - Sistema Achados e Perdidos.pdf`](docs/MBD%20-%20Sistema%20Achados%20e%20Perdidos.pdf): modelagem do banco de dados (regras de negócio, DER, modelo lógico e físico).
+- [`docs/Documento Técnico - Achados e Perdidos.pdf`](docs/Documento%20T%C3%A9cnico%20-%20Achados%20e%20Perdidos.pdf): artigo técnico (objetivos, metodologia, tecnologias, DER e justificativa de cada recurso do banco).
